@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NormalObjectTable>
+  <dataCategory>
+    <data ID="31001" description="시체" datainfo="object_siche" type="normal" usecount="999999" durabillity="30" holdable="TRUE" pushable="FALSE" collide="FALSE" masslimit="0" mass="30" deletable="TRUE" />
+    <data ID="31002" description="기본 플랫폼" datainfo="object_platform" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="FALSE" masslimit="0" mass="0" deletable="FALSE" />
+    <data ID="31003" description="버튼" datainfo="object_button" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="TRUE" collide="FALSE" masslimit="10" mass="0" deletable="FALSE" />
+    <data ID="31004" description="열쇠" datainfo="object_key" type="normal" usecount="999999" durabillity="999999" holdable="TRUE" pushable="FALSE" collide="FALSE" masslimit="0" mass="30" deletable="TRUE" />
+    <data ID="31005" description="양팔 저울" datainfo="object_scale" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="FALSE" masslimit="10" mass="0" deletable="FALSE" />
+    <data ID="31006" description="자물쇠" datainfo="object_lock" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="FALSE" masslimit="0" mass="0" deletable="FALSE" />
+    <data ID="31007" description="문" datainfo="object_door" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="FALSE" masslimit="0" mass="0" deletable="FALSE" />
+    <data ID="31008" description="스프링" datainfo="object_spring" type="normal" usecount="999999" durabillity="999999" holdable="FALSE" pushable="TRUE" collide="FALSE" masslimit="0" mass="0" deletable="TRUE" />
+  </dataCategory>
+</NormalObjectTable>

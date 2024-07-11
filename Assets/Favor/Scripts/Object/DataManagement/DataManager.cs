@@ -3,11 +3,8 @@ using System.Xml.Linq;
 using UnityEngine;
 public class DataManager : SingletonMono<DataManager>
 {
+    private readonly string relativePath = "Favor/DataTable";
 
-    //public Dictionary<string, ObjectBase> LoadedObjectList;
-    //public Dictionary<string, AttackObjectBase> AttackObjectList;
-
-    private readonly string dataRootPath = "C:/Users/KGA/Desktop/SlimeData";
     private readonly string normalTableName = "NormalObjectTable";
     private readonly string attackTableName = "AttackObjectTable";
 
@@ -30,7 +27,8 @@ public class DataManager : SingletonMono<DataManager>
     void LoadNormalObjectTable()
     {
         //LoadedObjectList = new Dictionary<string, ObjectBase>();
-        XDocument doc = XDocument.Load($"{dataRootPath}/{normalTableName}.xml");
+        XDocument doc = XDocument.Load($"{Application.dataPath}/{relativePath}/{normalTableName}.xml");
+        
         var dataElements = doc.Descendants("data");
 
         foreach (var data in dataElements)
@@ -57,7 +55,8 @@ public class DataManager : SingletonMono<DataManager>
     void LoadAttackObjectTable()
     {
         //AttackObjectList = new();
-        XDocument doc = XDocument.Load($"{dataRootPath}/{attackTableName}.xml");
+        XDocument doc = XDocument.Load($"{Application.dataPath}/{relativePath}/{attackTableName}.xml");
+
         var dataElements = doc.Descendants("data");
 
         foreach (var data in dataElements)

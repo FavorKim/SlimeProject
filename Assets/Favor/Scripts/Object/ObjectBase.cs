@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ObjectBase : MonoBehaviour
 {
-    public int mass;
+    
 }

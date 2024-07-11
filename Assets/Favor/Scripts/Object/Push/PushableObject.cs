@@ -36,7 +36,7 @@ public abstract class PushableObject : ObjectBase
     {
         if(TryGetComponent(out ObjectBase obj))
         {
-            TotalMass += obj.mass;
+            //TotalMass += obj.mass;
         }
     }
 
@@ -44,7 +44,7 @@ public abstract class PushableObject : ObjectBase
     {
         if (TryGetComponent(out ObjectBase obj))
         {
-            TotalMass -= obj.mass;
+            //TotalMass -= obj.mass;
         }
     }
 }

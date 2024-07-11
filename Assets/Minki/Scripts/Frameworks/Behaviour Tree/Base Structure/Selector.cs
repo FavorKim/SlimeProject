@@ -13,26 +13,26 @@ namespace BehaviourTree
     public class Selector : Node
     {
         // 자식 노드 목록
-        private readonly List<Node> children;
+        private readonly List<Node> _children;
 
         // 생성자
         public Selector(List<Node> children)
         {
-            this.children = children;
+            _children = children;
         }
 
         // 평가 함수
         public override NodeState Evaluate()
         {
             // 만약 자식 노드가 없다면,
-            if (children == null || children.Count == 0)
+            if (_children == null || _children.Count == 0)
             {
                 // Failure를 반환한다.
                 return NodeState.FAILURE;
             }
 
             // 자식 노드를 순회하면서,
-            foreach (Node child in children)
+            foreach (Node child in _children)
             {
                 // 상태를 평가한다.
                 switch (child.Evaluate())

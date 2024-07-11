@@ -1,13 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum ObjectType
+{
+    normal
+}
 
 public class ObjectBase : MonoBehaviour
 {
-    ObjectStatus status;
-    public ObjectStatus GetStatus() {  return status; }
-    public void InitStatus(ObjectStatus status)
-    {
-        this.status = status;
-    }
+    public string datainfo;
+    public string description;
+    public int ID;
+    public int usecount;
+    public int durabillity;
+    public int masslimit;
+    public int mass;
+    public bool holdable;
+    public bool collide;
+    public bool deletable;
+    public ObjectType type;
 }

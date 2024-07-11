@@ -1,11 +1,11 @@
 using System;
 using System.Xml.Linq;
-
+using UnityEngine;
 public class DataManager : SingletonMono<DataManager>
 {
 
-    //public Dictionary<string, ObjectStatus> LoadedObjectList;
-    //public Dictionary<string, AttackObjectStatus> AttackObjectList;
+    //public Dictionary<string, ObjectBase> LoadedObjectList;
+    //public Dictionary<string, AttackObjectBase> AttackObjectList;
 
     private readonly string dataRootPath = "C:/Users/KGA/Desktop/SlimeData";
     private readonly string normalTableName = "NormalObjectTable";
@@ -29,17 +29,17 @@ public class DataManager : SingletonMono<DataManager>
 
     void LoadNormalObjectTable()
     {
-        //LoadedObjectList = new Dictionary<string, ObjectStatus>();
+        //LoadedObjectList = new Dictionary<string, ObjectBase>();
         XDocument doc = XDocument.Load($"{dataRootPath}/{normalTableName}.xml");
         var dataElements = doc.Descendants("data");
 
         foreach (var data in dataElements)
         {
-            var objectStatus = new ObjectStatus();
+            var objectStatus = new GameObject().AddComponent<ObjectBase>();
             objectStatus.datainfo = data.Attribute(nameof(objectStatus.datainfo)).Value;
             objectStatus.description = data.Attribute(nameof(objectStatus.description)).Value;
             objectStatus.ID = int.Parse(data.Attribute(nameof(objectStatus.ID)).Value);
-            objectStatus.useCount = int.Parse(data.Attribute(nameof(objectStatus.useCount)).Value);
+            objectStatus.usecount = int.Parse(data.Attribute(nameof(objectStatus.usecount)).Value);
             objectStatus.durabillity = int.Parse(data.Attribute(nameof(objectStatus.durabillity)).Value);
             objectStatus.masslimit = int.Parse(data.Attribute(nameof(objectStatus.masslimit)).Value);
             objectStatus.mass = int.Parse(data.Attribute(nameof(objectStatus.mass)).Value);
@@ -51,40 +51,7 @@ public class DataManager : SingletonMono<DataManager>
             PrefabCreator.CreateObjectPrefab(objectStatus);
         }
 
-        /*
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-
-            connection.Open();
-
-            string query = "SELECT * FROM objectTable";
-            using (MySqlCommand cmd = new MySqlCommand(query, connection))
-            {
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var objectStatus = new ObjectStatus();
-
-                        objectStatus.datainfo = reader["datainfo"].ToString();
-                        objectStatus.description = reader["description"].ToString();
-                        objectStatus.ID = int.Parse(reader["ID"].ToString());
-                        objectStatus.useCount = int.Parse(reader["useCount"].ToString());
-                        objectStatus.durabillity = int.Parse(reader["durabillity"].ToString());
-                        objectStatus.masslimit = int.Parse(reader["durabillity"].ToString());
-                        objectStatus.mass = int.Parse(reader["mass"].ToString());
-                        objectStatus.holdable = reader["holdable"].ToString() == "TRUE";
-                        objectStatus.collide = reader["collide"].ToString() == "TRUE";
-                        objectStatus.deletable = reader["deletable"].ToString() == "TRUE";
-                        objectStatus.type = (ObjectType)Enum.Parse(typeof(ObjectType), reader["type"].ToString());
-
-                        LoadedObjectList.Add(objectStatus.description, objectStatus);
-                    }
-                }
-                connection.Close();
-            }
-        }
-        */
+        
     }
 
     void LoadAttackObjectTable()
@@ -95,11 +62,11 @@ public class DataManager : SingletonMono<DataManager>
 
         foreach (var data in dataElements)
         {
-            var objectStatus = new AttackObjectStatus();
+            var objectStatus = new GameObject().AddComponent<AttackObjectBase>();
             objectStatus.datainfo = data.Attribute(nameof(objectStatus.datainfo)).Value;
             objectStatus.description = data.Attribute(nameof(objectStatus.description)).Value;
             objectStatus.ID = int.Parse(data.Attribute(nameof(objectStatus.ID)).Value);
-            objectStatus.useCount = int.Parse(data.Attribute(nameof(objectStatus.useCount)).Value);
+            objectStatus.usecount = int.Parse(data.Attribute(nameof(objectStatus.usecount)).Value);
             objectStatus.durabillity = int.Parse(data.Attribute(nameof(objectStatus.durabillity)).Value);
             objectStatus.masslimit = int.Parse(data.Attribute(nameof(objectStatus.masslimit)).Value);
             objectStatus.mass = int.Parse(data.Attribute(nameof(objectStatus.mass)).Value);

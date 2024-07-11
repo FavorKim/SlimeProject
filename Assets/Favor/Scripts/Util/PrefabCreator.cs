@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class PrefabCreator
 {
-    public static void CreateObjectPrefab(ObjectStatus prefab)
+    public static void CreateObjectPrefab(ObjectBase prefab)
     {
-        var inst = new GameObject().AddComponent<ObjectBase>();
-        inst.InitStatus(prefab);
-        
-        Object obj = PrefabUtility.SaveAsPrefabAsset(inst.gameObject,$"Assets/Favor/Prefabs/{prefab.datainfo}.prefab");
-        if(obj != null)
+        string normalSaveRoot = $"Assets/Favor/Prefabs/Normal/{prefab.datainfo}.prefab";
+        string attackSaveRoot = $"Assets/Favor/Prefabs/Attack/{prefab.datainfo}.prefab";
+
+        string root = prefab is AttackObjectBase ? attackSaveRoot : normalSaveRoot;
+        Object obj = PrefabUtility.SaveAsPrefabAsset(prefab.gameObject, root);
+
+        if (obj != null)
         {
-            Debug.Log($"{inst.GetStatus().datainfo} was successfully Saved As Prefab");
+            Debug.Log($"{prefab.datainfo} was successfully Saved As Prefab");
         }
         else
         {
-            Debug.LogWarning($"{inst.GetStatus().datainfo} failed to Save As Prefab");
+            Debug.LogWarning($"{prefab.datainfo} failed to Save As Prefab");
         }
     }
 }

@@ -348,3 +348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 6852464870214097976}
+  imageRectTransform: {fileID: 4761881400623825037}
+  selectLineRectTransform: {fileID: 6222439562851893595, guid: 730ee151a8f957840b066db46102e044, type: 3}
+  hoverSize: {x: 1.2, y: 1.2}

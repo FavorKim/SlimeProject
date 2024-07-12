@@ -27,6 +27,7 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
     public bool IsDead { get; private set; }
+    [SerializeField] bool isInvincible = false;
 
     [SerializeField] private int hp = 80;
     public int HP
@@ -71,6 +72,8 @@ public class NukeFistBoss : MonoBehaviour
 
     [SerializeField] float atkRange = 2.0f;
 
+    [SerializeField] float invincibleTime = 2.0f;
+
     void Start()
     {
         btRunner = new NukeFistBossBTRunner(this);
@@ -81,6 +84,7 @@ public class NukeFistBoss : MonoBehaviour
     {
         OnDead += OnDead_;
         OnHit += OnHit_GetDamageByObstacle;
+        OnHit += OnHit_StartInvincible;
         OnAttack += OnAttack_;
         OnMove += OnMove_;
     }
@@ -88,6 +92,7 @@ public class NukeFistBoss : MonoBehaviour
     {
         OnMove -= OnMove_;
         OnAttack -= OnAttack_;
+        OnHit -= OnHit_StartInvincible;
         OnHit -= OnHit_GetDamageByObstacle;
         OnDead -= OnDead_;
     }
@@ -157,12 +162,23 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
 
+    IEnumerator CorInvincible()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibleTime);
+        isInvincible = false;
+    }
+
     private void OnHit_GetDamageByObstacle()
     {
         HP -= obstacle.atk;
         IsHit = false;
         obstacle = null;
         Debug.Log("피격");
+    }
+    private void OnHit_StartInvincible()
+    {
+        StartCoroutine(CorInvincible());
     }
 
     private void OnAttack_()
@@ -196,8 +212,11 @@ public class NukeFistBoss : MonoBehaviour
     {
         if (collision.TryGetComponent(out AttackObjectBase obs))
         {
-            obstacle = obs;
-            IsHit = true;
+            if (!isInvincible)
+            {
+                obstacle = obs;
+                IsHit = true;
+            }
         }
     }
 

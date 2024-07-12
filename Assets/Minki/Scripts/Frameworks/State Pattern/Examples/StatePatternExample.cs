@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace StatePattern
 {
@@ -18,6 +19,9 @@ namespace StatePattern
         public abstract void Enter();
         public abstract void Execute();
         public abstract void Exit();
+
+        public virtual void FixedExecute() { }
+        public virtual void OnInputCallback(InputAction.CallbackContext callbackContext) { }
     }
 
     // 상태를 구현하는 클래스

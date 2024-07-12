@@ -1,5 +1,6 @@
 using StatePattern;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -18,5 +19,8 @@ namespace Player
         public abstract void Enter();
         public abstract void Execute();
         public abstract void Exit();
+
+        public virtual void FixedExecute() { }
+        public virtual void OnInputCallback(InputAction.CallbackContext callbackContext) { }
     }
 }

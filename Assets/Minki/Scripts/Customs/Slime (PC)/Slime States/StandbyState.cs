@@ -1,4 +1,7 @@
+using StatePattern;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -29,6 +32,8 @@ namespace Player
 
             // 진입 시 현재 시간을 저장해 둔다.
             _time = Time.time;
+
+            _controller.BindInputCallback(true, OnInputCallback);
         }
 
         // 상태를 유지 시,
@@ -37,7 +42,6 @@ namespace Player
             // Debug.Log("StandbyState: Execute!");
 
             // [TODO]: 이동, 점프, 피격 등의 반응이 있는지 확인하고, 전환을 실행한다.
-            CheckStateChange();
 
             // 전환하지 않았다면, Idle(AFK; Away From Keyboard) 애니메이션의 재생 여부를 확인한다.
             // PlayIdleAnimation();
@@ -52,9 +56,13 @@ namespace Player
             // _animator.SetBool(standby_AnimatorHash, false);
         }
 
-        private void CheckStateChange()
+        // 인풋 시스템으로부터 입력을 전달받아 행동을 실행한다.
+        public override void OnInputCallback(InputAction.CallbackContext callbackContext)
         {
-
+            if (callbackContext.action.name == Enum.GetName(typeof(InputName), InputName.Move))
+            {
+                Debug.Log("Move!!!!!");
+            }
         }
 
         // Idle(AFK; Away From Keyboard) 애니메이션의 재생 여부를 확인 및 재생한다.

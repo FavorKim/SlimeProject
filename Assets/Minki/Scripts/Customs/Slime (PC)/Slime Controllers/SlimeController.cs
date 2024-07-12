@@ -1,4 +1,5 @@
 using StatePattern;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,10 +18,20 @@ namespace Player
 
         // 변수
         [SerializeField] private float _movePower; // 좌우로 움직이는 힘
-        private Vector2 inputVector; // 이동에 대한 입력 값
+        private Vector2 _inputVector; // 이동에 대한 입력 값
 
         [SerializeField] private float _jumpPower; // 점프하는 힘
         [SerializeField] private Transform _groundChecker; // 땅에 닿아 있는지를 판별하기 위한 빈 게임 오브젝트
+
+        private event Action<InputAction.CallbackContext> InputCallback; // 인풋 시스템 함수의 호출을 다른 상태 클래스에 전달하기 위한 이벤트(Event)
+
+        #region 프로퍼티
+
+        public float MovePower { get { return _movePower; } }
+        public float JumpPower { get { return _jumpPower; } }
+        public Transform GroundChecker { get { return _groundChecker; } }
+
+        #endregion 프로퍼티
 
         #endregion 변수
 
@@ -32,8 +43,8 @@ namespace Player
             // 컴포넌트를 초기화한다.
             TryGetComponent(out _rigidbody);
 
-            // 첫 시작 시, Standby 상태에 들어간다.
-            ChangeState(new StandbyState(this));
+            // 첫 시작 시, Ground 상태에 들어간다.
+            ChangeState(new GroundState(this));
         }
 
         // Update()
@@ -46,10 +57,12 @@ namespace Player
         // FixedUpdate(); 물리(Rigidbody)와 관련한 작업은 FixedUpdate()에서 할 것을 권장한다.
         private void FixedUpdate()
         {
+            // 지금 상태에 따른 행동을 실행한다.
+            _state.FixedExecute();
 
-
+            /*
             // 이동에 대한 입력 값을 읽어, 그 방향으로 힘을 가해 이동을 구현한다.
-            Vector3 moveVector = inputVector * _movePower;
+            Vector3 moveVector = _inputVector * _movePower;
             _rigidbody.AddForce(moveVector, ForceMode.VelocityChange);
 
             // 이동에 속도를 제한한다. 단, 이동의 입력이 있을 때만 제한하여 관성을 유지할 수 있도록 한다.
@@ -57,6 +70,7 @@ namespace Player
             {
                 _rigidbody.velocity = ClampMoveVelocity(_rigidbody, _movePower);
             }
+            */
         }
 
         #endregion 생명 주기 함수
@@ -66,7 +80,8 @@ namespace Player
         // 방향 키(A/D, ←/→ 등)를 눌러, 플레이어를 좌우로 움직이게 한다.
         public void OnMove(InputAction.CallbackContext callbackContext)
         {
-            inputVector = callbackContext.ReadValue<Vector2>();
+            // inputVector = callbackContext.ReadValue<Vector2>();
+            InputCallback.Invoke(callbackContext);
         }
 
         // 점프 키(Space)를 눌러, 플레이어를 뛰어오르게 한다.
@@ -74,6 +89,10 @@ namespace Player
         {
             if (callbackContext.performed)
             {
+                InputCallback.Invoke(callbackContext);
+
+                /*
+
                 // 점프는 땅에 닿아 있을 때만 실행할 수 있다.
                 if (IsGround(_groundChecker))
                 {
@@ -81,6 +100,8 @@ namespace Player
                     Vector3 jumpVector = Vector3.up * _jumpPower;
                     _rigidbody.AddForce(jumpVector, ForceMode.VelocityChange);
                 }
+
+                */
             }
         }
 
@@ -103,7 +124,7 @@ namespace Player
             Vector3 clampedVelocity = rigidbody.velocity;
             clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -maxPower, maxPower);
             
-            // 그 값을 반환한다.
+            // 그 결과 값을 반환한다.
             return clampedVelocity;
         }
 
@@ -117,7 +138,21 @@ namespace Player
             // origin에서 direction으로 maxDistance 거리만큼 Ray를 쏘아, layerMask가 있는지를 검출한다.
             bool isGround = Physics.Raycast(groundChecker.position, Vector3.down, maxDistance, groundLayerMask);
 
+            // 그 결과 값을 반환한다.
             return isGround;
+        }
+
+        // 상태 클래스가 인풋 시스템 함수에 접근하기 위해 이벤트에 등록/해제한다.
+        public void BindInputCallback(bool isBind, Action<InputAction.CallbackContext> callbackContext)
+        {
+            if (isBind)
+            {
+                InputCallback += callbackContext;
+            }
+            else
+            {
+                InputCallback -= callbackContext;
+            }
         }
 
         #endregion 커스텀 함수

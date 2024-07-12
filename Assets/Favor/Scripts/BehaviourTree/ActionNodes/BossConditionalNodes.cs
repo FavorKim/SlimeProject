@@ -7,7 +7,7 @@ public class CheckIsDead : BossNodeBase
 
     public override NodeState Evaluate()
     {
-        return owner.IsDead ? NodeState.Success : NodeState.Failure;
+        return owner.HP<=0 ? NodeState.Success : NodeState.Failure;
     }
 }
 

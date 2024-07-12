@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class NukeFistBoss : MonoBehaviour
 {
-    private AttackObjectBase obstacle;
+    [SerializeField] private AttackObjectBase obstacle;
     private NukeFistBossBTRunner btRunner;
     private Animator animator;
 
@@ -14,7 +14,18 @@ public class NukeFistBoss : MonoBehaviour
 
     [SerializeField] private GameObject followDest;
 
-    public bool IsHit { get; private set; }
+    [SerializeField] private bool isHit;
+    public bool IsHit
+    {
+        get { return isHit; }
+        private set
+        {
+            if(isHit!=value)
+            {
+                isHit = value;
+            }
+        }
+    }
     public bool IsDead { get; private set; }
 
     [SerializeField] private int hp = 80;
@@ -117,7 +128,7 @@ public class NukeFistBoss : MonoBehaviour
 
     public bool CheckAttackWait()
     {
-        
+
         if (delayedAtkTime >= atkSpeed)
         {
             delayedAtkTime = 0;
@@ -131,7 +142,7 @@ public class NukeFistBoss : MonoBehaviour
     }
     public bool CheckIsInRange()
     {
-        Collider[] hit = Physics.OverlapSphere(transform.position, 3.0f, atkLayer);
+        Collider[] hit = Physics.OverlapBox(transform.position + new Vector3(0, 0.5f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), Quaternion.identity, atkLayer);
 
         if (hit.Length > 0)
         {
@@ -157,7 +168,7 @@ public class NukeFistBoss : MonoBehaviour
     private void OnAttack_()
     {
         Debug.Log("타격");
-        delayedAtkTime=0;
+        delayedAtkTime = 0;
         animator.SetTrigger("Attack");
     }
 
@@ -169,14 +180,21 @@ public class NukeFistBoss : MonoBehaviour
 
     private void OnMove_()
     {
-        transform.LookAt(followDest.transform);
-        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-        transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
+        if(followDest.transform.position.x > transform.position.x)
+        {
+            transform.eulerAngles = new Vector3(0, 90, 0);
+            transform.Translate(-transform.right * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, -90, 0);
+            transform.Translate(transform.right * moveSpeed * Time.deltaTime);
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collision)
     {
-        if (collision.collider.TryGetComponent(out AttackObjectBase obs))
+        if (collision.TryGetComponent(out AttackObjectBase obs))
         {
             obstacle = obs;
             IsHit = true;

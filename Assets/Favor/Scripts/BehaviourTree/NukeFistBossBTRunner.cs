@@ -40,7 +40,7 @@ public class NukeFistBossBTRunner
                 {
                     new CheckIsAttacking(owner,owner.CheckIsAttacking),
                     new CheckIsInRange(owner,owner.CheckIsInRange),
-                    new AttackWait(owner,owner.CheckAttackWait),
+                    //new AttackWait(owner,owner.CheckAttackWait),
                     new Attack(owner, owner.InvokeOnAttack)
                 }),
                 new Move(owner,owner.InvokeOnMove)

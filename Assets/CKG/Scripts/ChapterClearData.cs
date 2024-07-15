@@ -11,3 +11,14 @@ public class ChapterClearData
         chapterCleared = new List<bool>(new bool[chapterCount]);
     }
 }
+
+[System.Serializable]
+public class StageClearData
+{
+    public List<bool> stageCleared;
+
+    public StageClearData(int stageCount)
+    {
+        stageCleared = new List<bool>(new bool[stageCount]);
+    }
+}

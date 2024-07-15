@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThornMover : MonoBehaviour
 {
-    [SerializeField]LayerMask slimeLayer;
+    [SerializeField] LayerMask slimeLayer;
     [SerializeField] bool isMove;
     Animator anim;
 
@@ -16,21 +16,13 @@ public class ThornMover : MonoBehaviour
             anim = GetComponent<Animator>();
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == slimeLayer)
-        {
-            Debug.Log("Trig");
             anim.SetBool("isMove", true);
-        }
-        Debug.Log("Trig");
-
     }
-    public void OnTriggerExit(Collider other)
+
+    private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.layer == slimeLayer)
-        {
             anim.SetBool("isMove", false);
-        }
     }
 }

@@ -9,6 +9,7 @@ public class NukeFistBoss : MonoBehaviour
     [SerializeField] private AttackObjectBase obstacle;
     private NukeFistBossBTRunner btRunner;
     private Animator animator;
+    [SerializeField] private BoxCollider handCollider;
 
     [SerializeField] LayerMask atkLayer;
 
@@ -99,7 +100,7 @@ public class NukeFistBoss : MonoBehaviour
     private void OnDisable()
     {
         OnMove -= OnMove_;
-        
+
 
         OnAttack -= OnAttack_;
 
@@ -129,7 +130,7 @@ public class NukeFistBoss : MonoBehaviour
     public void InvokeOnDead() { OnDead?.Invoke(); }
     public void InvokeOnAttack() { OnAttack?.Invoke(); }
     public void InvokeOnMove() { OnMove?.Invoke(); }
-    public void InvokeOnCharge() {  OnCharge?.Invoke(); }
+    public void InvokeOnCharge() { OnCharge?.Invoke(); }
 
     public bool CheckCanMove()
     {
@@ -149,13 +150,13 @@ public class NukeFistBoss : MonoBehaviour
 
     public bool CheckIsInRange()
     {
-        Collider[] hit = Physics.OverlapBox(transform.position + new Vector3(0, 0.5f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), Quaternion.identity, atkLayer);
-
+        Collider[] hit = Physics.OverlapBox(transform.position + transform.forward*0.1f, new Vector3(2f, 2.0f, 2.0f), Quaternion.identity, atkLayer);
         if (hit.Length > 0)
         {
             if (animator.GetBool(isInRangeHash) == false)
                 animator.SetBool(isInRangeHash, true);
             Debug.Log("범위 내의 PC 발견");
+            animator.SetBool("Charge", true);
             return true;
         }
         else
@@ -163,6 +164,7 @@ public class NukeFistBoss : MonoBehaviour
             //delayedAtkTime = 0;
             animator.SetBool(isInRangeHash, false);
             Debug.Log("범위 내의 PC 못 찾음");
+            animator.SetBool("Charge", false);
             return false;
         }
     }
@@ -194,7 +196,6 @@ public class NukeFistBoss : MonoBehaviour
     {
         Debug.Log("타격");
         //delayedAtkTime = 0;
-        animator.SetTrigger("Charge");
     }
 
     private void OnDead_()
@@ -218,10 +219,23 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
 
+    private void OnAttack_SetCollider(bool onOff)
+    {
+        handCollider.enabled = onOff;
+    }
+
+    public void AnimEvent_ColliderOn()
+    {
+        OnAttack_SetCollider(true);
+    }
+    public void AnimEvent_ColliderOff()
+    {
+        OnAttack_SetCollider(false);
+    }
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.parent.TryGetComponent(out AttackObjectBase obs))
+        if (collision.transform.parent.parent.TryGetComponent(out AttackObjectBase obs))
         {
             if (!isInvincible)
             {

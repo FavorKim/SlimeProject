@@ -6,10 +6,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    public GameObject chapterSelectionPanel;
-    public GameObject stageSelectionPanel;
-    public Button chapterTitleButton;
-
     private void Awake()
     {
         if (Instance == null)
@@ -33,10 +29,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SetupStages(1);  // 기본으로 챕터 1 스테이지를 설정
-
-        // Chapter title button 클릭 시 챕터 목록을 표시하도록 이벤트 추가
-        chapterTitleButton.onClick.AddListener(ShowChapterSelection);
+        SetupStages(1);
     }
 
     private void Update()
@@ -47,23 +40,8 @@ public class UIManager : MonoBehaviour
         rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
     }
 
-    public void ShowChapterSelection()
-    {
-        chapterSelectionPanel.SetActive(true);
-        stageSelectionPanel.SetActive(false);
-    }
-
-    public void ShowStageSelection()
-    {
-        chapterSelectionPanel.SetActive(false);
-        stageSelectionPanel.SetActive(true);
-    }
-
     public void SetupStages(int chapter)
     {
-        // 챕터 타이틀 버튼 텍스트 변경
-        chapterTitleButton.GetComponentInChildren<Text>().text = "Chapter " + chapter;
-
         // 챕터에 따라 스테이지 개수를 다르게 설정
         int stageCount = GetStageCountForChapter(chapter);
 

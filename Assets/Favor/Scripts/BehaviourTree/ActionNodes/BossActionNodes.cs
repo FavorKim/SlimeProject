@@ -58,3 +58,14 @@ public class Move : BossNodeBase
         return NodeState.Success;
     }
 }
+
+public class Charge : BossNodeBase
+{
+    public Charge (NukeFistBoss ow, Action onCharge) : base(ow) { this.onCharge = onCharge; }
+    private Action onCharge;
+    public override NodeState Evaluate()
+    {
+        onCharge.Invoke();
+        return NodeState.Success;
+    }
+}

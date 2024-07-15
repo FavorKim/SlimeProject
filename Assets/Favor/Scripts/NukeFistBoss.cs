@@ -20,7 +20,7 @@ public class NukeFistBoss : MonoBehaviour
         get { return isHit; }
         private set
         {
-            if(isHit!=value)
+            if (isHit != value)
             {
                 isHit = value;
             }
@@ -54,6 +54,9 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
 
+    int isInRangeHash = Animator.StringToHash("isInRange");
+
+
     [SerializeField] float moveSpeed = 2;
     public float MoveSpeed
     {
@@ -67,8 +70,8 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
 
-    [SerializeField] float atkSpeed = 2;
-    [SerializeField] float delayedAtkTime = 0;
+    [SerializeField] float atkSpeed = 2.8f;
+    //[SerializeField] float delayedAtkTime = 0;
 
     [SerializeField] float atkRange = 2.0f;
 
@@ -83,23 +86,34 @@ public class NukeFistBoss : MonoBehaviour
     private void OnEnable()
     {
         OnDead += OnDead_;
+
         OnHit += OnHit_GetDamageByObstacle;
         OnHit += OnHit_StartInvincible;
+        OnHit += OnHit_SetAnimator;
+
         OnAttack += OnAttack_;
+
+
         OnMove += OnMove_;
     }
     private void OnDisable()
     {
         OnMove -= OnMove_;
+        
+
         OnAttack -= OnAttack_;
+
+        OnHit -= OnHit_SetAnimator;
         OnHit -= OnHit_StartInvincible;
         OnHit -= OnHit_GetDamageByObstacle;
+
         OnDead -= OnDead_;
     }
 
     void Update()
     {
-        btRunner.RunBT();
+        if (!IsDead)
+            btRunner.RunBT();
     }
 
 
@@ -109,54 +123,45 @@ public class NukeFistBoss : MonoBehaviour
     private event Action OnDead;
     private event Action OnAttack;
     private event Action OnMove;
+    private event Action OnCharge;
 
     public void InvokeOnHit() { OnHit?.Invoke(); }
     public void InvokeOnDead() { OnDead?.Invoke(); }
     public void InvokeOnAttack() { OnAttack?.Invoke(); }
     public void InvokeOnMove() { OnMove?.Invoke(); }
+    public void InvokeOnCharge() {  OnCharge?.Invoke(); }
 
-    public bool CheckIsAttacking()
+    public bool CheckCanMove()
     {
         AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
 
         if (clipInfo.Length > 0)
         {
             AnimationClip clip = clipInfo[0].clip;
-            if (clip != null && clip.name == "Attack")
+            if (clip != null)
             {
-                delayedAtkTime = 0;
-                return true;
+                if (clip.name == "Attack" || clip.name == "AttackWait")
+                    return false;
             }
         }
-        return false;
+        return true;
     }
 
-    public bool CheckAttackWait()
-    {
-
-        if (delayedAtkTime >= atkSpeed)
-        {
-            delayedAtkTime = 0;
-            return false;
-        }
-        else
-        {
-            delayedAtkTime += Time.deltaTime;
-            return true;
-        }
-    }
     public bool CheckIsInRange()
     {
         Collider[] hit = Physics.OverlapBox(transform.position + new Vector3(0, 0.5f, 1.0f), new Vector3(1.0f, 1.0f, 1.0f), Quaternion.identity, atkLayer);
 
         if (hit.Length > 0)
         {
+            if (animator.GetBool(isInRangeHash) == false)
+                animator.SetBool(isInRangeHash, true);
             Debug.Log("범위 내의 PC 발견");
             return true;
         }
         else
         {
-            delayedAtkTime = 0;
+            //delayedAtkTime = 0;
+            animator.SetBool(isInRangeHash, false);
             Debug.Log("범위 내의 PC 못 찾음");
             return false;
         }
@@ -180,23 +185,28 @@ public class NukeFistBoss : MonoBehaviour
     {
         StartCoroutine(CorInvincible());
     }
+    private void OnHit_SetAnimator()
+    {
+        animator.SetTrigger("Hit");
+    }
 
     private void OnAttack_()
     {
         Debug.Log("타격");
-        delayedAtkTime = 0;
-        animator.SetTrigger("Attack");
+        //delayedAtkTime = 0;
+        animator.SetTrigger("Charge");
     }
 
     private void OnDead_()
     {
         IsDead = true;
+        animator.SetBool("isDead", true);
         Debug.Log("사망");
     }
 
     private void OnMove_()
     {
-        if(followDest.transform.position.x > transform.position.x)
+        if (followDest.transform.position.x > transform.position.x)
         {
             transform.eulerAngles = new Vector3(0, 90, 0);
             transform.Translate(-transform.right * moveSpeed * Time.deltaTime);
@@ -208,9 +218,10 @@ public class NukeFistBoss : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider collision)
+
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collision.TryGetComponent(out AttackObjectBase obs))
+        if (collision.transform.parent.TryGetComponent(out AttackObjectBase obs))
         {
             if (!isInvincible)
             {

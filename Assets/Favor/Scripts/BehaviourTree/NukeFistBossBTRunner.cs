@@ -36,15 +36,20 @@ public class NukeFistBossBTRunner
             }),
             new Selector(new List<Node>
             {
+                new Selector(new List<Node>
+                {
+                    new Sequence(new List<Node>
+                    {
+                        new CheckIsInRange(owner,owner.CheckIsInRange),
+                        new Attack(owner,owner.InvokeOnAttack)
+                    })
+                }),
                 new Sequence(new List<Node>
                 {
-                    new CheckIsAttacking(owner,owner.CheckIsAttacking),
-                    new CheckIsInRange(owner,owner.CheckIsInRange),
-                    //new AttackWait(owner,owner.CheckAttackWait),
-                    new Attack(owner, owner.InvokeOnAttack)
-                }),
-                new Move(owner,owner.InvokeOnMove)
+                    new CheckCanMove(owner,owner.CheckCanMove),
+                    new Move(owner,owner.InvokeOnMove)
+                })
             })
-        });
+        }) ;
     }
 }

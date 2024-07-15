@@ -28,7 +28,9 @@ public class DataManager : SingletonMono<DataManager>
     {
         //LoadedObjectList = new Dictionary<string, ObjectBase>();
         XDocument doc = XDocument.Load($"{Application.dataPath}/{relativePath}/{normalTableName}.xml");
-        
+
+        bool isUpateOnly = gameObject.name == "TableUpdater" ? true : false;
+
         var dataElements = doc.Descendants("data");
 
         foreach (var data in dataElements)
@@ -46,16 +48,16 @@ public class DataManager : SingletonMono<DataManager>
             objectStatus.deletable = data.Attribute(nameof(objectStatus.deletable)).Value == "TRUE";
             objectStatus.type = (ObjectType)Enum.Parse(typeof(ObjectType), data.Attribute(nameof(objectStatus.type)).Value);
 
-            PrefabCreator.CreateObjectPrefab(objectStatus);
+            PrefabCreator.CreateObjectPrefab(objectStatus, isUpateOnly);
         }
-
-        
     }
+
 
     void LoadAttackObjectTable()
     {
         //AttackObjectList = new();
         XDocument doc = XDocument.Load($"{Application.dataPath}/{relativePath}/{attackTableName}.xml");
+        bool isUpateOnly = gameObject.name == "TableUpdater" ? true : false;
 
         var dataElements = doc.Descendants("data");
 
@@ -76,7 +78,10 @@ public class DataManager : SingletonMono<DataManager>
             
             objectStatus.atk = int.Parse(data.Attribute(nameof(objectStatus.atk)).Value);
             objectStatus.destroyimmediatly = data.Attribute(nameof(objectStatus.destroyimmediatly)).Value == "TRUE";
-            PrefabCreator.CreateObjectPrefab(objectStatus);
+            
+            PrefabCreator.CreateObjectPrefab(objectStatus, isUpateOnly);
+
+
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,6 +28,11 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (UIManager.Instance.currentStageIndex != transform.GetSiblingIndex())
+        {
+            return;
+        }
+
         button.gameObject.SetActive(true);
         if (imageRectTransform != null && selectLineRectTransform != null)
         {
@@ -46,8 +49,6 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         button.gameObject.SetActive(false);
         if (imageRectTransform != null && selectLineRectTransform != null)
         {
-            selectLineRectTransform.gameObject.SetActive(false);
-
             // 원래 크기로 되돌림
             imageRectTransform.sizeDelta = imgOriginalSize;
             selectLineRectTransform.sizeDelta = selectLineOriginalSize;

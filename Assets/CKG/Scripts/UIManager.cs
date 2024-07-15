@@ -1,12 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+
+    public GameObject chapterSelectionPanel;
+    public GameObject stageSelectionPanel;
+    public Button chapterTitleButton;
 
     private void Awake()
     {
@@ -31,7 +33,10 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SetupStages(1);
+        SetupStages(1);  // 기본으로 챕터 1 스테이지를 설정
+
+        // Chapter title button 클릭 시 챕터 목록을 표시하도록 이벤트 추가
+        chapterTitleButton.onClick.AddListener(ShowChapterSelection);
     }
 
     private void Update()
@@ -42,8 +47,23 @@ public class UIManager : MonoBehaviour
         rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
     }
 
+    public void ShowChapterSelection()
+    {
+        chapterSelectionPanel.SetActive(true);
+        stageSelectionPanel.SetActive(false);
+    }
+
+    public void ShowStageSelection()
+    {
+        chapterSelectionPanel.SetActive(false);
+        stageSelectionPanel.SetActive(true);
+    }
+
     public void SetupStages(int chapter)
     {
+        // 챕터 타이틀 버튼 텍스트 변경
+        chapterTitleButton.GetComponentInChildren<Text>().text = "Chapter " + chapter;
+
         // 챕터에 따라 스테이지 개수를 다르게 설정
         int stageCount = GetStageCountForChapter(chapter);
 
@@ -63,6 +83,12 @@ public class UIManager : MonoBehaviour
             RectTransform rectTransform = stages[i].GetComponent<RectTransform>();
             float newX = 35 + (i * 180);
             rectTransform.anchoredPosition = new Vector2(newX, 0);
+
+            // HoverButton 컴포넌트를 추가
+            HoverButton hoverButton = stages[i].AddComponent<HoverButton>();
+            hoverButton.button = stages[i].GetComponentInChildren<Button>();
+            hoverButton.imageRectTransform = rectTransform;
+            hoverButton.selectLineRectTransform = SelectLine.GetComponent<RectTransform>();
         }
 
         currentStageIndex = 0;
@@ -108,7 +134,7 @@ public class UIManager : MonoBehaviour
             targetX = -120f;
             if (currentStageIndex > 2)
             {
-                targetX = -(120f + 180*(currentStageIndex-2));
+                targetX = -(120f + 180 * (currentStageIndex - 2));
             }
         }
         else
@@ -118,7 +144,7 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PointCurrentStage());
     }
 
-     IEnumerator PointCurrentStage()
+    IEnumerator PointCurrentStage() // 어떤 스테이지를 선택하고 있는지 알려주는 아웃라인
     {
         if (currentStageIndex >= 0 && currentStageIndex < stages.Length)
         {
@@ -131,7 +157,7 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             SelectLine.SetActive(true);
             selectLineRect.anchoredPosition = new Vector2(selectedStageRect.anchoredPosition.x, selectLineRect.anchoredPosition.y);
-            if(currentStageIndex > 1)
+            if (currentStageIndex > 1)
             {
                 selectLineRect.anchoredPosition = new Vector2(275, 0);
             }

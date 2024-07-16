@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -123,7 +124,6 @@ public class UIManager : MonoBehaviour
         {
             targetX = 0; // 기본 위치
         }
+        
     }
-
-    
 }

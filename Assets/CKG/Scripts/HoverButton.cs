@@ -29,7 +29,7 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (imageRectTransform != null)
             {
                 Image stageTitle = transform.GetChild(0).GetComponent<Image>();
-                stageTitle.color = Color.red;
+                stageTitle.color = Color.yellow;
                 // 크기 변경 (원래 크기에서 비율을 곱하여 조정)
                 imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
             }
@@ -41,10 +41,15 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerExit(PointerEventData eventData)
     {
         button.gameObject.SetActive(false);
-        if (imageRectTransform != null)
+        if (UIManager.Instance.currentStageIndex == transform.GetSiblingIndex())
         {
-            // 원래 크기로 되돌림
-            imageRectTransform.sizeDelta = imgOriginalSize;
+            if (imageRectTransform != null)
+            {
+                Image stageTitle = transform.GetChild(0).GetComponent<Image>();
+                stageTitle.color = Color.red;
+                // 원래 크기로 되돌림
+                imageRectTransform.sizeDelta = imgOriginalSize;
+            }
         }
     }
 }

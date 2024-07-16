@@ -29,7 +29,7 @@ public class ChapterSelectionUI : MonoBehaviour
 
 
         // 챕터 버튼 생성
-        for (int i = 0; i < chapterCanvases.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
            
             GameObject button = Instantiate(chapterButtonPrefab, chapterButtonContainer);
@@ -43,7 +43,7 @@ public class ChapterSelectionUI : MonoBehaviour
             {
                 
             }
-            int chapterIndex = i; // 로컬 변수로 캡처
+            int chapterIndex = i+1; // 로컬 변수로 캡처
             Button buttonComponent = button.GetComponent<Button>();
             if (buttonComponent != null)
             {
@@ -68,13 +68,6 @@ public class ChapterSelectionUI : MonoBehaviour
     }
     private void OnChapterButtonClicked(int chapterIndex)
     {
-        // 현재 활성화된 챕터 캔버스를 비활성화
-        foreach (var canvas in chapterCanvases)
-        {
-            canvas.SetActive(false);
-        }
-
-        // 선택한 챕터의 캔버스를 활성화
-        chapterCanvases[chapterIndex].SetActive(true);
+        UIManager.Instance.SetupStages(chapterIndex);
     }
 }

@@ -14,6 +14,7 @@ namespace Player
         protected static int moveSP_AnimatorHash = Animator.StringToHash("MoveSP");
         protected static int actSP_AnimatorHash = Animator.StringToHash("ActSP");
         protected static int hit_AnimatorHash = Animator.StringToHash("Hit");
+        protected static int die_AnimatorHash = Animator.StringToHash("Die");
 
         // 상태 패턴의 인터페이스 함수
         public abstract void Enter();

@@ -1,9 +1,5 @@
-using StatePattern;
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 
 namespace Player
 {

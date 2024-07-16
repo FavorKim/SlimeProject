@@ -20,7 +20,7 @@ namespace Player
         //[SerializeField, Range(0, 999999), Tooltip("슬라임이 죽을 수 있는 최대 횟수")] private int _maxDeathCount;
         //[SerializeField, Range(0.0f, 100.0f), Tooltip("피격 후 사망 상태로 전환되기까지의 시간")] private float _timeToDie;
         //[SerializeField, Range(0.0f, 100.0f), Tooltip("부활 상태에서 리스폰되는 플랫폼과의 높이")] private float _heightToRevive;
-        //[SerializeField, Range(0.0f, 100.0f), Tooltip("사망 상태에서 부활 상태로 넘어가기까지의 시간")] private float _timeToRevive;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("사망 상태에서 부활 상태로 넘어가기까지의 시간")] private float _timeToRevive;
         //[SerializeField, Range(0.0f, 100.0f), Tooltip("부활 상태에서 부활 종료로 넘어가기까지의 시간")] private float _invincibleTime;
 
 
@@ -32,6 +32,7 @@ namespace Player
         public float JumpPower => _jumpPower;
         public float DashPower => _dashPower;
         public int AirDashMaxCount => _airDashMaxCount;
+        public float TimeToRevive => _timeToRevive;
 
         #endregion 프로퍼티 (Get)
     }

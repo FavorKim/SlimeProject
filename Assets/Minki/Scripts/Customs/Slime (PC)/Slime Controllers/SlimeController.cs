@@ -40,6 +40,12 @@ namespace Player
         {
             // 지금 상태에 따른 행동을 실행한다.
             _state.Execute();
+
+            // [Debug Test] 사망 상태 테스트
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ChangeState(new DeadState(this));
+            }
         }
 
         // FixedUpdate(); 물리(Rigidbody)와 관련한 작업은 FixedUpdate()에서 할 것을 권장한다.

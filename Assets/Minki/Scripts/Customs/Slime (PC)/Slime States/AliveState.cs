@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+    // 살아 있을 때의 상태 클래스; 지상 및 공중 상태의 부모 클래스
     public class AliveState : SlimeBaseState
     {
         // 슬라임(플레이어) 클래스 및 부착 컴포넌트

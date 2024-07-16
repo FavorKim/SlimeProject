@@ -6,7 +6,6 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     public Button button;
     public RectTransform imageRectTransform; // UI 이미지의 RectTransform
-    public RectTransform selectLineRectTransform;
     private Vector2 imgOriginalSize = new Vector2(160, 200);
     private Vector2 selectLineOriginalSize = new Vector2(170, 210);
     public Vector2 hoverSize = new Vector2(1.1f, 1.1f);
@@ -20,38 +19,32 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             imgOriginalSize = imageRectTransform.sizeDelta;
         }
-        if (selectLineRectTransform != null)
-        {
-            selectLineOriginalSize = selectLineRectTransform.sizeDelta;
-        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (UIManager.Instance.currentStageIndex != transform.GetSiblingIndex())
+        if (UIManager.Instance.currentStageIndex == transform.GetSiblingIndex())
         {
-            return;
+            button.gameObject.SetActive(true);
+            if (imageRectTransform != null)
+            {
+                Image stageTitle = transform.GetChild(0).GetComponent<Image>();
+                stageTitle.color = Color.red;
+                // 크기 변경 (원래 크기에서 비율을 곱하여 조정)
+                imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
+            }
         }
-
-        button.gameObject.SetActive(true);
-        if (imageRectTransform != null && selectLineRectTransform != null)
-        {
-            selectLineRectTransform.gameObject.SetActive(true);
-
-            // 크기 변경 (원래 크기에서 비율을 곱하여 조정)
-            imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
-            selectLineRectTransform.sizeDelta = new Vector2(selectLineOriginalSize.x * hoverSize.x, selectLineOriginalSize.y * hoverSize.y);
-        }
+        else return;
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         button.gameObject.SetActive(false);
-        if (imageRectTransform != null && selectLineRectTransform != null)
+        if (imageRectTransform != null)
         {
             // 원래 크기로 되돌림
             imageRectTransform.sizeDelta = imgOriginalSize;
-            selectLineRectTransform.sizeDelta = selectLineOriginalSize;
         }
     }
 }

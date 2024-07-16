@@ -7,7 +7,6 @@ public class ChapterSelectionUI : MonoBehaviour
 {
     public GameObject chapterButtonPrefab; // 챕터 버튼 프리팹
     public Transform chapterButtonContainer; // 챕터 버튼을 배치할 부모 오브젝트
-    public List<GameObject> chapterCanvases; // 각 챕터의 캔버스들
     public GameObject scrollview;
     
     private void Start()
@@ -18,10 +17,6 @@ public class ChapterSelectionUI : MonoBehaviour
             return;
         }
         if (chapterButtonContainer == null)
-        {
-            return;
-        }
-        if (chapterCanvases == null || chapterCanvases.Count == 0)
         {
             return;
         }
@@ -69,5 +64,6 @@ public class ChapterSelectionUI : MonoBehaviour
     private void OnChapterButtonClicked(int chapterIndex)
     {
         UIManager.Instance.SetupStages(chapterIndex);
+        chapterButtonPrefab.GetComponentInChildren<TextMeshProUGUI>().text = "Chapter " + chapterIndex;
     }
 }

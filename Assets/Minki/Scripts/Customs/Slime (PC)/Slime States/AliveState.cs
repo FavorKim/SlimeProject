@@ -232,6 +232,15 @@ namespace Player
         // 플레이어가 땅에 닿아 있는지를 판별한다.
         protected bool IsGround(Transform groundChecker)
         {
+            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Ground"));
+            Collider[] isInteractable = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Interactable"));
+
+            Debug.Log($"isGround = {isGround.Length}, isInteractable = {isInteractable.Length}");
+
+            if (isGround.Length + isInteractable.Length > 0) return true;
+            else return false;
+
+            /*
             float maxDistance = 0.35f; // Ray로 땅을 판별할 깊이
             int groundLayerMask = 1 << LayerMask.NameToLayer("Ground"); // 땅으로 설정한 레이어
             int interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable"); // 상호 작용이 가능한 오브젝트들
@@ -244,6 +253,7 @@ namespace Player
 
             // 그 결과 값을 반환한다. (어느 하나라도 있을 경우, 바닥으로 간주한다.)
             return isGround || isInteractable;
+            */
         }
 
         // 대시의 올바른 구현을 위한 코루틴 함수

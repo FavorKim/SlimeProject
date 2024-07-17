@@ -159,6 +159,11 @@ namespace Player
             }
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawCube(_groundChecker.position, new Vector3(0.6f, 0.1f, 0.6f));
+        }
+
         #endregion 커스텀 함수
     }
 }

@@ -90,6 +90,11 @@ namespace Player
             GameObject newSlime = Object.Instantiate(controller.gameObject);
             newSlime.name = "New Slime (Player)"; // 하이어라키 창에서의 이름을 변경한다. (계속 "(Clone)"이 뒤에 붙어서 조정할 필요성을 느낌.)
 
+            foreach (Transform obj in newSlime.GetComponentsInChildren<Transform>())
+            {
+                obj.gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+
             // 새로운 플레이어의 컨트롤러를 활성화한다.
             if (newSlime.TryGetComponent(out SlimeController newController))
             {

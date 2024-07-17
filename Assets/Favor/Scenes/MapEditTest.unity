@@ -2532,14 +2532,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1659103087}
     m_Modifications:
-    - target: {fileID: 22880397146821486, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 240829250958269376, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: springPow
-      value: 5000
-      objectReference: {fileID: 0}
     - target: {fileID: 1943023458254054509, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
       propertyPath: m_Name
       value: object_spring
@@ -2547,26 +2539,6 @@ PrefabInstance:
     - target: {fileID: 4679933560899947869, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
       propertyPath: m_Enabled
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5516383414530209425, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_Size.x
-      value: 0.7540493
-      objectReference: {fileID: 0}
-    - target: {fileID: 5516383414530209425, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_Size.z
-      value: 1.242785
-      objectReference: {fileID: 0}
-    - target: {fileID: 5516383414530209425, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_Center.x
-      value: -0.2545824
-      objectReference: {fileID: 0}
-    - target: {fileID: 5516383414530209425, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_Center.z
-      value: 1.2999768
-      objectReference: {fileID: 0}
-    - target: {fileID: 5516383414530209425, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7365920991395864602, guid: 2560f6ec0394bf84bb7f496f3fa1414f, type: 3}
       propertyPath: m_RootOrder

@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     private float targetX;
     private float moveSpeed = 20;
     public GameObject[] stages;
+    public ChapterClearData chapterClearData;
 
     private string saveFilePath;
     private StageClearData stageClearData;
@@ -37,7 +38,8 @@ public class UIManager : MonoBehaviour
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "stageClearData.json");
         LoadStageClearData();
-        SetupStages(1);
+        int chapterIndex = chapterClearData.selectedChapter;
+        SetupStages(chapterIndex+1);
     }
 
     private void Update()

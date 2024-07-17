@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class SelectChapterManager : MonoBehaviour
 {
@@ -43,9 +44,11 @@ public class SelectChapterManager : MonoBehaviour
         {
             int chapterIndex = i; // 로컬 변수로 캡처
             Button buttonComponent = chapterButtons[i].GetComponent<Button>();
+            Button buttonSelectComponent = chapterSelectionButtons[i].GetComponent<Button>();
             if (buttonComponent != null)
             {
                 buttonComponent.onClick.AddListener(() => OnChapterButtonClicked(chapterIndex));
+                buttonSelectComponent.onClick.AddListener(() => OnChapterSelectionButtonClicked(chapterIndex));
             }
         }
 
@@ -70,6 +73,14 @@ public class SelectChapterManager : MonoBehaviour
         // 선택한 챕터의 정보 이미지 활성화
         chapterInfoImages[chapterIndex].SetActive(true);
         SlimePrefabs[chapterIndex].SetActive(true);
+    }
+
+    private void OnChapterSelectionButtonClicked(int chapterIndex)
+    {
+        chapterClearData.selectedChapter = chapterIndex;
+        SaveChapterClearData();
+
+        SceneManager.LoadScene(1);
     }
 
     private void UpdateChapterInfoImage()
@@ -155,5 +166,6 @@ public class SelectChapterManager : MonoBehaviour
         string json = JsonUtility.ToJson(chapterClearData);
         File.WriteAllText(saveFilePath, json);
     }
+
 }
 

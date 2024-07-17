@@ -1,62 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class Button : ObjectBase, IPushable
+public class Button : MonoBehaviour,IPushable
 {
-    private int massLimit;
+    ObjectBase objectBase;
+
+    [SerializeField] Door LinkedDoor;
     
-    public int MassLimit
+    [SerializeField]
+    GameObject clickPart;
+    [SerializeField]Rigidbody clickPartRb;
+
+    [SerializeField] float clickPartOriginHeight;
+    [SerializeField] float resist;
+    
+    private void Awake()
     {
-        get 
-        {
-            return massLimit;
-        }
-        set
-        {
-            if(massLimit != value)
-            {
-                massLimit = value;
-            }
-        }
+        objectBase = GetComponent<ObjectBase>();
+        clickPartOriginHeight = clickPart.transform.localPosition.y;
+        clickPartRb = clickPart.GetComponent<Rigidbody>();
     }
 
     public void Push()
     {
-        // 눌려용
-    }
-    
-    /*
-     rpg
-    플레이어.
-
-    void PlayerUse(IUsable item)
-    {
-       item.Use();
+        LinkedDoor?.OpenDoor();
     }
 
-    class inventory
+    private void Update()
     {
-        item[] items;
-        Player player;
-
-        UseItem(int index)
+        if (clickPart.transform.localPosition.y < clickPartOriginHeight)
         {
-            player.PlayerUse(items[index]);
+            clickPartRb.AddForce(Vector3.up * objectBase.masslimit * Time.deltaTime * resist);
         }
-        
+        else
+        {
+            clickPartRb.velocity = Vector3.zero;
+        }
+        if (clickPart.transform.localPosition.y <= 0)
+            Push();
     }
 
-
-    아이템 IUsable {Use()}
-    스킬
-    class Item : IUsable
-    {
-        int 갯수;
-        bool 사용가능?
-        void Use(){ 먹어용;}
-    }
-     
-     */
-    // 충돌 처리
 }

@@ -19,6 +19,21 @@ public class ObjectBase : MonoBehaviour
     public int ID;
     [Tooltip("사용제한횟수")]
     public int usecount;
+    public int UseCount
+    {
+        get { return usecount; }
+        set 
+        {
+            if (value != usecount)
+            {
+                usecount = value;
+                if (usecount <= 0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+    }
     [Tooltip("내구도")]
     public int durabillity;
     public int Durabillity
@@ -67,8 +82,9 @@ public class ObjectBase : MonoBehaviour
             }
             else
             {
-                this.Durabillity -= obj.atk;
+                this.Durabillity = durabillity - obj.atk;
             }
+            obj.UseCount = obj.usecount - 1;
         }
     }
 }

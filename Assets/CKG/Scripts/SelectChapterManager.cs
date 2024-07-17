@@ -3,15 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using System.Linq;
 
 public class SelectChapterManager : MonoBehaviour
 {
     public List<GameObject> chapterButtons; // 챕터 버튼들
     public List<GameObject> chapterInfoImages; // 챕터 정보 이미지들
-    public List<Button> chapterSelectionButtons; // 스테이지 선택 버튼들
+    public List<Button> chapterSelectionButtons;
+    public List<GameObject> SlimePrefabs;// 스테이지 선택 버튼들
     public Sprite unlockedChapterSprite;
     private ChapterClearData chapterClearData;
     public GameObject ClearFlagPrefab;
+    public Sprite aliveSlimeSprite;
+    public Sprite deadSlimeSprite;
     private string saveFilePath;
 
     private void Start()
@@ -24,10 +28,15 @@ public class SelectChapterManager : MonoBehaviour
         {
             infoImage.SetActive(false); 
         }
+        foreach (var SlimePrefab in SlimePrefabs)
+        {
+            SlimePrefab.SetActive(false);
+        }
         //첫번째 챕터 정보이미지 활성화
-        if (chapterInfoImages.Count > 0)
+        if (chapterInfoImages.Count > 0 || SlimePrefabs.Count > 0)
         {
             chapterInfoImages[0].SetActive(true);
+            SlimePrefabs[0].SetActive(true);
         }
         // 챕터 버튼 클릭 이벤트 연결
         for (int i = 0; i < chapterButtons.Count; i++)
@@ -43,6 +52,7 @@ public class SelectChapterManager : MonoBehaviour
         // 챕터 클리어 상태에 따른 스테이지 선택 버튼 활성화/비활성화
         UpdateChapterInfoImage();
         UpdateChaptertButtonImage();
+        UpdateSlimeStateImage();
     }
 
     private void OnChapterButtonClicked(int chapterIndex)
@@ -52,9 +62,14 @@ public class SelectChapterManager : MonoBehaviour
         {
             infoImage.SetActive(false);
         }
+        foreach (var SlimePrefab in SlimePrefabs)
+        {
+            SlimePrefab.SetActive(false);
+        }
 
         // 선택한 챕터의 정보 이미지 활성화
         chapterInfoImages[chapterIndex].SetActive(true);
+        SlimePrefabs[chapterIndex].SetActive(true);
     }
 
     private void UpdateChapterInfoImage()
@@ -95,6 +110,21 @@ public class SelectChapterManager : MonoBehaviour
         }
     }
 
+    private void UpdateSlimeStateImage()
+    {
+        for (int i = 1; i < chapterButtons.Count; i++)
+        {
+            if (chapterClearData.chapterCleared[i - 1])
+            {
+                SlimePrefabs[i].GetComponent<Image>().sprite = aliveSlimeSprite;
+            }
+            else
+            {
+                SlimePrefabs[i].GetComponent<Image>().sprite = deadSlimeSprite;
+            }
+        }
+    }
+
     public void ClearChapter(int chapterIndex)
     {
         // 챕터 클리어 상태 업데이트
@@ -104,6 +134,7 @@ public class SelectChapterManager : MonoBehaviour
         // 챕터 선택 버튼 업데이트
         UpdateChapterInfoImage();
         UpdateChaptertButtonImage();
+        UpdateSlimeStateImage();
     }
 
     private void LoadChapterClearData()

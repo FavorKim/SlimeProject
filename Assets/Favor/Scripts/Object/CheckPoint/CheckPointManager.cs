@@ -30,7 +30,7 @@ public class CheckPointManager : SingletonMono<CheckPointManager>
         }
         if(nearestCheckPoint == null)
         {
-            Debug.Log("체크포인트가 저장되지 않았습니다.");
+            Debug.Log("체크포인트가 활성화되지 않았습니다.");
             return default;
         }
         else

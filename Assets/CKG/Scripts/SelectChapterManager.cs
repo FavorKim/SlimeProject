@@ -41,7 +41,8 @@ public class SelectChapterManager : MonoBehaviour
         }
 
         // 챕터 클리어 상태에 따른 스테이지 선택 버튼 활성화/비활성화
-        UpdateChapterSelectionButtons();
+        UpdateChapterInfoImage();
+        UpdateChaptertButtonImage();
     }
 
     private void OnChapterButtonClicked(int chapterIndex)
@@ -56,7 +57,7 @@ public class SelectChapterManager : MonoBehaviour
         chapterInfoImages[chapterIndex].SetActive(true);
     }
 
-    private void UpdateChapterSelectionButtons()
+    private void UpdateChapterInfoImage()
     {
         // 챕터 클리어 상태에 따른 버튼 활성화/비활성화
         for (int i = 1; i < chapterSelectionButtons.Count; i++)
@@ -82,14 +83,27 @@ public class SelectChapterManager : MonoBehaviour
         }
     }
 
+    private void UpdateChaptertButtonImage()
+    {
+        for (int i = 1; i < chapterButtons.Count; i++)
+        {
+            if (chapterClearData.chapterCleared[i - 1])
+            {
+                chapterButtons[i].GetComponent<Image>().color = Color.red;
+            }
+            else chapterButtons[i].GetComponent<Image>().color = Color.gray;
+        }
+    }
+
     public void ClearChapter(int chapterIndex)
     {
         // 챕터 클리어 상태 업데이트
         chapterClearData.chapterCleared[chapterIndex] = true;
         SaveChapterClearData();
 
-        // 스테이지 선택 버튼 업데이트
-        UpdateChapterSelectionButtons();
+        // 챕터 선택 버튼 업데이트
+        UpdateChapterInfoImage();
+        UpdateChaptertButtonImage();
     }
 
     private void LoadChapterClearData()

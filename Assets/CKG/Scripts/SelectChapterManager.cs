@@ -9,7 +9,7 @@ public class SelectChapterManager : MonoBehaviour
     public List<GameObject> chapterButtons; // 챕터 버튼들
     public List<GameObject> chapterInfoImages; // 챕터 정보 이미지들
     public List<Button> chapterSelectionButtons; // 스테이지 선택 버튼들
-
+    public Sprite unlockedChapterSprite;
     private ChapterClearData chapterClearData;
     private string saveFilePath;
 
@@ -60,7 +60,16 @@ public class SelectChapterManager : MonoBehaviour
         // 챕터 클리어 상태에 따른 버튼 활성화/비활성화
         for (int i = 1; i < chapterSelectionButtons.Count; i++)
         {
-            chapterSelectionButtons[i].interactable = chapterClearData.chapterCleared[i];
+            if (chapterClearData.chapterCleared[i-1])
+            {
+                chapterSelectionButtons[i].interactable = true;
+                chapterInfoImages[i].transform.GetChild(0).GetComponent<Image>().sprite = unlockedChapterSprite;
+            }
+            else
+            {
+                chapterSelectionButtons[i].interactable = false;
+                chapterInfoImages[i].transform.GetChild(0).GetComponent<Image>().color = Color.gray;
+            }
         }
     }
 

@@ -11,6 +11,7 @@ public class SelectChapterManager : MonoBehaviour
     public List<Button> chapterSelectionButtons; // 스테이지 선택 버튼들
     public Sprite unlockedChapterSprite;
     private ChapterClearData chapterClearData;
+    public GameObject ClearFlagPrefab;
     private string saveFilePath;
 
     private void Start()
@@ -63,7 +64,15 @@ public class SelectChapterManager : MonoBehaviour
             if (chapterClearData.chapterCleared[i-1])
             {
                 chapterSelectionButtons[i].interactable = true;
-                chapterInfoImages[i].transform.GetChild(0).GetComponent<Image>().sprite = unlockedChapterSprite;
+                Transform imageTransform = chapterInfoImages[i].transform.GetChild(0);
+                Image imageComponent = imageTransform.GetComponent<Image>();
+                imageComponent.sprite = unlockedChapterSprite;
+                if (imageTransform.Find("ClearFlagPrefab") == null)
+                {
+                    RectTransform clearFlagPos = imageTransform.GetComponent<RectTransform>();
+                    GameObject clearFlagInstance = Instantiate(ClearFlagPrefab, clearFlagPos);
+                    clearFlagInstance.name = "ClearFlagPrefab"; // 인스턴스 이름 설정
+                }
             }
             else
             {

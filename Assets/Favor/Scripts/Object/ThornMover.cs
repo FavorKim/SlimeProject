@@ -18,11 +18,11 @@ public class ThornMover : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        anim.SetBool("isMove", true);
+        anim?.SetBool("isMove", true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        anim.SetBool("isMove", false);
+        anim?.SetBool("isMove", false);
     }
 }

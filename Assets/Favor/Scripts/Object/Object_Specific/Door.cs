@@ -16,6 +16,7 @@ public class Door : MonoBehaviour
     public void OpenDoor()
     {
         anim.SetTrigger("Open");
+        isUsed = true;
     }
 
     private void OnTriggerEnter(Collider other)

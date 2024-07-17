@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public enum ObjectType
@@ -56,6 +57,9 @@ public class ObjectBase : MonoBehaviour
     public int masslimit;
     [Tooltip("물체의 질량(무게)")]
     public int mass;
+
+    //[Tooltip("피격무적시간"), SerializeField]
+    private float invincibleTime = 1.0f;
     
     [Space(20)]
 
@@ -71,6 +75,8 @@ public class ObjectBase : MonoBehaviour
     [Tooltip("오브젝트의 타입")]
     public ObjectType type;
 
+    private bool isInvincible = false;  
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -82,9 +88,25 @@ public class ObjectBase : MonoBehaviour
             }
             else
             {
-                this.Durabillity = durabillity - obj.atk;
+                GetDamage(obj.atk);
             }
             obj.UseCount = obj.usecount - 1;
         }
+    }
+
+    public void GetDamage(int dmg)
+    {
+        if (!isInvincible)
+        {
+            Durabillity = durabillity - dmg;
+            StartCoroutine(CorInvincible());
+        }
+    }
+
+    IEnumerator CorInvincible()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibleTime);
+        isInvincible = false;
     }
 }

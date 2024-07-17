@@ -480,7 +480,6 @@ GameObject:
   - component: {fileID: 4761881400623825037}
   - component: {fileID: 756521637325663468}
   - component: {fileID: 3424160256076472201}
-  - component: {fileID: 8991391590951495170}
   m_Layer: 5
   m_Name: Img_Stage
   m_TagString: Untagged
@@ -548,18 +547,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8991391590951495170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7628027239055326228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d58bee11a559f2419a84686d0aa8374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 6852464870214097976}
-  imageRectTransform: {fileID: 4761881400623825037}
-  hoverSize: {x: 1.2, y: 1.2}

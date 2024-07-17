@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public ChapterClearData chapterClearData;
 
     private string saveFilePath;
-    private StageClearData stageClearData;
+    public StageClearData stageClearData;
 
     private void Awake()
     {

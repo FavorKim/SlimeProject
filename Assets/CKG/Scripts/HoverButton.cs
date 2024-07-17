@@ -24,11 +24,14 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (UIManager.Instance.currentStageIndex == transform.GetSiblingIndex())
         {
-            button.gameObject.SetActive(true);
-            if (imageRectTransform != null)
+            if (UIManager.Instance.stageClearData.stageCleared[transform.GetSiblingIndex()] || transform.GetSiblingIndex() == 0)
             {
-                // 크기 변경 (원래 크기에서 비율을 곱하여 조정)
-                imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
+                button.gameObject.SetActive(true);
+                if (imageRectTransform != null)
+                {
+                    // 크기 변경 (원래 크기에서 비율을 곱하여 조정)
+                    imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
+                }
             }
         }
         else return;

@@ -461,6 +461,7 @@ MonoBehaviour:
   _jumpPower: 3
   _dashPower: 7
   _airDashMaxCount: 1
+  _timeToRevive: 0.6
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,7 +708,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1586668731}
-        m_TargetAssemblyTypeName: SlimeController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Player.SlimeController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -752,6 +753,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6df3b26e-3669-4cfb-a050-3596bf73154b
     m_ActionName: Slime/Dash[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1c3d73f3-1d11-4e40-a2c3-5b49b79b6879
+    m_ActionName: Slime/Lift[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 17305109-0198-4b24-908b-bee784d4ff05
+    m_ActionName: Slime/Put[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Slime

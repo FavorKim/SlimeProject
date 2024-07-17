@@ -1,5 +1,6 @@
 using StatePattern;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -76,6 +77,24 @@ namespace Player
 
         // 대시 키(Shift)를 눌러, 플레이어를 순간적으로 힘을 가해 움직이게 한다.
         public void OnDash(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.performed)
+            {
+                InputCallback.Invoke(callbackContext);
+            }
+        }
+
+        // 들어올리기 키(Z)를 눌러, 플레이어의 앞에 있는 상호 작용이 가능한 물체를 들어올린다.
+        public void OnLift(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.performed)
+            {
+                InputCallback.Invoke(callbackContext);
+            }
+        }
+
+        // 내려놓기 키(X)를 눌러, 플레이어가 들어올린 물체를 내려놓는다.
+        public void OnPut(InputAction.CallbackContext callbackContext)
         {
             if (callbackContext.performed)
             {

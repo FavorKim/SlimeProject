@@ -34,7 +34,13 @@ namespace Player
             SetActiveController(false, _controller);
 
             // 죽는 애니메이션을 재생한다.
-            // _animator.SetBool(die_AnimatorHash, true);
+            _animator.SetBool(hit_AnimatorHash, true);
+
+            // 레이어를 상호 작용이 가능한 레이어로 바꾼다.
+            foreach (Transform obj in _controller.GetComponentsInChildren<Transform>())
+            {
+                obj.gameObject.layer = LayerMask.NameToLayer("Interactable");
+            }
 
             // 부활에 돌입한다.
             _controller.StartCoroutine(IERevive(_controller, _configuration));

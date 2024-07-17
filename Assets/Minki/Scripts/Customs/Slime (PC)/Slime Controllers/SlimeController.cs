@@ -1,6 +1,7 @@
 using StatePattern;
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,11 +20,19 @@ namespace Player
         [SerializeField] private Transform _groundChecker;
         public Transform GroundChecker => _groundChecker;
 
+        // 슬라임이 물체를 들어올리기 위한 Transform 변수
+        [SerializeField] private Transform _objectChecker;
+        [SerializeField] private Transform _liftPosition;
+        public Transform ObjectChecker => _objectChecker;
+        public Transform LiftPosition => _liftPosition;
+
         // 상태 인터페이스
         private IState _state;
 
         // 인풋 시스템 함수의 호출을 다른 상태 클래스에 전달하기 위한 이벤트(Event)
         private event Action<InputAction.CallbackContext> InputCallback;
+
+        private int _healthPoint;
 
         #endregion 변수
 
@@ -32,6 +41,8 @@ namespace Player
         // Awake()
         private void Awake()
         {
+            _healthPoint = _configuration.MaxHealthPoint;
+
             // 첫 시작 시, Ground 상태에 들어간다.
             ChangeState(new GroundState(this, Vector2.zero));
         }
@@ -57,6 +68,27 @@ namespace Player
         }
 
         #endregion 생명 주기 함수
+
+        #region 유니티 이벤트 함수
+
+        // 피격당했을 경우,
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Obstacles"))
+            {
+                // 체력이 감소한다.
+                _healthPoint--;
+
+                // 체력이 0 이하일 경우,
+                if (_healthPoint <= 0)
+                {
+                    // 죽음 상태가 된다.
+                    ChangeState(new DeadState(this));
+                }
+            }
+        }
+
+        #endregion 유니티 이벤트 함수
 
         #region 인풋 시스템(Input System)
 

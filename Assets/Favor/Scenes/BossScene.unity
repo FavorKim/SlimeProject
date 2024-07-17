@@ -878,6 +878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 167246444}
   - component: {fileID: 167246445}
+  - component: {fileID: 167246446}
   m_Layer: 0
   m_Name: AtkCollider
   m_TagString: Untagged
@@ -913,6 +914,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.61}
   m_Center: {x: 0, y: 0.54, z: 0.8}
+--- !u!114 &167246446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167246443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a82bf9635cbbc6b4d97e507a442c4c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  datainfo: 
+  description: 
+  ID: 0
+  usecount: 0
+  durabillity: 0
+  masslimit: 0
+  mass: 0
+  holdable: 0
+  collide: 1
+  deletable: 0
+  type: 0
+  atk: 9999
+  destroyimmediatly: 1
 --- !u!1001 &173004860
 PrefabInstance:
   m_ObjectHideFlags: 0

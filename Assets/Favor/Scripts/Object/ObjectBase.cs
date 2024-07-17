@@ -21,6 +21,22 @@ public class ObjectBase : MonoBehaviour
     public int usecount;
     [Tooltip("내구도")]
     public int durabillity;
+    public int Durabillity
+    {
+        get { return durabillity; }
+        set
+        {
+            if (durabillity != value)
+            {
+                durabillity = value;
+                if (durabillity <= 0)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
     [Tooltip("밟기 상호작용을 일으키는 무게 최소값")]
     public int masslimit;
     [Tooltip("물체의 질량(무게)")]
@@ -39,4 +55,20 @@ public class ObjectBase : MonoBehaviour
 
     [Tooltip("오브젝트의 타입")]
     public ObjectType type;
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent(out AttackObjectBase obj))
+        {
+            if (obj.destroyimmediatly && deletable)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                this.Durabillity -= obj.atk;
+            }
+        }
+    }
 }

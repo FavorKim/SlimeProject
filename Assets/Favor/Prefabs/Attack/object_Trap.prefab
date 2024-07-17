@@ -47,7 +47,7 @@ MonoBehaviour:
   datainfo: object_Trap
   description: "\uB36B"
   ID: 32202
-  usecount: 999999
+  usecount: 1
   durabillity: 999999
   masslimit: 0
   mass: 0

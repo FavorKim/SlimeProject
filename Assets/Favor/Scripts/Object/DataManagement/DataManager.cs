@@ -1,6 +1,7 @@
 using System;
 using System.Xml.Linq;
 using UnityEngine;
+
 public class DataManager : SingletonMono<DataManager>
 {
     private readonly string relativePath = "Favor/DataTable";
@@ -36,6 +37,7 @@ public class DataManager : SingletonMono<DataManager>
         foreach (var data in dataElements)
         {
             var objectStatus = new GameObject().AddComponent<ObjectBase>();
+
             objectStatus.datainfo = data.Attribute(nameof(objectStatus.datainfo)).Value;
             objectStatus.description = data.Attribute(nameof(objectStatus.description)).Value;
             objectStatus.ID = int.Parse(data.Attribute(nameof(objectStatus.ID)).Value);

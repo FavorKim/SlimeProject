@@ -1,12 +1,24 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+
+    public GameObject stagePrefab; // 하나의 스테이지 프리팹
+    public Transform contentTransform;
+    public int currentStageIndex = 0;
+    private float targetX;
+    private float moveSpeed = 20;
+    public GameObject[] stages;
+
+    private string saveFilePath;
+    private StageClearData stageClearData;
 
     private void Awake()
     {
@@ -21,15 +33,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public GameObject stagePrefab; // 하나의 스테이지 프리팹
-    public Transform contentTransform;
-    public int currentStageIndex = 0;
-    private float targetX;
-    private float moveSpeed = 20;
-    public GameObject[] stages;
-
     private void Start()
     {
+        saveFilePath = Path.Combine(Application.persistentDataPath, "stageClearData.json");
+        LoadStageClearData();
         SetupStages(1);
     }
 
@@ -65,13 +72,16 @@ public class UIManager : MonoBehaviour
             TextMeshProUGUI stageText = childTranform.GetComponentInChildren<TextMeshProUGUI>();
             if (stageText != null)
             {
-                stageText.text =  chapter + " - " + (i + 1);
+                stageText.text = chapter + " - " + (i + 1);
             }
 
             // HoverButton 컴포넌트를 추가
             HoverButton hoverButton = stages[i].AddComponent<HoverButton>();
             hoverButton.button = stages[i].GetComponentInChildren<Button>();
             hoverButton.imageRectTransform = stages[i].GetComponent<RectTransform>();
+
+            // 스테이지 클리어 상태 업데이트
+            UpdateStageClearStatus(i);
         }
 
         currentStageIndex = 0;
@@ -124,6 +134,67 @@ public class UIManager : MonoBehaviour
         {
             targetX = 0; // 기본 위치
         }
-        
+    }
+
+    private void UpdateStageClearStatus(int stageIndex)
+    {
+        if (stageClearData != null && stageIndex < stageClearData.stageCleared.Count)
+        {
+            Transform childTranform = stages[stageIndex].transform.Find("Img_StageTitle");
+            Image stageImage = childTranform.GetComponent<Image>();
+
+            if (stageIndex == 0)
+            {
+                // 첫 번째 스테이지는 항상 빨간색
+                stageImage.color = Color.red;
+            }
+            else
+            {
+                if (stageClearData.stageCleared[stageIndex])
+                {
+                    stageImage.color = Color.green; // 클리어된 스테이지
+                }
+                if (stageClearData.stageCleared[stageIndex+1])
+                {
+                    stageImage.color = Color.red;
+                }
+                else
+                {
+                    stageImage.color = Color.gray; // 클리어되지 않은 스테이지
+                }
+            }
+        }
+    }
+
+    public void ClearStage(int stageIndex)
+    {
+        if (stageClearData != null && stageIndex < stageClearData.stageCleared.Count)
+        {
+            stageClearData.stageCleared[stageIndex] = true;
+            SaveStageClearData();
+            UpdateStageClearStatus(stageIndex);
+        }
+    }
+
+    private void LoadStageClearData()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            stageClearData = JsonUtility.FromJson<StageClearData>(json);
+        }
+        else
+        {
+            int totalStages = GetStageCountForChapter(1) + GetStageCountForChapter(2); // 모든 챕터의 총 스테이지 수
+            stageClearData = new StageClearData(totalStages);
+        }
+    }
+
+    private void SaveStageClearData()
+    {
+        string json = JsonUtility.ToJson(stageClearData);
+        File.WriteAllText(saveFilePath, json);
     }
 }
+
+

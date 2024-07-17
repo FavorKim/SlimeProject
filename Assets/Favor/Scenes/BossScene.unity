@@ -1233,11 +1233,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1940652238}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_LocalScale.x
@@ -1269,15 +1269,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1297,11 +1297,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
---- !u!4 &261776320 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 73621473989318378, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
-  m_PrefabInstance: {fileID: 261776319}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &267907835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10710,7 +10705,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 686207226}
-  - {fileID: 261776320}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10938,8 +10932,8 @@ MonoBehaviour:
   collide: 1
   deletable: 0
   type: 0
-  atk: 9999
-  destroyimmediatly: 1
+  atk: 0
+  destroyimmediatly: 0
 --- !u!65 &2021435670
 BoxCollider:
   m_ObjectHideFlags: 0

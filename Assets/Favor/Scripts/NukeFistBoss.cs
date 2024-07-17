@@ -150,6 +150,14 @@ public class NukeFistBoss : MonoBehaviour
 
     public bool CheckIsInRange()
     {
+        RaycastHit temphit;
+        Ray ray = new Ray();
+        if(Physics.Raycast(ray, out temphit))
+        {
+            temphit.transform.position = transform.position;
+        }
+
+
         Collider[] hit = Physics.OverlapBox(transform.position + transform.forward*0.1f, new Vector3(2f, 2.0f, 2.0f), Quaternion.identity, atkLayer);
         if (hit.Length > 0)
         {
@@ -167,6 +175,8 @@ public class NukeFistBoss : MonoBehaviour
             animator.SetBool("Charge", false);
             return false;
         }
+
+        
     }
 
     IEnumerator CorInvincible()

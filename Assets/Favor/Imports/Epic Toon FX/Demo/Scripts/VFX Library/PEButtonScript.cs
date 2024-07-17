@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -36,7 +36,7 @@ public class PEButtonScript : MonoBehaviour, IEventSystemHandler, IPointerEnterH
 	}
 
 	public void OnButtonClicked () {
-		// Button Click Actions
+		// ButtonObject Click Actions
 		UICanvasManager.GlobalAccess.UIButtonClick(ButtonType);
 	}
 }

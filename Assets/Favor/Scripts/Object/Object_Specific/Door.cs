@@ -5,7 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     private bool isUsed;
-    public bool GetIsUsed() {  return isUsed; }
+    public bool GetIsUsed() { return isUsed; }
 
     Animator anim;
 
@@ -16,8 +16,19 @@ public class Door : MonoBehaviour
 
     public void OpenDoor()
     {
-        anim.SetTrigger("Open");
-        isUsed = true;
+        if (!isUsed)
+        {
+            anim.SetTrigger("Open");
+            isUsed = true;
+        }
     }
 
+    public void CloseDoor()
+    {
+        if (isUsed)
+        {
+            anim.SetTrigger("Close");
+            isUsed = false;
+        }
+    }
 }

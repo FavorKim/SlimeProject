@@ -26,7 +26,7 @@ public class UICanvasManager : MonoBehaviour {
 	
 		// Mouse Click - Check if mouse over button to prevent spawning particle effects while hovering or using UI buttons.
 		if (!MouseOverButton) {
-			// Left Button Click
+			// Left ButtonObject Click
 			if (Input.GetMouseButtonUp (0)) {
 				// Spawn Currently Selected Particle System
 				SpawnCurrentParticleEffect();
@@ -82,7 +82,7 @@ public class UICanvasManager : MonoBehaviour {
 	/// <summary>
 	/// User interfaces the button click.
 	/// </summary>
-	/// <param name="buttonTypeClicked">Button type clicked.</param>
+	/// <param name="buttonTypeClicked">ButtonObject type clicked.</param>
 	public void UIButtonClick(ButtonTypes buttonTypeClicked) {
 		switch (buttonTypeClicked) {
 		case ButtonTypes.Previous:

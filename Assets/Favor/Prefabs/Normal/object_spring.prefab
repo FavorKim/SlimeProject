@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7365920991395864602}
   - component: {fileID: 2695362827761949307}
+  - component: {fileID: 240829250958269376}
+  - component: {fileID: 8354428740372493557}
+  - component: {fileID: 5516383414530209425}
   m_Layer: 7
   m_Name: object_spring
   m_TagString: Untagged
@@ -56,6 +59,52 @@ MonoBehaviour:
   collide: 0
   deletable: 1
   type: 0
+--- !u!114 &240829250958269376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943023458254054509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e57e0d020e57c46bf40b8c2148714b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &8354428740372493557
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943023458254054509}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aacaa00dd1cc44041a4daa241461fc81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &5516383414530209425
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943023458254054509}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9295387, y: 0.7895055, z: 1.778645}
+  m_Center: {x: -0.20297432, y: 1.6753585, z: 1.3569863}
 --- !u!1 &3820047146771540050
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5830762741521618806}
   - component: {fileID: 4679933560899947869}
-  - component: {fileID: 4029006102727187835}
+  - component: {fileID: 22880397146821486}
   m_Layer: 7
   m_Name: object_spring(Clone)
   m_TagString: Untagged
@@ -182,9 +231,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4543247732324090614}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6f202d6f83f01914fb31b65fc8ec558e, type: 2}
+  m_Controller: {fileID: 9100000, guid: cfb5cec9bd8f9a7409876ec4375afec5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -195,19 +244,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &4029006102727187835
+--- !u!65 &22880397146821486
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4543247732324090614}
-  m_Material: {fileID: 13400000, guid: ff8179434fe4a9b4a9e5e43f822f4ef0, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.771988, y: 0.19588017, z: 0.7671443}
-  m_Center: {x: -0.005377987, y: 0.115311064, z: -0.008290582}
+  m_Size: {x: 0.7113387, y: 0.18051381, z: 0.46880546}
+  m_Center: {x: -0.005803009, y: 0.13749643, z: 0.015719734}
 --- !u!1 &8444753604229881421
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +268,7 @@ GameObject:
   - component: {fileID: 5729956349157987128}
   - component: {fileID: 1806411095750519819}
   - component: {fileID: 5207128253474824749}
+  - component: {fileID: 3175753097674219419}
   m_Layer: 7
   m_Name: Obstacle-26.001
   m_TagString: Untagged
@@ -291,3 +341,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3175753097674219419
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444753604229881421}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4056053, y: 0.7500002, z: 0.40560523}
+  m_Center: {x: 0.000000029802326, y: 0.375, z: -0.000000007450581}

@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class Button : MonoBehaviour,IPushable
+public class ButtonObject : MonoBehaviour,IPushable
 {
     ObjectBase objectBase;
 
@@ -12,9 +8,9 @@ public class Button : MonoBehaviour,IPushable
     
     [SerializeField]
     GameObject clickPart;
-    [SerializeField]Rigidbody clickPartRb;
+    Rigidbody clickPartRb;
 
-    [SerializeField] float clickPartOriginHeight;
+    float clickPartOriginHeight;
     [SerializeField] float resist;
     
     private void Awake()
@@ -30,7 +26,7 @@ public class Button : MonoBehaviour,IPushable
     }
     public void UnPush()
     {
-
+        LinkedDoor?.CloseDoor();
     }
 
     private void Update()
@@ -46,6 +42,10 @@ public class Button : MonoBehaviour,IPushable
         if (clickPart.transform.localPosition.y <= 0)
         {
             Push();
+        }
+        else
+        {
+            UnPush();
         }
     }
 

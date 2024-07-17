@@ -28,6 +28,10 @@ public class Button : MonoBehaviour,IPushable
     {
         LinkedDoor?.OpenDoor();
     }
+    public void UnPush()
+    {
+
+    }
 
     private void Update()
     {
@@ -40,7 +44,9 @@ public class Button : MonoBehaviour,IPushable
             clickPartRb.velocity = Vector3.zero;
         }
         if (clickPart.transform.localPosition.y <= 0)
+        {
             Push();
+        }
     }
 
 }

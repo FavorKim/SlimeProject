@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2170167653323011428}
   - component: {fileID: 4692903505702647962}
   - component: {fileID: 7977840881181461989}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: object_siche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: -0.21, y: 0, z: 0.95}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7977840881181461989
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -85,7 +85,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!1 &8660937046576166626
 GameObject:
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7863187008456254074}
   - component: {fileID: 3415406499384202101}
   - component: {fileID: 532532741051965072}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8660937046576166626}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0, z: 0.9}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

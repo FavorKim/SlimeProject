@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7365920991395864602}
   - component: {fileID: 2695362827761949307}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: object_spring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 3141539785741924801}
   - component: {fileID: 5298665207667761141}
   - component: {fileID: 2511000106345075105}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Obstacle-26.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 5830762741521618806}
   - component: {fileID: 4679933560899947869}
   - component: {fileID: 4029006102727187835}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: object_spring(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 5729956349157987128}
   - component: {fileID: 1806411095750519819}
   - component: {fileID: 5207128253474824749}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Obstacle-26.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -141,7 +141,7 @@ public class NukeFistBoss : MonoBehaviour
             AnimationClip clip = clipInfo[0].clip;
             if (clip != null)
             {
-                if (clip.name == "Attack" || clip.name == "AttackWait")
+                if (clip.name == "Attack" || clip.name == "AttackWait" || clip.name == "Hit")
                     return false;
             }
         }
@@ -233,9 +233,9 @@ public class NukeFistBoss : MonoBehaviour
         OnAttack_SetCollider(false);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collision)
     {
-        if (collision.transform.parent.parent.TryGetComponent(out AttackObjectBase obs))
+        if (collision.transform.TryGetComponent(out AttackObjectBase obs))
         {
             if (!isInvincible)
             {

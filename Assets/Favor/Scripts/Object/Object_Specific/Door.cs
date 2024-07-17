@@ -5,6 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     private bool isUsed;
+    public bool GetIsUsed() {  return isUsed; }
 
     Animator anim;
 
@@ -19,13 +20,4 @@ public class Door : MonoBehaviour
         isUsed = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!isUsed && other.CompareTag("Key"))
-        {
-            isUsed = true;
-            OpenDoor();
-            other.gameObject.SetActive(false);
-        }
-    }
 }

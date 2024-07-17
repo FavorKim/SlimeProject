@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3073969294491268595}
   - component: {fileID: 4606586034568869636}
-  m_Layer: 0
-  m_Name: object_platform_half
+  m_Layer: 7
+  m_Name: object_platform_half_rightdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4580129630501376071}
   - component: {fileID: 755936385654721679}
   - component: {fileID: 2945980699380449963}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: object_platform(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,8 +83,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6936236368299217270}
   m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 2.7, y: -0.5, z: 0}
-  m_LocalScale: {x: 1.507775, y: 1.3536, z: 1.0079467}
+  m_LocalPosition: {x: 0.85, y: -0.64, z: 0}
+  m_LocalScale: {x: 1.0792161, y: 1.4630278, z: 1.0079467}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3073969294491268595}

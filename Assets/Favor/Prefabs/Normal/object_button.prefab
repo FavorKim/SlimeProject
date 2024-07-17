@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6547613640776783479}
   - component: {fileID: 2239952699850252959}
   - component: {fileID: 7527309818627944497}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SwitchCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7331516519836006353}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: object_button(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 11532287961019864}
   - component: {fileID: 7198573320837013480}
   - component: {fileID: 7580523739615225126}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PinOther0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 5412163155036831780}
   - component: {fileID: 6407224559593702401}
   - component: {fileID: 7914811784938345061}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: But0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 3932203777341835158}
   - component: {fileID: 7223369328029843905}
   - component: {fileID: 8558986629762495610}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: object_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

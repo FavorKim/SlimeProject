@@ -59,7 +59,7 @@ public class ObjectBase : MonoBehaviour
     public int mass;
 
     //[Tooltip("피격무적시간"), SerializeField]
-    private float invincibleTime = 1.0f;
+    private float invincibleTime = 1.5f;
     
     [Space(20)]
 

@@ -12,11 +12,15 @@ public class SelectChapterManager : MonoBehaviour
     public List<GameObject> chapterInfoImages; // 챕터 정보 이미지들
     public List<Button> chapterSelectionButtons;
     public List<GameObject> SlimePrefabs;// 스테이지 선택 버튼들
-    public Sprite unlockedChapterSprite;
+
     private ChapterClearData chapterClearData;
     public GameObject ClearFlagPrefab;
     public Sprite aliveSlimeSprite;
     public Sprite deadSlimeSprite;
+    public Sprite unlockedChapterSprite;
+    public Button ExitButtonPrefab;
+    public GameObject ExitNoticePrefab;
+
     private string saveFilePath;
 
     private void Start()
@@ -81,6 +85,20 @@ public class SelectChapterManager : MonoBehaviour
         SaveChapterClearData();
 
         SceneManager.LoadScene(1);
+    }
+
+    public void OnclickExitButton()
+    {
+        ExitNoticePrefab.SetActive(true);
+    }
+
+    public void OnClickExitNoticeYesButton()
+    {
+        Application.Quit();
+    }
+    public void OnclickExitNoticeNoButton()
+    {
+        ExitNoticePrefab.SetActive(false);
     }
 
     private void UpdateChapterInfoImage()

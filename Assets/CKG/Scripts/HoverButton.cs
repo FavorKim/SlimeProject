@@ -7,7 +7,6 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Button button;
     public RectTransform imageRectTransform; // UI 이미지의 RectTransform
     private Vector2 imgOriginalSize = new Vector2(160, 200);
-    private Vector2 selectLineOriginalSize = new Vector2(170, 210);
     public Vector2 hoverSize = new Vector2(1.1f, 1.1f);
 
     private void Start()

@@ -8,7 +8,7 @@ public class SelectChapterManager : MonoBehaviour
 {
     public List<GameObject> chapterButtons; // 챕터 버튼들
     public List<GameObject> chapterInfoImages; // 챕터 정보 이미지들
-    public List<Button> stageSelectionButtons; // 스테이지 선택 버튼들
+    public List<Button> chapterSelectionButtons; // 스테이지 선택 버튼들
 
     private ChapterClearData chapterClearData;
     private string saveFilePath;
@@ -21,9 +21,13 @@ public class SelectChapterManager : MonoBehaviour
         // 모든 챕터 정보 이미지와 스테이지 선택 버튼 비활성화
         foreach (var infoImage in chapterInfoImages)
         {
-            infoImage.SetActive(false);
+            infoImage.SetActive(false); 
         }
-
+        //첫번째 챕터 정보이미지 활성화
+        if (chapterInfoImages.Count > 0)
+        {
+            chapterInfoImages[0].SetActive(true);
+        }
         // 챕터 버튼 클릭 이벤트 연결
         for (int i = 0; i < chapterButtons.Count; i++)
         {
@@ -36,7 +40,7 @@ public class SelectChapterManager : MonoBehaviour
         }
 
         // 챕터 클리어 상태에 따른 스테이지 선택 버튼 활성화/비활성화
-        UpdateStageSelectionButtons();
+        UpdateChapterSelectionButtons();
     }
 
     private void OnChapterButtonClicked(int chapterIndex)
@@ -51,12 +55,12 @@ public class SelectChapterManager : MonoBehaviour
         chapterInfoImages[chapterIndex].SetActive(true);
     }
 
-    private void UpdateStageSelectionButtons()
+    private void UpdateChapterSelectionButtons()
     {
         // 챕터 클리어 상태에 따른 버튼 활성화/비활성화
-        for (int i = 0; i < stageSelectionButtons.Count; i++)
+        for (int i = 1; i < chapterSelectionButtons.Count; i++)
         {
-            stageSelectionButtons[i].interactable = chapterClearData.chapterCleared[i];
+            chapterSelectionButtons[i].interactable = chapterClearData.chapterCleared[i];
         }
     }
 
@@ -67,7 +71,7 @@ public class SelectChapterManager : MonoBehaviour
         SaveChapterClearData();
 
         // 스테이지 선택 버튼 업데이트
-        UpdateStageSelectionButtons();
+        UpdateChapterSelectionButtons();
     }
 
     private void LoadChapterClearData()
@@ -79,7 +83,7 @@ public class SelectChapterManager : MonoBehaviour
         }
         else
         {
-            chapterClearData = new ChapterClearData(stageSelectionButtons.Count);
+            chapterClearData = new ChapterClearData(chapterSelectionButtons.Count);
         }
     }
 

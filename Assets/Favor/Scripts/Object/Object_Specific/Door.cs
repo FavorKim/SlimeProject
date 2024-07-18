@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
     private bool isUsed;
     public bool GetIsUsed() { return isUsed; }
 
-    Animator anim;
+    [SerializeField]Animator anim;
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class Door : MonoBehaviour
     {
         if (!isUsed)
         {
-            anim.SetTrigger("Open");
+            anim.SetBool("isOpen",true);
             isUsed = true;
         }
     }
@@ -27,7 +27,7 @@ public class Door : MonoBehaviour
     {
         if (isUsed)
         {
-            anim.SetTrigger("Close");
+            anim.SetBool("isOpen", false);
             isUsed = false;
         }
     }

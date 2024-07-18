@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class ChapterClearData
 {
     public List<bool> chapterCleared;
+    public int selectedChapter;
 
     public ChapterClearData(int chapterCount)
     {
         chapterCleared = new List<bool>(new bool[chapterCount]);
+        selectedChapter = 0;
     }
 }
 

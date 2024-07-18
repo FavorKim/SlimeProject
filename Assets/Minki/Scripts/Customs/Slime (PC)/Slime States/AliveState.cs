@@ -321,3 +321,20 @@ namespace Player
         #endregion 커스텀 함수
     }
 }
+
+/*
+// 레이어 마스크말고 ObjectBase 가져오기
+if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo))
+{
+    if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
+    {
+        if (!obj.holdable) return;
+        Debug.Log("Lift!");
+
+        hitInfo.transform.position = _liftPosition.position;
+        hitInfo.transform.SetParent(_liftPosition.transform);
+        hitInfo.rigidbody.isKinematic = true;
+    }
+    //hitInfo.rigidbody.useGravity = false;
+}
+*/

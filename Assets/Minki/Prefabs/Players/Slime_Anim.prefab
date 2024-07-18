@@ -227,7 +227,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: ab00212762cdec44d984b2717aa0c238, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -484,9 +484,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthPoint: 1
-  _moveSpeed: 3
+  _moveSpeed: 2
   _jumpPower: 3
-  _dashPower: 15
+  _dashPower: 12
   _airDashMaxCount: 1
   _timeToRevive: 0.2
 --- !u!1 &4581814161186430719

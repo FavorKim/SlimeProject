@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7933621315830444509}
   - component: {fileID: 1953347488676759339}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Boxcol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8983606968680341107}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone.003_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6101197663456916669}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone.003_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 2170167653323011428}
   - component: {fileID: 4692903505702647962}
   - component: {fileID: 7977840881181461989}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: object_siche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8989318279405839877}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7781569989592882764}
   - component: {fileID: 1978107567587063739}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Slime_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4292799956455355949}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone.003_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6217857654651452118}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: siche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8327331488042834938}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Bone.003_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7627854754364929277}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}

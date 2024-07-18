@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8733251883105907014}
   - component: {fileID: 7144940767494148702}
   - component: {fileID: 7756832180288229384}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_key
   m_TagString: Key
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6160934386518642969}
   - component: {fileID: 5869447511777020448}
   - component: {fileID: 6510441028266352596}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_key(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

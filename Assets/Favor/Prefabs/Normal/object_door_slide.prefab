@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 380232292586486252}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4503866001633640541}
   - component: {fileID: 4532613347524595223}
   - component: {fileID: 4522835223566453697}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Knob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 4532743050753684853}
   - component: {fileID: 4522608657290449413}
   - component: {fileID: 4500940975967467035}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4512424796867726293}
   - component: {fileID: 8520558051037474530}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Door_7_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 4512375028628665931}
   - component: {fileID: 4532191827731908625}
   - component: {fileID: 4522609757058964759}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   - component: {fileID: 3901057462489749872}
   - component: {fileID: 3548238720810913821}
   - component: {fileID: 401999781684072593}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_door_slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}

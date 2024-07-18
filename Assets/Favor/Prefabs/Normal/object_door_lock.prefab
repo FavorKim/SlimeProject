@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2622246421993260472}
   - component: {fileID: 6946000101234419192}
   - component: {fileID: 7439580969750078819}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Knob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3901057462489749872}
   - component: {fileID: 3548238720810913821}
   - component: {fileID: 346597300247868777}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_door_lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 264952054368733281}
   - component: {fileID: 4416324837839942307}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_door(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 3032885324877994335}
   - component: {fileID: 8689462160822214150}
   - component: {fileID: 8413768560203618763}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 1265878345358534597}
   - component: {fileID: 8476936006821948167}
   - component: {fileID: 507377221603275990}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 1051215138274752770}
   - component: {fileID: 2475047679795019879}
   - component: {fileID: 7471448787312732104}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}

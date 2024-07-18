@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/CKG/Scenes/MainTitle.unity
+    guid: 061418bd468fbe242b0249fc0261cc89
+  - enabled: 1
     path: Assets/CKG/Scenes/SelectChapter.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1

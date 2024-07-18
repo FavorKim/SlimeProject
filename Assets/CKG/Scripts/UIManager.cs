@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    public GameObject stagePrefab; // ÇÏ³ªÀÇ ½ºÅ×ÀÌÁö ÇÁ¸®ÆÕ
+    public GameObject stagePrefab; // í•˜ë‚˜ì˜ ìŠ¤í…Œì´ì§€ í”„ë¦¬íŒ¹
     public Transform contentTransform;
     public int currentStageIndex = 0;
     private float targetX;
@@ -44,32 +44,35 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        // Lerp¸¦ »ç¿ëÇÏ¿© ºÎµå·´°Ô ÀÌµ¿
-        RectTransform rectTransform = contentTransform.GetComponent<RectTransform>();
-        float newX = Mathf.Lerp(rectTransform.anchoredPosition.x, targetX, Time.deltaTime * moveSpeed);
-        rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
+        // Lerpë¥¼ ì‚¬ìš©í•˜ì—¬ ë¶€ë“œëŸ½ê²Œ ì´ë™
+        if (contentTransform != null)
+        {
+            RectTransform rectTransform = contentTransform.GetComponent<RectTransform>();
+            float newX = Mathf.Lerp(rectTransform.anchoredPosition.x, targetX, Time.deltaTime * moveSpeed);
+            rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
+        }
     }
 
     public void SetupStages(int chapter)
     {
-        // Ã©ÅÍ¿¡ µû¸¥ ½ºÅ×ÀÌÁö °³¼ö ¼³Á¤
+        // ì±•í„°ì— ë”°ë¥¸ ìŠ¤í…Œì´ì§€ ê°œìˆ˜ ì„¤ì •
         int stageCount = GetStageCountForChapter(chapter);
 
-        // ±âÁ¸ ½ºÅ×ÀÌÁö°¡ ÀÖ´Ù¸é Á¦°Å
+        // ê¸°ì¡´ ìŠ¤í…Œì´ì§€ê°€ ìˆë‹¤ë©´ ì œê±°
         foreach (Transform child in contentTransform)
         {
             Destroy(child.gameObject);
         }
 
-        // »õ·Î¿î ½ºÅ×ÀÌÁö ¹è¿­ ÃÊ±âÈ­
+        // ìƒˆë¡œìš´ ìŠ¤í…Œì´ì§€ ë°°ì—´ ì´ˆê¸°í™”
         stages = new GameObject[stageCount];
 
-        // ½ºÅ×ÀÌÁö ÀÎ½ºÅÏ½ºÈ­
+        // ìŠ¤í…Œì´ì§€ ì¸ìŠ¤í„´ìŠ¤í™”
         for (int i = 0; i < stageCount; i++)
         {
             stages[i] = Instantiate(stagePrefab, contentTransform);
 
-            // ½ºÅ×ÀÌÁö ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
+            // ìŠ¤í…Œì´ì§€ í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
             Transform childTranform = stages[i].transform.Find("Img_StageTitle");
             TextMeshProUGUI stageText = childTranform.GetComponentInChildren<TextMeshProUGUI>();
             if (stageText != null)
@@ -77,12 +80,12 @@ public class UIManager : MonoBehaviour
                 stageText.text = chapter + " - " + (i + 1);
             }
 
-            // HoverButton ÄÄÆ÷³ÍÆ®¸¦ Ãß°¡
+            // HoverButton ì»´í¬ë„ŒíŠ¸ë¥¼ ì¶”ê°€
             HoverButton hoverButton = stages[i].AddComponent<HoverButton>();
             hoverButton.button = stages[i].GetComponentInChildren<Button>();
             hoverButton.imageRectTransform = stages[i].GetComponent<RectTransform>();
 
-            // ½ºÅ×ÀÌÁö Å¬¸®¾î »óÅÂ ¾÷µ¥ÀÌÆ®
+            // ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ìƒíƒœ ì—…ë°ì´íŠ¸
             UpdateStageClearStatus(i);
         }
 
@@ -92,7 +95,7 @@ public class UIManager : MonoBehaviour
 
     private int GetStageCountForChapter(int chapter)
     {
-        // Ã©ÅÍ¿¡ µû¸¥ ½ºÅ×ÀÌÁö °³¼ö ¼³Á¤ ·ÎÁ÷
+        // ì±•í„°ì— ë”°ë¥¸ ìŠ¤í…Œì´ì§€ ê°œìˆ˜ ì„¤ì • ë¡œì§
         switch (chapter)
         {
             case 1:
@@ -134,7 +137,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            targetX = 0; // ±âº» À§Ä¡
+            targetX = 0; // ê¸°ë³¸ ìœ„ì¹˜
         }
     }
 
@@ -147,14 +150,14 @@ public class UIManager : MonoBehaviour
 
             if (stageIndex == 0)
             {
-                // Ã¹ ¹øÂ° ½ºÅ×ÀÌÁö´Â Ç×»ó »¡°£»ö
+                // ì²« ë²ˆì§¸ ìŠ¤í…Œì´ì§€ëŠ” í•­ìƒ ë¹¨ê°„ìƒ‰
                 stageImage.color = Color.red;
             }
             else
             {
                 if (stageClearData.stageCleared[stageIndex])
                 {
-                    stageImage.color = Color.green; // Å¬¸®¾îµÈ ½ºÅ×ÀÌÁö
+                    stageImage.color = Color.green; // í´ë¦¬ì–´ëœ ìŠ¤í…Œì´ì§€
                 }
                 if (stageClearData.stageCleared[stageIndex+1])
                 {
@@ -162,7 +165,7 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    stageImage.color = Color.gray; // Å¬¸®¾îµÇÁö ¾ÊÀº ½ºÅ×ÀÌÁö
+                    stageImage.color = Color.gray; // í´ë¦¬ì–´ë˜ì§€ ì•Šì€ ìŠ¤í…Œì´ì§€
                 }
             }
         }
@@ -187,7 +190,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            int totalStages = GetStageCountForChapter(1) + GetStageCountForChapter(2); // ¸ğµç Ã©ÅÍÀÇ ÃÑ ½ºÅ×ÀÌÁö ¼ö
+            int totalStages = GetStageCountForChapter(1) + GetStageCountForChapter(2); // ëª¨ë“  ì±•í„°ì˜ ì´ ìŠ¤í…Œì´ì§€ ìˆ˜
             stageClearData = new StageClearData(totalStages);
         }
     }

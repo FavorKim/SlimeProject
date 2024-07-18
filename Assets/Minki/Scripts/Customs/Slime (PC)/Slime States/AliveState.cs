@@ -1,7 +1,6 @@
 using StatePattern;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -109,7 +108,7 @@ namespace Player
             if (callbackContext.action.name == Enum.GetName(typeof(InputName), InputName.LIFT).ToTitleCase())
             {
                 // 들어올리기를 실행한다.
-                Lift();
+                Lift(_objectChecker, _liftPosition);
             }
 
             // 내려놓기와 관련한 입력이 들어올 경우,
@@ -169,16 +168,16 @@ namespace Player
         }
 
         // 상호작용이 가능한 오브젝트를 들어올린다.
-        private void Lift()
+        private void Lift(Transform objectChecker, Transform liftPosition)
         {
             // 들어올린 오브젝트가 있는지 판별한다.
-            bool isLifting = _liftPosition.childCount > 0;
+            bool isLifting = liftPosition.childCount > 0;
 
             // 만약 있다면,
             if (isLifting)
             {
                 // 그 오브젝트를 던진다.
-                Throw();
+                Throw(liftPosition);
             }
             // 아니라면,
             else
@@ -187,30 +186,31 @@ namespace Player
                 _animator.SetTrigger(special_AnimatorHash);
 
                 // 앞에 상호작용이 가능한 오브젝트가 있는지 확인하고, 있을 경우 그 물체를 들어올린다.
-                if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo, layerMask: 1 << LayerMask.NameToLayer("Interactable")))
+                if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo))
                 {
-                    Debug.Log("Lift!");
-
-                    hitInfo.transform.position = _liftPosition.position;
-                    hitInfo.transform.rotation = Quaternion.identity;
-                    hitInfo.transform.SetParent(_liftPosition.transform);
-                    hitInfo.rigidbody.isKinematic = true;
-                    //hitInfo.rigidbody.useGravity = false;
+                    // 물체가 상호작용이 가능한 것인지 확인한다.
+                    if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
+                    {
+                        hitInfo.transform.position = _liftPosition.position; // 물체를 들어올리는 위치로 옮긴다.
+                        hitInfo.transform.rotation = Quaternion.identity; // 회전 값은 정위치로 고정한다.
+                        hitInfo.transform.SetParent(_liftPosition.transform); // 물체의 위치 값을 동기화한다.
+                        hitInfo.rigidbody.isKinematic = true; // 물체가 외부에 의한 영향을 받지 않도록 한다.
+                    }
                 }
             }
         }
 
         // 들어올린 오브젝트가 있을 경우, 그것을 던진다.
-        private void Throw()
+        private void Throw(Transform liftPosition)
         {
-            Vector3 throwAngle = _controller.transform.forward + _controller.transform.up;
-
-            Transform lift = _liftPosition.GetChild(0);
+            Transform lift = liftPosition.GetChild(0);
 
             lift.TryGetComponent(out Rigidbody rigidbody);
             rigidbody.isKinematic = false;
             lift.parent = null;
 
+            // 정방향의 45도 각도로 던진다.
+            Vector3 throwAngle = _controller.transform.forward + _controller.transform.up;
             rigidbody.AddForce(throwAngle * _configuration.ThrowPower, ForceMode.Impulse);
         }
 
@@ -321,20 +321,3 @@ namespace Player
         #endregion 커스텀 함수
     }
 }
-
-/*
-// 레이어 마스크말고 ObjectBase 가져오기
-if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo))
-{
-    if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
-    {
-        if (!obj.holdable) return;
-        Debug.Log("Lift!");
-
-        hitInfo.transform.position = _liftPosition.position;
-        hitInfo.transform.SetParent(_liftPosition.transform);
-        hitInfo.rigidbody.isKinematic = true;
-    }
-    //hitInfo.rigidbody.useGravity = false;
-}
-*/

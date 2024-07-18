@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 479379001910988856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -488,6 +488,8 @@ MonoBehaviour:
   _jumpPower: 7
   _dashPower: 10
   _airDashMaxCount: 1
+  _throwPower: 7
+  _deadPrefab: {fileID: 4405082218691056897, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
   _timeToRevive: 0.2
 --- !u!1 &4581814161186430719
 GameObject:

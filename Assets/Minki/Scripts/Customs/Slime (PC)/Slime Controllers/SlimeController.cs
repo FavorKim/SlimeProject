@@ -1,7 +1,5 @@
 using StatePattern;
 using System;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,12 +50,6 @@ namespace Player
         {
             // 지금 상태에 따른 행동을 실행한다.
             _state.Execute();
-
-            // [Debug Test] 사망 상태 테스트
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ChangeState(new DeadState(this));
-            }
         }
 
         // FixedUpdate(); 물리(Rigidbody)와 관련한 작업은 FixedUpdate()에서 할 것을 권장한다.
@@ -74,7 +66,7 @@ namespace Player
         // 피격당했을 경우,
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Obstacles"))
+            if (other.TryGetComponent(out AttackObjectBase obj))
             {
                 // 체력이 감소한다.
                 _healthPoint--;
@@ -83,7 +75,23 @@ namespace Player
                 if (_healthPoint <= 0)
                 {
                     // 죽음 상태가 된다.
-                    ChangeState(new DeadState(this));
+                    ChangeState(new DeadState(this, obj));
+                }
+            }
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent(out AttackObjectBase obj))
+            {
+                // 체력이 감소한다.
+                _healthPoint--;
+
+                // 체력이 0 이하일 경우,
+                if (_healthPoint <= 0)
+                {
+                    // 죽음 상태가 된다.
+                    ChangeState(new DeadState(this, obj));
                 }
             }
         }

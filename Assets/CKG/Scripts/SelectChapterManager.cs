@@ -84,7 +84,7 @@ public class SelectChapterManager : MonoBehaviour
         chapterClearData.selectedChapter = chapterIndex;
         SaveChapterClearData();
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void OnclickExitButton()

@@ -7,7 +7,8 @@ public class ButtonUI : MonoBehaviour
 {
     public Button leftButton;
     public Button rightButton;
-    
+    SelectChapterManager selectChapterManager;
+
     private void Update()
     {
         if (UIManager.Instance.currentStageIndex > 0)
@@ -19,7 +20,7 @@ public class ButtonUI : MonoBehaviour
             SetButtonAlpha(leftButton, 100);
         }
 
-        // rightButton ¾ËÆÄ °ª ¼³Á¤
+        // rightButton ì•ŒíŒŒ ê°’ ì„¤ì •
         if (UIManager.Instance.currentStageIndex < UIManager.Instance.stages.Length - 1)
         {
             SetButtonAlpha(rightButton, 255);
@@ -45,16 +46,16 @@ public class ButtonUI : MonoBehaviour
     {
         Image buttonImage = button.GetComponent<Image>();
 
-        // Image ÄÄÆ÷³ÍÆ®°¡ ÀÖ´ÂÁö È®ÀÎ
+        // Image ì»´í¬ë„ŒíŠ¸ê°€ ìˆëŠ”ì§€ í™•ì¸
         if (buttonImage != null)
         {
-            // ImageÀÇ »ö»óÀ» °¡Á®¿È
+            // Imageì˜ ìƒ‰ìƒì„ ê°€ì ¸ì˜´
             Color color = buttonImage.color;
 
-            // alpha °ªÀ» ¼³Á¤ (0 ~ 1 ¹üÀ§·Î º¯È¯)
+            // alpha ê°’ì„ ì„¤ì • (0 ~ 1 ë²”ìœ„ë¡œ ë³€í™˜)
             color.a = alpha / 255f;
 
-            // º¯°æµÈ »ö»óÀ» ´Ù½Ã Image¿¡ ¼³Á¤
+            // ë³€ê²½ëœ ìƒ‰ìƒì„ ë‹¤ì‹œ Imageì— ì„¤ì •
             buttonImage.color = color;
         }
     }

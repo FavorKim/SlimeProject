@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CKG/Scenes/SelectStage.unity
     guid: 53ff24176ccc39d4cb417d3ba20d32e4
+  - enabled: 1
+    path: Assets/CKG/Scenes/IngameUI.unity
+    guid: b9d81ffb06a47514a9ff5ded454d8064
   m_configObjects: {}

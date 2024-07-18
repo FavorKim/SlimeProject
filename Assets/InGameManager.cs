@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.IO;
+
 public class InGameManager : MonoBehaviour
 {
     public GameObject RestartPopup;
@@ -11,10 +13,13 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI LifeText;
     public TextMeshProUGUI TimeText;
     private float timeRemaining = 600f;
-
+    private string chapterClearFilePath;
+    private ChapterClearData chapterClearData;
 
     private void Start()
     {
+        chapterClearFilePath = Path.Combine(Application.persistentDataPath, "chapterClearData.json");
+        LoadChapterClearData();
         StartCoroutine(UpdateTimer());
     }
 
@@ -42,10 +47,9 @@ public class InGameManager : MonoBehaviour
         SelectStagePopup.SetActive(false);
     }
 
-
     public void OnRestarPopupEnter()
     {
-       string currentScene = SceneManager.GetActiveScene().name;
+        string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
 
@@ -53,7 +57,6 @@ public class InGameManager : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
-
 
     private IEnumerator UpdateTimer()
     {
@@ -63,8 +66,6 @@ public class InGameManager : MonoBehaviour
             UpdateTimerText(timeRemaining);
             yield return null;
         }
-
-        // 시간이 다 되면 수행할 작업을 여기에 추가
     }
 
     private void UpdateTimerText(float time)
@@ -72,5 +73,24 @@ public class InGameManager : MonoBehaviour
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = Mathf.FloorToInt(time % 60);
         TimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void LoadChapterClearData()
+    {
+        if (File.Exists(chapterClearFilePath))
+        {
+            string json = File.ReadAllText(chapterClearFilePath);
+            chapterClearData = JsonUtility.FromJson<ChapterClearData>(json);
+        }
+        else
+        {
+            chapterClearData = new ChapterClearData(3);
+        }
+    }
+
+    private void SaveChapterClearData()
+    {
+        string json = JsonUtility.ToJson(chapterClearData);
+        File.WriteAllText(chapterClearFilePath, json);
     }
 }

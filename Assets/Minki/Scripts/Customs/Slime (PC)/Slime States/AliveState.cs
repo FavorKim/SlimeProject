@@ -19,6 +19,9 @@ namespace Player
         protected Vector2 _inputVector = Vector2.zero; // 움직임 관련
         protected readonly Transform _groundChecker; // 점프 관련
         protected bool _isDashing = false; // 대시 관련
+        protected readonly Transform _objectChecker; // 들어올리기 / 내려놓기 관련
+        protected readonly Transform _liftPosition;
+        protected bool _isLifting = false;
 
         // 생성자
         public AliveState(SlimeController controller, Vector2 inputVector)
@@ -29,6 +32,8 @@ namespace Player
 
             _configuration = _controller.Configuration;
             _groundChecker = _controller.GroundChecker;
+            _objectChecker = _controller.ObjectChecker;
+            _liftPosition = _controller.LiftPosition;
 
             _controller.TryGetComponent(out _animator);
             _controller.TryGetComponent(out _rigidbody);
@@ -57,7 +62,8 @@ namespace Player
         // 상태를 유지할 때, (Update)
         public override void Execute()
         {
-
+            // 횡스크롤로서의 위치를 고정한다.
+            _controller.transform.position = FixPositionToSideView(_controller.transform);
         }
 
         // 상태를 유지할 때, (FixedUpdate)
@@ -67,6 +73,11 @@ namespace Player
             if (_inputVector != Vector2.zero)
             {
                 Move(_rigidbody, _inputVector, _configuration.MoveSpeed);
+                _animator.SetBool(move_AnimatorHash, true);
+            }
+            else
+            {
+                _animator.SetBool(move_AnimatorHash, false);
             }
         }
 
@@ -92,6 +103,20 @@ namespace Player
             {
                 // 대시를 실행한다.
                 Dash(_rigidbody, _configuration.DashPower);
+            }
+
+            // 들어올리기와 관련한 입력이 들어올 경우,
+            if (callbackContext.action.name == Enum.GetName(typeof(InputName), InputName.LIFT).ToTitleCase())
+            {
+                // 들어올리기를 실행한다.
+                Lift();
+            }
+
+            // 내려놓기와 관련한 입력이 들어올 경우,
+            if (callbackContext.action.name == Enum.GetName(typeof(InputName), InputName.PUT).ToTitleCase())
+            {
+                // 내려놓기를 실행한다.
+                Put();
             }
         }
 
@@ -126,6 +151,9 @@ namespace Player
                 // 위로 힘을 가해 점프를 구현한다.
                 Vector3 jumpVector = Vector3.up * jumpPower;
                 rigidbody.AddForce(jumpVector, ForceMode.VelocityChange);
+
+                // 점프 애니메이션을 재생한다. (공중 상태에서 구현할 경우, 점프를 통한 진입이 아닐 때도 애니메이션이 재생되므로 어색하다.)
+                _animator.SetBool(ground_AnimatorHash, false);
             }
         }
 
@@ -138,17 +166,55 @@ namespace Player
             }
         }
 
+        // 상호작용이 가능한 오브젝트를 들어올린다.
+        private void Lift()
+        {
+            // 이미 들어올린 오브젝트가 있다면,
+            if (_isLifting)
+            {
+                // 그 오브젝트를 던진다.
+                Throw();
+            }
+            // 아니라면,
+            else
+            {
+                // 들어올리기 애니메이션을 재생한다.
+                _animator.SetTrigger(special_AnimatorHash);
+
+                // 앞에 상호작용이 가능한 오브젝트가 있는지 확인하고, 있을 경우 그 물체를 들어올린다.
+                if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo, layerMask: 1 << LayerMask.NameToLayer("Interactable")))
+                {
+                    hitInfo.transform.position = _liftPosition.position;
+                    //hitInfo.transform.SetParent(_liftPosition.transform);
+                    hitInfo.rigidbody.isKinematic = true;
+                    //hitInfo.rigidbody.useGravity = false;
+                }
+            }
+        }
+
+        // 들어올린 오브젝트가 있을 경우, 그것을 던진다.
+        private void Throw()
+        {
+
+        }
+
+        // 들어올린 오브젝트를 내려놓는다.
+        private void Put()
+        {
+            _animator.SetTrigger(special_AnimatorHash);
+        }
+
         // 플레이어를 움직이는 방향으로 회전시킨다.
         private void TurnToForward(Rigidbody rigidbody, Vector2 inputVector)
         {
             // 플레이어는 기본적으로 오른쪽을 바라본다.
             if (inputVector.x < 0)
             {
-                rigidbody.rotation = Quaternion.Euler(0, 180, 0);
+                rigidbody.rotation = Quaternion.Euler(0, -90, 0);
             }
             else if (inputVector.x > 0)
             {
-                rigidbody.rotation = Quaternion.identity;
+                rigidbody.rotation = Quaternion.Euler(0, 90, 0);
             }
         }
 
@@ -166,15 +232,28 @@ namespace Player
         // 플레이어가 땅에 닿아 있는지를 판별한다.
         protected bool IsGround(Transform groundChecker)
         {
-            float maxDistance = 0.2f; // Ray로 땅을 판별할 깊이
+            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Ground"));
+            Collider[] isInteractable = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Interactable"));
+
+            Debug.Log($"isGround = {isGround.Length}, isInteractable = {isInteractable.Length}");
+
+            if (isGround.Length + isInteractable.Length > 0) return true;
+            else return false;
+
+            /*
+            float maxDistance = 0.35f; // Ray로 땅을 판별할 깊이
             int groundLayerMask = 1 << LayerMask.NameToLayer("Ground"); // 땅으로 설정한 레이어
+            int interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable"); // 상호 작용이 가능한 오브젝트들
 
             // Physics.Raycast(Vector3 origin, Vector3 direction, float maxDistance, int layerMask);
             // origin에서 direction으로 maxDistance 거리만큼 Ray를 쏘아, layerMask가 있는지를 검출한다.
             bool isGround = Physics.Raycast(groundChecker.position, Vector3.down, maxDistance, groundLayerMask);
+            bool isInteractable = Physics.Raycast(groundChecker.position, Vector3.down, maxDistance, interactableLayerMask);
+            Debug.DrawRay(groundChecker.position, Vector3.down, Color.red);
 
-            // 그 결과 값을 반환한다.
-            return isGround;
+            // 그 결과 값을 반환한다. (어느 하나라도 있을 경우, 바닥으로 간주한다.)
+            return isGround || isInteractable;
+            */
         }
 
         // 대시의 올바른 구현을 위한 코루틴 함수
@@ -182,8 +261,10 @@ namespace Player
         {
             _isDashing = true;
 
+            Debug.Log("IEDash!");
+
             // 바라보고 있는 방향으로 순간적인 힘을 가한다.
-            Vector3 dashVector = dashPower * rigidbody.transform.right;
+            Vector3 dashVector = dashPower * rigidbody.transform.forward;
             rigidbody.velocity = Vector3.zero; // 이전의 물리 영향을 무시하고 대시한다.
             rigidbody.AddForce(dashVector, ForceMode.VelocityChange);
 
@@ -193,6 +274,13 @@ namespace Player
             // 대시 후, 원래 속도로 돌아온다.
             rigidbody.velocity = ClampVelocity(rigidbody, _configuration.MoveSpeed);
             _isDashing = false;
+        }
+
+        // 횡스크롤 게임으로서, 종열의 위치를 벗어나지 않도록 고정한다.
+        private Vector3 FixPositionToSideView(Transform transform)
+        {
+            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, 0);
+            return fixedPosition;
         }
 
         #endregion 커스텀 함수

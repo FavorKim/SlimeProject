@@ -5,7 +5,7 @@ namespace StatePattern
     // 인풋 시스템의 입력 값 목록
     public enum InputName
     {
-        MOVE, JUMP, DASH,
+        MOVE, JUMP, DASH, LIFT, PUT,
     }
 
     // 상태 클래스를 구현하는 인터페이스

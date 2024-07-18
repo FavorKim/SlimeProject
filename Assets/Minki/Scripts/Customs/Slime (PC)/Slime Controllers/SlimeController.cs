@@ -1,5 +1,7 @@
 using StatePattern;
 using System;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,11 +20,19 @@ namespace Player
         [SerializeField] private Transform _groundChecker;
         public Transform GroundChecker => _groundChecker;
 
+        // 슬라임이 물체를 들어올리기 위한 Transform 변수
+        [SerializeField] private Transform _objectChecker;
+        [SerializeField] private Transform _liftPosition;
+        public Transform ObjectChecker => _objectChecker;
+        public Transform LiftPosition => _liftPosition;
+
         // 상태 인터페이스
         private IState _state;
 
         // 인풋 시스템 함수의 호출을 다른 상태 클래스에 전달하기 위한 이벤트(Event)
         private event Action<InputAction.CallbackContext> InputCallback;
+
+        private int _healthPoint;
 
         #endregion 변수
 
@@ -31,6 +41,8 @@ namespace Player
         // Awake()
         private void Awake()
         {
+            _healthPoint = _configuration.MaxHealthPoint;
+
             // 첫 시작 시, Ground 상태에 들어간다.
             ChangeState(new GroundState(this, Vector2.zero));
         }
@@ -57,6 +69,27 @@ namespace Player
 
         #endregion 생명 주기 함수
 
+        #region 유니티 이벤트 함수
+
+        // 피격당했을 경우,
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Obstacles"))
+            {
+                // 체력이 감소한다.
+                _healthPoint--;
+
+                // 체력이 0 이하일 경우,
+                if (_healthPoint <= 0)
+                {
+                    // 죽음 상태가 된다.
+                    ChangeState(new DeadState(this));
+                }
+            }
+        }
+
+        #endregion 유니티 이벤트 함수
+
         #region 인풋 시스템(Input System)
 
         // 방향 키(A/D, ←/→ 등)를 눌러, 플레이어를 좌우로 움직이게 한다.
@@ -76,6 +109,24 @@ namespace Player
 
         // 대시 키(Shift)를 눌러, 플레이어를 순간적으로 힘을 가해 움직이게 한다.
         public void OnDash(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.performed)
+            {
+                InputCallback.Invoke(callbackContext);
+            }
+        }
+
+        // 들어올리기 키(Z)를 눌러, 플레이어의 앞에 있는 상호 작용이 가능한 물체를 들어올린다.
+        public void OnLift(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.performed)
+            {
+                InputCallback.Invoke(callbackContext);
+            }
+        }
+
+        // 내려놓기 키(X)를 눌러, 플레이어가 들어올린 물체를 내려놓는다.
+        public void OnPut(InputAction.CallbackContext callbackContext)
         {
             if (callbackContext.performed)
             {
@@ -106,6 +157,11 @@ namespace Player
             {
                 InputCallback -= callbackContext;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawCube(_groundChecker.position, new Vector3(0.6f, 0.1f, 0.6f));
         }
 
         #endregion 커스텀 함수

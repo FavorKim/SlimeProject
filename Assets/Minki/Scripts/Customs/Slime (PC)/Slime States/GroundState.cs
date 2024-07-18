@@ -19,14 +19,15 @@ namespace Player
         {
             base.Enter();
 
-            // Standby 애니메이션을 재생한다.
-            // _animator.SetBool(standby_AnimatorHash, true);
+            // 지상 상태일 때의 애니메이션을 재생한다.
+            _animator.SetBool(ground_AnimatorHash, true);
         }
 
         // 상태를 나갈 때,
         public override void Exit()
         {
             base.Exit();
+
         }
 
         // 상태를 유지할 때(Update()),
@@ -61,6 +62,8 @@ namespace Player
 
         #region 커스텀 함수
 
+        /*
+
         // 현재 시간이 Idle 애니메이션을 재생할 만큼 지났는지를 확인한다.
         private void CheckToIdle(float time, Animator animator)
         {
@@ -92,6 +95,8 @@ namespace Player
             // 저장된 시간을 초기화한다.
             _time = Time.time;
         }
+
+        */
 
         #endregion 커스텀 함수
     }

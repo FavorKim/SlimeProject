@@ -88,6 +88,8 @@ namespace Player
             }
         }
 
+        
+
         #endregion 유니티 이벤트 함수
 
         #region 인풋 시스템(Input System)

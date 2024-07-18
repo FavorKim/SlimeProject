@@ -82,6 +82,8 @@ public class ObjectBase : MonoBehaviour
     {
         if(other.TryGetComponent(out AttackObjectBase obj))
         {
+            if (obj.UseCount <= 0) return;
+
             if (obj.destroyimmediatly && deletable)
             {
                 gameObject.SetActive(false);

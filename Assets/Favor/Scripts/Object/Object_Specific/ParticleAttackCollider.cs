@@ -1,3 +1,4 @@
+using Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class ParticleAttackCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        CheckPointManager.Instance.GetNearestCheckPoint();
+
         if(other.TryGetComponent(out ObjectBase obj))
         {
             obj.GetDamage(attackObject.atk);

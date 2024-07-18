@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Key
+  - Slime
+  - Obstacles
   layers:
   - Default
   - TransparentFX

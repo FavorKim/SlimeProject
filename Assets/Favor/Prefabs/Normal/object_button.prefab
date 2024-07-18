@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6675542565688449726}
   - component: {fileID: 6123134133252734323}
   - component: {fileID: 7837500440342448661}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: PinOther0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.26073015, y: 0.14903855, z: 0.14777574}
+  m_Size: {x: 0.26073015, y: 0.14903855, z: 0.15}
   m_Center: {x: -0.8284125, y: -0.0036338158, z: 0.0020362623}
 --- !u!1 &3632575672391951999
 GameObject:
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 6547613640776783479}
   - component: {fileID: 2239952699850252959}
   - component: {fileID: 7527309818627944497}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: SwitchCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7331516519836006353}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_button(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 11532287961019864}
   - component: {fileID: 7198573320837013480}
   - component: {fileID: 779907496256475378}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: PinOther0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.26073015, y: 0.14903858, z: 0.14777577}
+  m_Size: {x: 0.26073015, y: -0.1, z: 0.14777577}
   m_Center: {x: -0.8284125, y: -0.003633781, z: 0.002036382}
 --- !u!1 &6294468398689801204
 GameObject:
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 5412163155036831780}
   - component: {fileID: 6407224559593702401}
   - component: {fileID: 7914811784938345061}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: But0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.65321994, y: 0.6532222, z: 0.82033885}
+  m_Size: {x: 0.65321994, y: 0.7, z: 0.82033885}
   m_Center: {x: -0.19174057, y: 0.0011176171, z: 0.000000089406974}
 --- !u!54 &7914811784938345061
 Rigidbody:
@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 3932203777341835158}
   - component: {fileID: 7223369328029843905}
   - component: {fileID: 871651121472673443}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

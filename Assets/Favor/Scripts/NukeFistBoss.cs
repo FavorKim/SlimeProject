@@ -189,6 +189,7 @@ public class NukeFistBoss : MonoBehaviour
         Collider[] hits;
 
         hits = Physics.OverlapSphere(transform.position, 9999f, atkLayer);
+        followDest = hits[0].gameObject;
     }
 
     IEnumerator CorInvincible()

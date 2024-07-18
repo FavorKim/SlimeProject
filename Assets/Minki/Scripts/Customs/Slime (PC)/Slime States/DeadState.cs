@@ -12,8 +12,11 @@ namespace Player
         protected readonly SlimeConfiguration _configuration;
         protected readonly Animator _animator;
 
+        // 공격한 오브젝트의 타입
+        protected bool _attackedObjectType;
+
         // 생성자
-        public DeadState(SlimeController controller)
+        public DeadState(SlimeController controller, ObjectBase obj)
         {
             #region 변수 초기화
 
@@ -21,6 +24,8 @@ namespace Player
             _configuration = _controller.Configuration;
 
             _controller.TryGetComponent(out _animator);
+
+            // _AttackedObjectType = obj.Pinable;
 
             #endregion 변수 초기화
         }
@@ -34,16 +39,22 @@ namespace Player
             SetActiveController(false, _controller);
 
             // 죽는 애니메이션을 재생한다.
-            _animator.SetBool(hit_AnimatorHash, true);
+            _animator.SetBool(trapIndex_AnimatorHash, _attackedObjectType);
+            _animator.SetTrigger(hit_AnimatorHash);
 
             // 레이어를 상호 작용이 가능한 레이어로 바꾼다.
+            /*
             foreach (Transform obj in _controller.GetComponentsInChildren<Transform>())
             {
                 obj.gameObject.layer = LayerMask.NameToLayer("Interactable");
             }
+            */
 
             // 부활에 돌입한다.
             _controller.StartCoroutine(IERevive(_controller, _configuration));
+
+
+            // [TODO]: 슬라임의 표정을 X_X로 변경한다. 리스폰 지역으로 이동한다.
         }
 
         // 상태를 유지할 때,
@@ -86,20 +97,16 @@ namespace Player
             // 부활하기까지의 대기 시간이 존재한다.
             yield return new WaitForSeconds(configuration.TimeToRevive);
 
-            // 새롭게 플레이어를 생성하고, 컨트롤러를 활성화한다.
-            GameObject newSlime = Object.Instantiate(controller.gameObject);
-            newSlime.name = "New Slime (Player)"; // 하이어라키 창에서의 이름을 변경한다. (계속 "(Clone)"이 뒤에 붙어서 조정할 필요성을 느낌.)
+            // 시체 프리팹을 생성한다.
+            Object.Instantiate(configuration.DeadPrefab, controller.RigTransform.position, Quaternion.identity);
 
-            foreach (Transform obj in newSlime.GetComponentsInChildren<Transform>())
-            {
-                obj.gameObject.layer = LayerMask.NameToLayer("Default");
-            }
+            Debug.Log($"Check Point = {CheckPointManager.Instance.GetNearestCheckPoint()}");
 
-            // 새로운 플레이어의 컨트롤러를 활성화한다.
-            if (newSlime.TryGetComponent(out SlimeController newController))
-            {
-                SetActiveController(true, newController);
-            }
+            // 본체를 가장 가까운 체크 포인트로 이동하고, 컨트롤러를 활성화하고, 살아 있는 상태로 바꾼다.
+            controller.gameObject.transform.position = CheckPointManager.Instance.GetNearestCheckPoint();
+            SetActiveController(true, controller);
+            _animator.SetTrigger(revive_AnimatorHash);
+            controller.ChangeState(new GroundState(controller, Vector2.zero));
         }
 
         #endregion 커스텀 함수

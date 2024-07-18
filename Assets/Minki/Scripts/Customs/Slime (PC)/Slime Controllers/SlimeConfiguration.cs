@@ -15,8 +15,14 @@ namespace Player
         [SerializeField, Range(0.0f, 100.0f), Tooltip("점프 힘")] private float _jumpPower;
         [SerializeField, Range(0.0f, 100.0f), Tooltip("대시 힘")] private float _dashPower;
         [SerializeField, Range(0, 999999), Tooltip("공중 대시 횟수")] private int _airDashMaxCount;
+        [SerializeField, Range(0.0f, 1000.0f), Tooltip("던지기 힘")] private float _throwPower;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("내려놓는 위치")] private float _putPosition;
 
-        //[Space(10), Header("사망 및 부활")]
+        [Space(10), Header("에셋")]
+        [SerializeField, Tooltip("시체 프리팹")] private GameObject _deadPrefab;
+        // [SerializeField, Tooltip("죽음 표정")] private Material _deadFace;
+
+        [Space(10), Header("사망 및 부활")]
         //[SerializeField, Range(0, 999999), Tooltip("슬라임이 죽을 수 있는 최대 횟수")] private int _maxDeathCount;
         //[SerializeField, Range(0.0f, 100.0f), Tooltip("피격 후 사망 상태로 전환되기까지의 시간")] private float _timeToDie;
         //[SerializeField, Range(0.0f, 100.0f), Tooltip("부활 상태에서 리스폰되는 플랫폼과의 높이")] private float _heightToRevive;
@@ -33,6 +39,9 @@ namespace Player
         public float DashPower => _dashPower;
         public int AirDashMaxCount => _airDashMaxCount;
         public float TimeToRevive => _timeToRevive;
+        public float ThrowPower => _throwPower;
+        public float PutPosition => _putPosition;
+        public GameObject DeadPrefab => _deadPrefab;
 
         #endregion 프로퍼티 (Get)
     }

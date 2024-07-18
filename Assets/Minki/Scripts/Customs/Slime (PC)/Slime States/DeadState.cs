@@ -34,7 +34,13 @@ namespace Player
             SetActiveController(false, _controller);
 
             // 죽는 애니메이션을 재생한다.
-            // _animator.SetBool(die_AnimatorHash, true);
+            _animator.SetBool(hit_AnimatorHash, true);
+
+            // 레이어를 상호 작용이 가능한 레이어로 바꾼다.
+            foreach (Transform obj in _controller.GetComponentsInChildren<Transform>())
+            {
+                obj.gameObject.layer = LayerMask.NameToLayer("Interactable");
+            }
 
             // 부활에 돌입한다.
             _controller.StartCoroutine(IERevive(_controller, _configuration));
@@ -83,6 +89,11 @@ namespace Player
             // 새롭게 플레이어를 생성하고, 컨트롤러를 활성화한다.
             GameObject newSlime = Object.Instantiate(controller.gameObject);
             newSlime.name = "New Slime (Player)"; // 하이어라키 창에서의 이름을 변경한다. (계속 "(Clone)"이 뒤에 붙어서 조정할 필요성을 느낌.)
+
+            foreach (Transform obj in newSlime.GetComponentsInChildren<Transform>())
+            {
+                obj.gameObject.layer = LayerMask.NameToLayer("Default");
+            }
 
             // 새로운 플레이어의 컨트롤러를 활성화한다.
             if (newSlime.TryGetComponent(out SlimeController newController))

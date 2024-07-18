@@ -11,10 +11,7 @@ public class MainTitleManager : MonoBehaviour
 
     void Start()
     {
-        if (Input.anyKeyDown||Input.GetMouseButtonDown(0))
-        {
-            SceneManager.LoadScene(1);
-        }
+        
     }
 
     private void Update()

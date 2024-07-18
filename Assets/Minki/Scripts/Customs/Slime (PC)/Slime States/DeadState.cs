@@ -98,7 +98,7 @@ namespace Player
             yield return new WaitForSeconds(configuration.TimeToRevive);
 
             // 시체 프리팹을 생성한다.
-            Object.Instantiate(configuration.DeadPrefab, controller.transform.position, Quaternion.identity);
+            Object.Instantiate(configuration.DeadPrefab, controller.RigTransform.position, Quaternion.identity);
 
             Debug.Log($"Check Point = {CheckPointManager.Instance.GetNearestCheckPoint()}");
 

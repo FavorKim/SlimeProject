@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7139509911095290235}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Lift Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2524139896256686274}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Object Checker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,6 +377,7 @@ MonoBehaviour:
   _groundChecker: {fileID: 4492482965447257969}
   _objectChecker: {fileID: 2524139896256686274}
   _liftPosition: {fileID: 7139509911095290235}
+  _rigTransform: {fileID: 1393870439175254778}
 --- !u!1 &4407699823668624312
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,9 +489,10 @@ MonoBehaviour:
   _jumpPower: 7
   _dashPower: 10
   _airDashMaxCount: 1
-  _throwPower: 7
+  _throwPower: 200
+  _putPosition: 0.8
   _deadPrefab: {fileID: 4405082218691056897, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
-  _timeToRevive: 0.2
+  _timeToRevive: 2
 --- !u!1 &4581814161186430719
 GameObject:
   m_ObjectHideFlags: 0

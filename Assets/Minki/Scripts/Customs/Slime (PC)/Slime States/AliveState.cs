@@ -114,8 +114,48 @@ namespace Player
             // 내려놓기와 관련한 입력이 들어올 경우,
             if (callbackContext.action.name == Enum.GetName(typeof(InputName), InputName.PUT).ToTitleCase())
             {
-                // 내려놓기를 실행한다.
-                Put();
+                // 조금 앞에 내려놓기를 실행한다.
+                Put(_liftPosition, _controller.transform.forward * _configuration.PutPosition);
+            }
+        }
+
+        // 상호 작용이 가능한 오브젝트와 충돌했을 때 호출한다.
+        public override void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out AttackObjectBase obj))
+            {
+                // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
+                Put(_liftPosition, Vector3.zero);
+
+                // 체력이 감소한다.
+                if (obj.UseCount > 0) _controller.HealthPoint--;
+
+                // 체력이 0 이하일 경우,
+                if (_controller.HealthPoint <= 0)
+                {
+                    // 죽음 상태가 된다.
+                    _controller.ChangeState(new DeadState(_controller, obj));
+                }
+            }
+        }
+
+        // 상호 작용이 가능한 오브젝트와 충돌했을 때 호출한다.
+        public override void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent(out AttackObjectBase obj))
+            {
+                // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
+                Put(_liftPosition, Vector3.zero);
+
+                // 체력이 감소한다.
+                if (obj.UseCount > 0) _controller.HealthPoint--;
+
+                // 체력이 0 이하일 경우,
+                if (_controller.HealthPoint <= 0)
+                {
+                    // 죽음 상태가 된다.
+                    _controller.ChangeState(new DeadState(_controller, obj));
+                }
             }
         }
 
@@ -215,20 +255,20 @@ namespace Player
         }
 
         // 들어올린 오브젝트를 내려놓는다.
-        private void Put()
+        private void Put(Transform liftPosition, Vector3 putPosition)
         {
             // 내려놓기 애니메이션을 재생한다.
             _animator.SetTrigger(special_AnimatorHash);
 
-            bool isLifting = _liftPosition.childCount > 0;
+            bool isLifting = liftPosition.childCount > 0;
             
 
             if (isLifting)
             {
-                Transform lift = _liftPosition.GetChild(0);
+                Transform lift = liftPosition.GetChild(0);
 
                 // Transform
-                lift.position = lift.position + _controller.transform.forward * 2.0f;
+                lift.position = lift.position + putPosition;
 
                 // Rigidbodwy
                 lift.TryGetComponent(out Rigidbody rigidbody);
@@ -267,12 +307,12 @@ namespace Player
         // 플레이어가 땅에 닿아 있는지를 판별한다.
         protected bool IsGround(Transform groundChecker)
         {
-            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Ground"));
-            Collider[] isInteractable = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Interactable"));
+            LayerMask groundLayer = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Interactable") | 1 << LayerMask.NameToLayer("Slime");
 
-            Debug.Log($"isGround = {isGround.Length}, isInteractable = {isInteractable.Length}");
+            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: groundLayer);
+            Debug.Log($"isGround = {isGround.Length}");
 
-            if (isGround.Length + isInteractable.Length > 0) return true;
+            if (isGround.Length > 0) return true;
             else return false;
 
             /*

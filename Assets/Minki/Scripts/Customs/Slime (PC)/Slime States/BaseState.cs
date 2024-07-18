@@ -23,5 +23,8 @@ namespace Player
 
         public virtual void FixedExecute() { }
         public virtual void OnInputCallback(InputAction.CallbackContext callbackContext) { }
+
+        public virtual void OnTriggerEnter(Collider other) { }
+        public virtual void OnCollisionEnter(Collision collision) { }
     }
 }

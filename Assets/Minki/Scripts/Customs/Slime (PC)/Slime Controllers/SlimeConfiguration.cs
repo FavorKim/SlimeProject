@@ -16,6 +16,7 @@ namespace Player
         [SerializeField, Range(0.0f, 100.0f), Tooltip("대시 힘")] private float _dashPower;
         [SerializeField, Range(0, 999999), Tooltip("공중 대시 횟수")] private int _airDashMaxCount;
         [SerializeField, Range(0.0f, 1000.0f), Tooltip("던지기 힘")] private float _throwPower;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("내려놓는 위치")] private float _putPosition;
 
         [Space(10), Header("에셋")]
         [SerializeField, Tooltip("시체 프리팹")] private GameObject _deadPrefab;
@@ -39,6 +40,7 @@ namespace Player
         public int AirDashMaxCount => _airDashMaxCount;
         public float TimeToRevive => _timeToRevive;
         public float ThrowPower => _throwPower;
+        public float PutPosition => _putPosition;
         public GameObject DeadPrefab => _deadPrefab;
 
         #endregion 프로퍼티 (Get)

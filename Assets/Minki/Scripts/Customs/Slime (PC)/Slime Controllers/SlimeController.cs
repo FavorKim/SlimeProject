@@ -24,6 +24,10 @@ namespace Player
         public Transform ObjectChecker => _objectChecker;
         public Transform LiftPosition => _liftPosition;
 
+        // 슬라임의 부활 위치를 정확하게 하기 위한 Transform 변수
+        [SerializeField] private Transform _rigTransform;
+        public Transform RigTransform => _rigTransform;
+
         // 상태 인터페이스
         private IState _state;
 
@@ -31,6 +35,7 @@ namespace Player
         private event Action<InputAction.CallbackContext> InputCallback;
 
         private int _healthPoint;
+        public int HealthPoint { get; set; }
 
         #endregion 변수
 
@@ -66,34 +71,12 @@ namespace Player
         // 피격당했을 경우,
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out AttackObjectBase obj))
-            {
-                // 체력이 감소한다.
-                _healthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_healthPoint <= 0)
-                {
-                    // 죽음 상태가 된다.
-                    ChangeState(new DeadState(this, obj));
-                }
-            }
+            _state.OnTriggerEnter(other);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out AttackObjectBase obj))
-            {
-                // 체력이 감소한다.
-                _healthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_healthPoint <= 0)
-                {
-                    // 죽음 상태가 된다.
-                    ChangeState(new DeadState(this, obj));
-                }
-            }
+            _state.OnCollisionEnter(collision);
         }
 
         #endregion 유니티 이벤트 함수
@@ -103,7 +86,9 @@ namespace Player
         // 방향 키(A/D, ←/→ 등)를 눌러, 플레이어를 좌우로 움직이게 한다.
         public void OnMove(InputAction.CallbackContext callbackContext)
         {
-            InputCallback.Invoke(callbackContext);
+            // InputCallback.Invoke(callbackContext);
+
+            _state.OnInputCallback(callbackContext);
         }
 
         // 점프 키(Space)를 눌러, 플레이어를 뛰어오르게 한다.

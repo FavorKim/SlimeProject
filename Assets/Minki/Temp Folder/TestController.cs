@@ -13,19 +13,20 @@ public class TestController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _animator.SetTrigger("Jump");
+            _animator.SetBool("Idle", true);
         }
 
-        Debug.Log(IsGround());
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            _animator.SetBool("Idle", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _animator.SetTrigger("Die");
+        }
     }
 
-    private bool IsGround()
-    {
-        bool groundHit = Physics.Raycast(origin: _groundChecker.position, direction: Vector3.down, hitInfo: out RaycastHit hitInfo, maxDistance: 0.2f, layerMask: 1 << LayerMask.NameToLayer("Ground"));
-        RaycastHit raycastHit = hitInfo;
-
-        return groundHit;
-    }
 }

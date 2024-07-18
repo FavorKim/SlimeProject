@@ -1,6 +1,7 @@
 using StatePattern;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +20,8 @@ namespace Player
         protected Vector2 _inputVector = Vector2.zero; // 움직임 관련
         protected readonly Transform _groundChecker; // 점프 관련
         protected bool _isDashing = false; // 대시 관련
+        protected readonly Transform _objectChecker; // 들어올리기 / 내려놓기 관련
+        protected readonly Transform _liftPosition;
 
         // 생성자
         public AliveState(SlimeController controller, Vector2 inputVector)
@@ -29,6 +32,8 @@ namespace Player
 
             _configuration = _controller.Configuration;
             _groundChecker = _controller.GroundChecker;
+            _objectChecker = _controller.ObjectChecker;
+            _liftPosition = _controller.LiftPosition;
 
             _controller.TryGetComponent(out _animator);
             _controller.TryGetComponent(out _rigidbody);
@@ -128,6 +133,8 @@ namespace Player
             // 대시하고 있지 않을 때만,
             if (!_isDashing)
             {
+                Debug.Log("Move");
+
                 // 입력 방향으로 힘을 가해 이동을 구현한다.
                 Vector3 moveVector = inputVector * moveSpeed;
                 rigidbody.AddForce(moveVector, ForceMode.VelocityChange);
@@ -164,13 +171,72 @@ namespace Player
         // 상호작용이 가능한 오브젝트를 들어올린다.
         private void Lift()
         {
-            _animator.SetTrigger(lift_AnimatorHash);
+            // 들어올린 오브젝트가 있는지 판별한다.
+            bool isLifting = _liftPosition.childCount > 0;
+
+            // 만약 있다면,
+            if (isLifting)
+            {
+                // 그 오브젝트를 던진다.
+                Throw();
+            }
+            // 아니라면,
+            else
+            {
+                // 들어올리기 애니메이션을 재생한다.
+                _animator.SetTrigger(special_AnimatorHash);
+
+                // 앞에 상호작용이 가능한 오브젝트가 있는지 확인하고, 있을 경우 그 물체를 들어올린다.
+                if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo, layerMask: 1 << LayerMask.NameToLayer("Interactable")))
+                {
+                    Debug.Log("Lift!");
+
+                    hitInfo.transform.position = _liftPosition.position;
+                    hitInfo.transform.rotation = Quaternion.identity;
+                    hitInfo.transform.SetParent(_liftPosition.transform);
+                    hitInfo.rigidbody.isKinematic = true;
+                    //hitInfo.rigidbody.useGravity = false;
+                }
+            }
+        }
+
+        // 들어올린 오브젝트가 있을 경우, 그것을 던진다.
+        private void Throw()
+        {
+            Vector3 throwAngle = _controller.transform.forward + _controller.transform.up;
+
+            Transform lift = _liftPosition.GetChild(0);
+
+            lift.TryGetComponent(out Rigidbody rigidbody);
+            rigidbody.isKinematic = false;
+            lift.parent = null;
+
+            rigidbody.AddForce(throwAngle * _configuration.ThrowPower, ForceMode.Impulse);
         }
 
         // 들어올린 오브젝트를 내려놓는다.
         private void Put()
         {
-            _animator.SetTrigger(lift_AnimatorHash);
+            // 내려놓기 애니메이션을 재생한다.
+            _animator.SetTrigger(special_AnimatorHash);
+
+            bool isLifting = _liftPosition.childCount > 0;
+            
+
+            if (isLifting)
+            {
+                Transform lift = _liftPosition.GetChild(0);
+
+                // Transform
+                lift.position = lift.position + _controller.transform.forward * 2.0f;
+
+                // Rigidbodwy
+                lift.TryGetComponent(out Rigidbody rigidbody);
+                rigidbody.isKinematic = false;
+
+                // Hierarchy
+                lift.parent = null;
+            }
         }
 
         // 플레이어를 움직이는 방향으로 회전시킨다.
@@ -201,16 +267,28 @@ namespace Player
         // 플레이어가 땅에 닿아 있는지를 판별한다.
         protected bool IsGround(Transform groundChecker)
         {
+            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Ground"));
+            Collider[] isInteractable = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: 1 << LayerMask.NameToLayer("Interactable"));
+
+            Debug.Log($"isGround = {isGround.Length}, isInteractable = {isInteractable.Length}");
+
+            if (isGround.Length + isInteractable.Length > 0) return true;
+            else return false;
+
+            /*
             float maxDistance = 0.35f; // Ray로 땅을 판별할 깊이
             int groundLayerMask = 1 << LayerMask.NameToLayer("Ground"); // 땅으로 설정한 레이어
+            int interactableLayerMask = 1 << LayerMask.NameToLayer("Interactable"); // 상호 작용이 가능한 오브젝트들
 
             // Physics.Raycast(Vector3 origin, Vector3 direction, float maxDistance, int layerMask);
             // origin에서 direction으로 maxDistance 거리만큼 Ray를 쏘아, layerMask가 있는지를 검출한다.
             bool isGround = Physics.Raycast(groundChecker.position, Vector3.down, maxDistance, groundLayerMask);
+            bool isInteractable = Physics.Raycast(groundChecker.position, Vector3.down, maxDistance, interactableLayerMask);
             Debug.DrawRay(groundChecker.position, Vector3.down, Color.red);
 
-            // 그 결과 값을 반환한다.
-            return isGround;
+            // 그 결과 값을 반환한다. (어느 하나라도 있을 경우, 바닥으로 간주한다.)
+            return isGround || isInteractable;
+            */
         }
 
         // 대시의 올바른 구현을 위한 코루틴 함수
@@ -243,3 +321,20 @@ namespace Player
         #endregion 커스텀 함수
     }
 }
+
+/*
+// 레이어 마스크말고 ObjectBase 가져오기
+if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo))
+{
+    if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
+    {
+        if (!obj.holdable) return;
+        Debug.Log("Lift!");
+
+        hitInfo.transform.position = _liftPosition.position;
+        hitInfo.transform.SetParent(_liftPosition.transform);
+        hitInfo.rigidbody.isKinematic = true;
+    }
+    //hitInfo.rigidbody.useGravity = false;
+}
+*/

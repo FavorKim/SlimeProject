@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Spring : MonoBehaviour
 {
+    [SerializeField] float springPow;
     Animator anim;
 
     private void Start()
@@ -11,11 +12,18 @@ public class Spring : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if(other.TryGetComponent(out Rigidbody rb))
+        if (other.gameObject.TryGetComponent(out Rigidbody rb))
         {
-            rb.AddForce(Vector3.up * 500);
+            rb.velocity = Vector3.zero;
+            rb.AddForce(Vector3.up * springPow);
+        }
+        else if (other.gameObject.transform.root.TryGetComponent(out Rigidbody rbParent))
+        {
+            rbParent.velocity = Vector3.zero;
+            rbParent.AddForce(Vector3.up * springPow);
         }
     }
+
 }

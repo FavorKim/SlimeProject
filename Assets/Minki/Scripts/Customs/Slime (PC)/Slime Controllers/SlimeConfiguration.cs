@@ -15,6 +15,7 @@ namespace Player
         [SerializeField, Range(0.0f, 100.0f), Tooltip("점프 힘")] private float _jumpPower;
         [SerializeField, Range(0.0f, 100.0f), Tooltip("대시 힘")] private float _dashPower;
         [SerializeField, Range(0, 999999), Tooltip("공중 대시 횟수")] private int _airDashMaxCount;
+        [SerializeField, Range(0.0f, 100.0f), Tooltip("던지기 힘")] private float _throwPower;
 
         //[Space(10), Header("사망 및 부활")]
         //[SerializeField, Range(0, 999999), Tooltip("슬라임이 죽을 수 있는 최대 횟수")] private int _maxDeathCount;
@@ -33,6 +34,7 @@ namespace Player
         public float DashPower => _dashPower;
         public int AirDashMaxCount => _airDashMaxCount;
         public float TimeToRevive => _timeToRevive;
+        public float ThrowPower => _throwPower;
 
         #endregion 프로퍼티 (Get)
     }

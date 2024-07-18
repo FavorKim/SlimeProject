@@ -1,6 +1,7 @@
 using StatePattern;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -191,6 +192,7 @@ namespace Player
                     Debug.Log("Lift!");
 
                     hitInfo.transform.position = _liftPosition.position;
+                    hitInfo.transform.rotation = Quaternion.identity;
                     hitInfo.transform.SetParent(_liftPosition.transform);
                     hitInfo.rigidbody.isKinematic = true;
                     //hitInfo.rigidbody.useGravity = false;
@@ -201,22 +203,40 @@ namespace Player
         // 들어올린 오브젝트가 있을 경우, 그것을 던진다.
         private void Throw()
         {
-            Debug.Log("Throw!");
+            Vector3 throwAngle = _controller.transform.forward + _controller.transform.up;
 
             Transform lift = _liftPosition.GetChild(0);
 
-            if (lift != null)
-            {
-                lift.TryGetComponent(out Rigidbody rigidbody);
-                rigidbody.isKinematic = false;
-                lift.parent = null;
-            }
+            lift.TryGetComponent(out Rigidbody rigidbody);
+            rigidbody.isKinematic = false;
+            lift.parent = null;
+
+            rigidbody.AddForce(throwAngle * _configuration.ThrowPower, ForceMode.Impulse);
         }
 
         // 들어올린 오브젝트를 내려놓는다.
         private void Put()
         {
+            // 내려놓기 애니메이션을 재생한다.
             _animator.SetTrigger(special_AnimatorHash);
+
+            bool isLifting = _liftPosition.childCount > 0;
+            
+
+            if (isLifting)
+            {
+                Transform lift = _liftPosition.GetChild(0);
+
+                // Transform
+                lift.position = lift.position + _controller.transform.forward * 2.0f;
+
+                // Rigidbodwy
+                lift.TryGetComponent(out Rigidbody rigidbody);
+                rigidbody.isKinematic = false;
+
+                // Hierarchy
+                lift.parent = null;
+            }
         }
 
         // 플레이어를 움직이는 방향으로 회전시킨다.

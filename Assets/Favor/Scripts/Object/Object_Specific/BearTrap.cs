@@ -15,20 +15,14 @@ public class BearTrap : MonoBehaviour
         atkObj.OnAttack += OnAttack_PlayAnim;
     }
 
-    private void OnEnable()
-    {
-    }
-    private void OnDisable()
-    {
-    }
     private void OnDestroy()
     {
         atkObj.OnAttack -= OnAttack_PlayAnim;
-        
     }
 
     private void OnAttack_PlayAnim()
     {
         anim.SetTrigger("Trigger");
+        atkObj.holdable = true;
     }
 }

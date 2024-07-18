@@ -25,13 +25,9 @@ public class ObjectBase : MonoBehaviour
         get { return usecount; }
         set 
         {
-            if (value != usecount)
+            if (usecount!= value)
             {
                 usecount = value;
-                if (usecount <= 0)
-                {
-                    gameObject.SetActive(false);
-                }
             }
         }
     }
@@ -78,23 +74,6 @@ public class ObjectBase : MonoBehaviour
     private bool isInvincible = false;  
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.TryGetComponent(out AttackObjectBase obj))
-        {
-            if (obj.UseCount <= 0) return;
-
-            if (obj.destroyimmediatly && deletable)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                GetDamage(obj.atk);
-            }
-            obj.UseCount = obj.usecount - 1;
-        }
-    }
 
     public void GetDamage(int dmg)
     {

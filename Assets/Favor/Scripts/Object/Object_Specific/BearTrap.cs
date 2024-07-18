@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,18 +12,23 @@ public class BearTrap : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         atkObj = GetComponent<AttackObjectBase>();
+        atkObj.OnAttack += OnAttack_PlayAnim;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        if(other.TryGetComponent(out ObjectBase obj) && atkObj.UseCount>0)
-        {
-            if(obj.ID == 31001)
-            {
-                anim.SetTrigger("Trigger");
-                obj.transform.SetParent(transform, false);
-                atkObj.UseCount = atkObj.usecount - 1;
-            }
-        }
+    }
+    private void OnDisable()
+    {
+    }
+    private void OnDestroy()
+    {
+        atkObj.OnAttack -= OnAttack_PlayAnim;
+        
+    }
+
+    private void OnAttack_PlayAnim()
+    {
+        anim.SetTrigger("Trigger");
     }
 }

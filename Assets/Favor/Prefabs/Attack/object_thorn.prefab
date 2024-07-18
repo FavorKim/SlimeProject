@@ -666,7 +666,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.385724, y: 1.9448307, z: 1.3689616}
+  m_Size: {x: 1.385724, y: 1.9448307, z: 61.18}
   m_Center: {x: -0.19286197, y: 0.5993812, z: 0.78165066}
 --- !u!95 &1413408014693057585
 Animator:
@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 1229917289873410153}
   m_Layer: 7
   m_Name: Thorns
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -927,10 +927,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6359405877770056464}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.27, y: 1.21, z: 2.0635357}
+  m_Size: {x: 1.27, y: 35.38, z: 2.0635357}
   m_Center: {x: 0, y: -1.2149298e-15, z: -0.33549303}
 --- !u!114 &1229917289873410153
 MonoBehaviour:
@@ -957,6 +957,7 @@ MonoBehaviour:
   type: 0
   atk: 20
   destroyimmediatly: 0
+  Pinable: 1
 --- !u!1 &6674608786247366399
 GameObject:
   m_ObjectHideFlags: 0

@@ -470,6 +470,10 @@ PrefabInstance:
       propertyPath: _moveSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7139509911095290235, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8012489630241846355, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

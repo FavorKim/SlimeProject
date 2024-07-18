@@ -21,7 +21,6 @@ namespace Player
         protected bool _isDashing = false; // 대시 관련
         protected readonly Transform _objectChecker; // 들어올리기 / 내려놓기 관련
         protected readonly Transform _liftPosition;
-        protected bool _isLifting = false;
 
         // 생성자
         public AliveState(SlimeController controller, Vector2 inputVector)
@@ -133,6 +132,8 @@ namespace Player
             // 대시하고 있지 않을 때만,
             if (!_isDashing)
             {
+                Debug.Log("Move");
+
                 // 입력 방향으로 힘을 가해 이동을 구현한다.
                 Vector3 moveVector = inputVector * moveSpeed;
                 rigidbody.AddForce(moveVector, ForceMode.VelocityChange);
@@ -169,8 +170,11 @@ namespace Player
         // 상호작용이 가능한 오브젝트를 들어올린다.
         private void Lift()
         {
-            // 이미 들어올린 오브젝트가 있다면,
-            if (_isLifting)
+            // 들어올린 오브젝트가 있는지 판별한다.
+            bool isLifting = _liftPosition.childCount > 0;
+
+            // 만약 있다면,
+            if (isLifting)
             {
                 // 그 오브젝트를 던진다.
                 Throw();
@@ -184,8 +188,10 @@ namespace Player
                 // 앞에 상호작용이 가능한 오브젝트가 있는지 확인하고, 있을 경우 그 물체를 들어올린다.
                 if (Physics.Raycast(origin: _objectChecker.position, direction: _controller.transform.forward, maxDistance: 1.0f, hitInfo: out RaycastHit hitInfo, layerMask: 1 << LayerMask.NameToLayer("Interactable")))
                 {
+                    Debug.Log("Lift!");
+
                     hitInfo.transform.position = _liftPosition.position;
-                    //hitInfo.transform.SetParent(_liftPosition.transform);
+                    hitInfo.transform.SetParent(_liftPosition.transform);
                     hitInfo.rigidbody.isKinematic = true;
                     //hitInfo.rigidbody.useGravity = false;
                 }
@@ -195,7 +201,16 @@ namespace Player
         // 들어올린 오브젝트가 있을 경우, 그것을 던진다.
         private void Throw()
         {
+            Debug.Log("Throw!");
 
+            Transform lift = _liftPosition.GetChild(0);
+
+            if (lift != null)
+            {
+                lift.TryGetComponent(out Rigidbody rigidbody);
+                rigidbody.isKinematic = false;
+                lift.parent = null;
+            }
         }
 
         // 들어올린 오브젝트를 내려놓는다.

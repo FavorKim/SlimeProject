@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AttackObjectTable>
+  <dataCategory>
+    <data ID="32101" description="불꽃" datainfo="object_att_fire" type="normal" destroyimmediatly="FALSE" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="TRUE" masslimit="0" mass="0" atk="20" deletable="FALSE" />
+    <data ID="32103" description="가시" datainfo="object_thorn" type="normal" destroyimmediatly="FALSE" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="TRUE" masslimit="0" mass="0" atk="20" deletable="FALSE" />
+    <data ID="32201" description="용암" datainfo="object_lava" type="normal" destroyimmediatly="TRUE" usecount="1" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="TRUE" masslimit="0" mass="0" atk="999999" deletable="FALSE" />
+    <data ID="32202" description="덫" datainfo="object_Trap" type="normal" destroyimmediatly="FALSE" usecount="999999" durabillity="999999" holdable="FALSE" pushable="FALSE" collide="TRUE" masslimit="0" mass="0" atk="20" deletable="FALSE" />
+  </dataCategory>
+</AttackObjectTable>

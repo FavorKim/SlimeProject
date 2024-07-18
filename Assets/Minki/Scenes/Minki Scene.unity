@@ -454,25 +454,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4492482965447257969, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4492482965615924805, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
-      propertyPath: _dashPower
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4492482965615924805, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
-      propertyPath: _jumpPower
+      propertyPath: _throwPower
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 4492482965615924805, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
-      propertyPath: _moveSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8012489630241846355, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
+    - target: {fileID: 7139509911095290235, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a882e66725052e47a95f8d6ffd7a0cc, type: 3}

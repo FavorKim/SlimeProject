@@ -231,6 +231,7 @@ namespace Player
                     // 물체가 상호작용이 가능한 것인지 확인한다.
                     if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
                     {
+                        if (!obj.holdable) return;
                         hitInfo.transform.position = _liftPosition.position; // 물체를 들어올리는 위치로 옮긴다.
                         hitInfo.transform.rotation = Quaternion.identity; // 회전 값은 정위치로 고정한다.
                         hitInfo.transform.SetParent(_liftPosition.transform); // 물체의 위치 값을 동기화한다.

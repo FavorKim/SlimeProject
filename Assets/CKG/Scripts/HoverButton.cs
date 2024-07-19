@@ -58,7 +58,7 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if(UIManager.Instance.stageClearData.stageCleared[transform.GetSiblingIndex()] || transform.GetSiblingIndex() == 0)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(transform.GetSiblingIndex()+4);
         }
     }
 }

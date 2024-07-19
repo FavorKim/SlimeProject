@@ -239,9 +239,6 @@ namespace Player
                     {
                         if (!obj.holdable) return;
 
-                        Debug.LogWarning(hitInfo.rigidbody+" - rb");
-                        Debug.LogWarning(hitInfo.transform+" - transform");
-
                         hitInfo.transform.position = _liftPosition.position; // 물체를 들어올리는 위치로 옮긴다.
                         hitInfo.transform.rotation = Quaternion.identity; // 회전 값은 정위치로 고정한다.
                         hitInfo.transform.SetParent(_liftPosition.transform); // 물체의 위치 값을 동기화한다.
@@ -326,7 +323,7 @@ namespace Player
         {
             LayerMask groundLayer = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Interactable") | 1 << LayerMask.NameToLayer("Slime");
 
-            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: groundLayer);
+            Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.01f, 0.01f, 0.2f), orientation: Quaternion.identity, layerMask: groundLayer);
             Debug.Log($"isGround = {isGround.Length}");
 
             if (isGround.Length > 0) return true;

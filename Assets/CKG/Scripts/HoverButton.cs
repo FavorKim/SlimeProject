@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button button;
-    public RectTransform imageRectTransform; // UI ÀÌ¹ÌÁöÀÇ RectTransform
+    public RectTransform imageRectTransform; // UI ì´ë¯¸ì§€ì˜ RectTransform
     private Vector2 imgOriginalSize = new Vector2(160, 200);
     public Vector2 hoverSize = new Vector2(1.1f, 1.1f);
 
@@ -13,11 +14,13 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         button.gameObject.SetActive(false);
 
-        // ÃÊ±â Å©±â ¼³Á¤ (ÇÊ¿ä½Ã)
+        // ì´ˆê¸° í¬ê¸° ì„¤ì • (í•„ìš”ì‹œ)
         if (imageRectTransform != null)
         {
             imgOriginalSize = imageRectTransform.sizeDelta;
         }
+
+        button.onClick.AddListener(OnStageButtonClicked);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -29,7 +32,7 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 button.gameObject.SetActive(true);
                 if (imageRectTransform != null)
                 {
-                    // Å©±â º¯°æ (¿ø·¡ Å©±â¿¡¼­ ºñÀ²À» °öÇÏ¿© Á¶Á¤)
+                    // í¬ê¸° ë³€ê²½ (ì›ë˜ í¬ê¸°ì—ì„œ ë¹„ìœ¨ì„ ê³±í•˜ì—¬ ì¡°ì •)
                     imageRectTransform.sizeDelta = new Vector2(imgOriginalSize.x * hoverSize.x, imgOriginalSize.y * hoverSize.y);
                 }
             }
@@ -45,9 +48,17 @@ public class HoverButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             if (imageRectTransform != null)
             {
-                // ¿ø·¡ Å©±â·Î µÇµ¹¸²
+                // ì›ë˜ í¬ê¸°ë¡œ ë˜ëŒë¦¼
                 imageRectTransform.sizeDelta = imgOriginalSize;
             }
+        }
+    }
+
+    public void OnStageButtonClicked()
+    {
+        if(UIManager.Instance.stageClearData.stageCleared[transform.GetSiblingIndex()] || transform.GetSiblingIndex() == 0)
+        {
+            SceneManager.LoadScene(3);
         }
     }
 }

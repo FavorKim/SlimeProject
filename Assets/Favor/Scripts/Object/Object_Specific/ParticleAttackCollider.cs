@@ -15,5 +15,10 @@ public class ParticleAttackCollider : MonoBehaviour
         {
             obj.GetDamage(attackObject.atk);
         }
+        else if(other.TryGetComponent(out SlimeController slime))
+        {
+            slime.HealthPoint--;
+            slime.ChangeState(new DeadState(slime, attackObject));
+        }
     }
 }

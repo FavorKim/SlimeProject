@@ -23,6 +23,12 @@ public class NukeFistBossBTRunner
         {
             new Selector (new List<Node>
             {
+
+                new Sequence (new List<Node>
+                {
+                    new CheckFollowDestIsNull(owner, owner.CheckIsFollowDestNull),
+                    new SetFollowDest(owner,owner.SetFollowDest)
+                }),
                 new Selector(new List<Node>
                 {
                     new Sequence(new List<Node>
@@ -35,11 +41,6 @@ public class NukeFistBossBTRunner
                         new CheckIsHit(owner),
                         new Hit(owner, owner.InvokeOnHit)
                     })
-                }),
-                new Sequence (new List<Node>
-                {
-                    new CheckFollowDestIsNull(owner, owner.CheckIsFollowDestNull),
-                    new SetFollowDest(owner,owner.SetFollowDest)
                 })
             }),
             new Selector(new List<Node>

@@ -101,11 +101,12 @@ namespace Player
         // 일정 시간 후, 부활한다.
         private IEnumerator IERevive(SlimeController controller, SlimeConfiguration configuration)
         {
+            // 시체 프리팹을 생성한다.
+            Object.Instantiate(configuration.DeadPrefab, controller.RigTransform.position, Quaternion.identity);
+
             // 부활하기까지의 대기 시간이 존재한다.
             yield return new WaitForSeconds(configuration.TimeToRevive);
 
-            // 시체 프리팹을 생성한다.
-            Object.Instantiate(configuration.DeadPrefab, controller.RigTransform.position, Quaternion.identity);
 
             Debug.Log($"Check Point = {CheckPointManager.Instance.GetNearestCheckPoint()}");
 

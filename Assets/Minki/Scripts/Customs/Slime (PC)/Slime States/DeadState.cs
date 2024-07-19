@@ -25,7 +25,14 @@ namespace Player
 
             _controller.TryGetComponent(out _animator);
 
-            _attackedObjectType = obj.Pinable;
+            if (obj != null)
+            {
+                _attackedObjectType = obj.Pinable;
+            }
+            else
+            {
+                _attackedObjectType = false;
+            }
 
             #endregion 변수 초기화
         }

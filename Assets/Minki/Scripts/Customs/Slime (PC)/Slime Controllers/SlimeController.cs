@@ -1,7 +1,5 @@
 using StatePattern;
 using System;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +24,10 @@ namespace Player
         public Transform ObjectChecker => _objectChecker;
         public Transform LiftPosition => _liftPosition;
 
+        // 슬라임의 부활 위치를 정확하게 하기 위한 Transform 변수
+        [SerializeField] private Transform _rigTransform;
+        public Transform RigTransform => _rigTransform;
+
         // 상태 인터페이스
         private IState _state;
 
@@ -33,6 +35,7 @@ namespace Player
         private event Action<InputAction.CallbackContext> InputCallback;
 
         private int _healthPoint;
+        public int HealthPoint { get; set; }
 
         #endregion 변수
 
@@ -52,12 +55,6 @@ namespace Player
         {
             // 지금 상태에 따른 행동을 실행한다.
             _state.Execute();
-
-            // [Debug Test] 사망 상태 테스트
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ChangeState(new DeadState(this));
-            }
         }
 
         // FixedUpdate(); 물리(Rigidbody)와 관련한 작업은 FixedUpdate()에서 할 것을 권장한다.
@@ -74,18 +71,12 @@ namespace Player
         // 피격당했을 경우,
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Obstacles"))
-            {
-                // 체력이 감소한다.
-                _healthPoint--;
+            _state.OnTriggerEnter(other);
+        }
 
-                // 체력이 0 이하일 경우,
-                if (_healthPoint <= 0)
-                {
-                    // 죽음 상태가 된다.
-                    ChangeState(new DeadState(this));
-                }
-            }
+        private void OnCollisionEnter(Collision collision)
+        {
+            _state.OnCollisionEnter(collision);
         }
 
         #endregion 유니티 이벤트 함수
@@ -95,7 +86,9 @@ namespace Player
         // 방향 키(A/D, ←/→ 등)를 눌러, 플레이어를 좌우로 움직이게 한다.
         public void OnMove(InputAction.CallbackContext callbackContext)
         {
-            InputCallback.Invoke(callbackContext);
+            // InputCallback.Invoke(callbackContext);
+
+            _state.OnInputCallback(callbackContext);
         }
 
         // 점프 키(Space)를 눌러, 플레이어를 뛰어오르게 한다.

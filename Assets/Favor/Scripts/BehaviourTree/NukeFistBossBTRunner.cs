@@ -21,17 +21,25 @@ public class NukeFistBossBTRunner
     {
         rootNode = new Selector(new List<Node>
         {
-            new Selector(new List<Node>
+            new Selector (new List<Node>
             {
-                new Sequence(new List<Node>
+                new Selector(new List<Node>
                 {
-                    new CheckIsDead(owner),
-                    new Dead(owner,owner.InvokeOnDead)
+                    new Sequence(new List<Node>
+                    {
+                        new CheckIsDead(owner),
+                        new Dead(owner,owner.InvokeOnDead)
+                    }),
+                    new Sequence(new List<Node>
+                    {
+                        new CheckIsHit(owner),
+                        new Hit(owner, owner.InvokeOnHit)
+                    })
                 }),
-                new Sequence(new List<Node>
+                new Sequence (new List<Node>
                 {
-                    new CheckIsHit(owner),
-                    new Hit(owner, owner.InvokeOnHit)
+                    new CheckFollowDestIsNull(owner, owner.CheckIsFollowDestNull),
+                    new SetFollowDest(owner,owner.SetFollowDest)
                 })
             }),
             new Selector(new List<Node>
@@ -50,6 +58,6 @@ public class NukeFistBossBTRunner
                     new Move(owner,owner.InvokeOnMove)
                 })
             })
-        }) ;
+        });
     }
 }

@@ -17,4 +17,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CKG/Scenes/IngameUI.unity
     guid: b9d81ffb06a47514a9ff5ded454d8064
+  - enabled: 1
+    path: Assets/LevelDesign_DK/Stage 1.unity
+    guid: 001272b3d5c049e448fc057fa24aba2d
+  - enabled: 1
+    path: Assets/LevelDesign_EJ/LevelDesign_EJ 2.unity
+    guid: dcca55af136fc304780c69725ad7a889
+  - enabled: 1
+    path: Assets/LevelDesign_EJ/LevelDesign_EJ.unity
+    guid: bb87a12c10141bd428624a7ed1da36c7
+  - enabled: 1
+    path: Assets/LevelDesign_DS/DS_Scenes.unity
+    guid: 12a0ad0941eeb65459ea0576c5f5f523
+  - enabled: 1
+    path: Assets/LevelDesign_DK/Stage 4.unity
+    guid: 6943459b549acf149b5a9d40aae2f675
   m_configObjects: {}

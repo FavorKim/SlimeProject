@@ -26,7 +26,6 @@ public class AttackObjectBase : ObjectBase
         if (UseCount <= 0) return;
         if (other.TryGetComponent(out ObjectBase obj))
         {
-
             if (destroyimmediatly && obj.deletable)
             {
                 obj.gameObject.SetActive(false);
@@ -49,15 +48,15 @@ public class AttackObjectBase : ObjectBase
                 obj.transform.localScale = Vector3.one;
             }
 
+            OnAttack.Invoke();
         }
-        OnAttack.Invoke();
+
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (UseCount <= 0) return;
         if (collision.gameObject.TryGetComponent(out ObjectBase obj))
         {
-
             if (destroyimmediatly && obj.deletable)
             {
                 obj.gameObject.SetActive(false);
@@ -80,8 +79,8 @@ public class AttackObjectBase : ObjectBase
                 obj.transform.localScale = Vector3.one;
             }
 
+            OnAttack.Invoke();
         }
-        OnAttack.Invoke();
     }
 
 

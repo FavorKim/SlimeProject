@@ -24,6 +24,7 @@ public class PrefabCreator
                 }
             }
         }
+        /*
         Object obj = PrefabUtility.SaveAsPrefabAsset(prefab.gameObject, root);
 
         if (obj != null)
@@ -34,6 +35,7 @@ public class PrefabCreator
         {
             Debug.LogWarning($"{prefab.datainfo} failed to Save As Prefab");
         }
+        */
     }
 
 }

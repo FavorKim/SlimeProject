@@ -44,8 +44,9 @@ public class AttackObjectBase : ObjectBase
                     rb.useGravity = false;
                 }
                 obj.transform.SetParent(transform, false);
-                obj.transform.localPosition = Vector3.zero;
-                obj.transform.localScale = Vector3.one;
+                obj.transform.localPosition = new Vector3(0, 0.0f, 1f);
+                obj.transform.localScale = new Vector3(2, 2, 2);
+                obj.transform.localRotation = Quaternion.identity;
             }
 
             OnAttack.Invoke();
@@ -70,13 +71,14 @@ public class AttackObjectBase : ObjectBase
             {
                 if (obj.TryGetComponent(out Rigidbody rb))
                 {
+                    rb.isKinematic = true;
                     rb.velocity = Vector3.zero;
                     rb.useGravity = false;
-                    rb.isKinematic = true;
                 }
                 obj.transform.SetParent(transform, false);
-                obj.transform.localPosition = Vector3.zero;
-                obj.transform.localScale = Vector3.one;
+                obj.transform.localPosition = new Vector3(0, 0.0f, 1f);
+                obj.transform.localScale = new Vector3(2, 2, 2);
+                obj.transform.localRotation = Quaternion.identity;
             }
 
             OnAttack.Invoke();

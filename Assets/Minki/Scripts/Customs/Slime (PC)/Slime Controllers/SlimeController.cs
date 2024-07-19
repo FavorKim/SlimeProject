@@ -158,7 +158,7 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawCube(_groundChecker.position, new Vector3(0.6f, 0.1f, 0.6f));
+            Gizmos.DrawCube(_groundChecker.position, new Vector3(0.01f, 0.01f, 0.4f));
         }
 
         #endregion 커스텀 함수

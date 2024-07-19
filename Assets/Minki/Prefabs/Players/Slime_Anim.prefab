@@ -491,6 +491,7 @@ MonoBehaviour:
   _airDashMaxCount: 1
   _throwPower: 200
   _putPosition: 0.8
+  _fallDeadSpeed: 12.2
   _deadPrefab: {fileID: 4405082218691056897, guid: 7dbe63ead12d6bf458170760672ed58e, type: 3}
   _timeToRevive: 2
 --- !u!1 &4581814161186430719

@@ -39,6 +39,8 @@ namespace Player
 
         private float startZPos;
         public float StartZPos() {  return startZPos; }
+
+
         #endregion 변수
 
         #region 생명 주기 함수

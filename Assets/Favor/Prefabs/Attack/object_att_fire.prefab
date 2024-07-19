@@ -3878,7 +3878,7 @@ ParticleSystem:
     quality: 0
     voxelSize: 0.5
     collisionMessages: 1
-    collidesWithDynamic: 0
+    collidesWithDynamic: 1
     interiorCollisions: 1
   TriggerModule:
     enabled: 0
@@ -24234,7 +24234,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6583100032588432562}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 3.2155175
   m_Direction: 1

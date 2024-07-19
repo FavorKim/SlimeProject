@@ -1,32 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.IO;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-
-    public GameObject stagePrefab; // ÇÏ³ªÀÇ ½ºÅ×ÀÌÁö ÇÁ¸®ÆÕ
+    public GameObject stagePrefab;
     public Transform contentTransform;
     public int currentStageIndex = 0;
     private float targetX;
     private float moveSpeed = 20;
     public GameObject[] stages;
     public ChapterClearData chapterClearData;
-
-    private string saveFilePath;
+    private string chapterClearFilePath;
     public StageClearData stageClearData;
+    private string stageClearFilePath;
+    public int SelectChapter = 0;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -36,40 +33,66 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        saveFilePath = Path.Combine(Application.persistentDataPath, "stageClearData.json");
+        chapterClearFilePath = Path.Combine(Application.persistentDataPath, "chapterClearData.json");
+        stageClearFilePath = Path.Combine(Application.persistentDataPath, "stageClearData.json");
+
+        LoadChapterClearData();
         LoadStageClearData();
-        int chapterIndex = chapterClearData.selectedChapter;
-        SetupStages(chapterIndex+1);
+
+        int chapterIndex = SelectChapter;
+        SetupStages(chapterIndex + 1);
     }
 
     private void Update()
     {
-        // Lerp¸¦ »ç¿ëÇÏ¿© ºÎµå·´°Ô ÀÌµ¿
+        // Lerpë¥¼ ì‚¬ìš©í•˜ì—¬ ë¶€ë“œëŸ½ê²Œ ì´ë™
         RectTransform rectTransform = contentTransform.GetComponent<RectTransform>();
         float newX = Mathf.Lerp(rectTransform.anchoredPosition.x, targetX, Time.deltaTime * moveSpeed);
         rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
     }
 
+    private void LoadChapterClearData()
+    {
+        if (File.Exists(chapterClearFilePath))
+        {
+            string json = File.ReadAllText(chapterClearFilePath);
+            chapterClearData = JsonUtility.FromJson<ChapterClearData>(json);
+        }
+        else
+        {
+            chapterClearData = new ChapterClearData(3);
+        }
+    }
+
+    private void LoadStageClearData()
+    {
+        if (File.Exists(stageClearFilePath))
+        {
+            string json = File.ReadAllText(stageClearFilePath);
+            stageClearData = JsonUtility.FromJson<StageClearData>(json);
+        }
+        else
+        {
+            int totalStages = GetStageCountForChapter(1) + GetStageCountForChapter(2);
+            stageClearData = new StageClearData(totalStages);
+        }
+    }
+
     public void SetupStages(int chapter)
     {
-        // Ã©ÅÍ¿¡ µû¸¥ ½ºÅ×ÀÌÁö °³¼ö ¼³Á¤
         int stageCount = GetStageCountForChapter(chapter);
 
-        // ±âÁ¸ ½ºÅ×ÀÌÁö°¡ ÀÖ´Ù¸é Á¦°Å
         foreach (Transform child in contentTransform)
         {
             Destroy(child.gameObject);
         }
 
-        // »õ·Î¿î ½ºÅ×ÀÌÁö ¹è¿­ ÃÊ±âÈ­
         stages = new GameObject[stageCount];
 
-        // ½ºÅ×ÀÌÁö ÀÎ½ºÅÏ½ºÈ­
         for (int i = 0; i < stageCount; i++)
         {
             stages[i] = Instantiate(stagePrefab, contentTransform);
 
-            // ½ºÅ×ÀÌÁö ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
             Transform childTranform = stages[i].transform.Find("Img_StageTitle");
             TextMeshProUGUI stageText = childTranform.GetComponentInChildren<TextMeshProUGUI>();
             if (stageText != null)
@@ -77,12 +100,10 @@ public class UIManager : MonoBehaviour
                 stageText.text = chapter + " - " + (i + 1);
             }
 
-            // HoverButton ÄÄÆ÷³ÍÆ®¸¦ Ãß°¡
             HoverButton hoverButton = stages[i].AddComponent<HoverButton>();
             hoverButton.button = stages[i].GetComponentInChildren<Button>();
             hoverButton.imageRectTransform = stages[i].GetComponent<RectTransform>();
 
-            // ½ºÅ×ÀÌÁö Å¬¸®¾î »óÅÂ ¾÷µ¥ÀÌÆ®
             UpdateStageClearStatus(i);
         }
 
@@ -92,7 +113,6 @@ public class UIManager : MonoBehaviour
 
     private int GetStageCountForChapter(int chapter)
     {
-        // Ã©ÅÍ¿¡ µû¸¥ ½ºÅ×ÀÌÁö °³¼ö ¼³Á¤ ·ÎÁ÷
         switch (chapter)
         {
             case 1:
@@ -134,7 +154,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            targetX = 0; // ±âº» À§Ä¡
+            targetX = 0;
         }
     }
 
@@ -147,22 +167,21 @@ public class UIManager : MonoBehaviour
 
             if (stageIndex == 0)
             {
-                // Ã¹ ¹øÂ° ½ºÅ×ÀÌÁö´Â Ç×»ó »¡°£»ö
                 stageImage.color = Color.red;
             }
             else
             {
                 if (stageClearData.stageCleared[stageIndex])
                 {
-                    stageImage.color = Color.green; // Å¬¸®¾îµÈ ½ºÅ×ÀÌÁö
+                    stageImage.color = Color.green;
                 }
-                if (stageClearData.stageCleared[stageIndex+1])
+                if (stageClearData.stageCleared[stageIndex + 1])
                 {
                     stageImage.color = Color.red;
                 }
                 else
                 {
-                    stageImage.color = Color.gray; // Å¬¸®¾îµÇÁö ¾ÊÀº ½ºÅ×ÀÌÁö
+                    stageImage.color = Color.gray;
                 }
             }
         }
@@ -178,24 +197,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void LoadStageClearData()
-    {
-        if (File.Exists(saveFilePath))
-        {
-            string json = File.ReadAllText(saveFilePath);
-            stageClearData = JsonUtility.FromJson<StageClearData>(json);
-        }
-        else
-        {
-            int totalStages = GetStageCountForChapter(1) + GetStageCountForChapter(2); // ¸ğµç Ã©ÅÍÀÇ ÃÑ ½ºÅ×ÀÌÁö ¼ö
-            stageClearData = new StageClearData(totalStages);
-        }
-    }
-
     private void SaveStageClearData()
     {
         string json = JsonUtility.ToJson(stageClearData);
-        File.WriteAllText(saveFilePath, json);
+        File.WriteAllText(stageClearFilePath, json);
     }
 }
 

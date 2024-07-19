@@ -7,13 +7,22 @@ public class ParticleAttackCollider : MonoBehaviour
 {
     [SerializeField]AttackObjectBase attackObject;
 
-    
+    ParticleSystem particle;
+
+    private void Awake()
+    {
+        particle = GetComponent<ParticleSystem>();
+    }
 
     private void OnParticleCollision(GameObject other)
     {
         if(other.TryGetComponent(out ObjectBase obj))
         {
-            obj.GetDamage(attackObject.atk);
+            if (obj.durabillity > 0)
+            {
+                obj.GetDamage(attackObject.atk);
+                particle.Stop();
+            }
         }
         else if(other.TryGetComponent(out SlimeController slime))
         {

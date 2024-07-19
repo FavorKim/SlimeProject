@@ -703,7 +703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slimeLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   isMove: 0
 --- !u!1 &5391979585981630948
 GameObject:
@@ -957,7 +957,7 @@ MonoBehaviour:
   type: 0
   atk: 20
   destroyimmediatly: 0
-  Pinable: 1
+  Pinable: 0
 --- !u!1 &6674608786247366399
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ namespace Player
         protected bool _isDashing = false; // 대시 관련
         protected readonly Transform _objectChecker; // 들어올리기 / 내려놓기 관련
         protected readonly Transform _liftPosition;
-        private float _jumpPosition; // 추락사 관련
+        protected bool _isFallDead = false;
 
         // 생성자
         public AliveState(SlimeController controller, Vector2 inputVector)
@@ -65,8 +65,8 @@ namespace Player
             // 횡스크롤로서의 위치를 고정한다.
             _controller.transform.position = FixPositionToSideView(_controller.transform);
 
-            // 현재의 높이를 저장한다.
-            _jumpPosition = Mathf.Max(_jumpPosition, _controller.transform.position.y);
+            // 추락사 여부를 확인한다.
+            _isFallDead = IsFallVelocity(_rigidbody, _configuration.FallDeadSpeed);
         }
 
         // 상태를 유지할 때, (FixedUpdate)
@@ -149,8 +149,8 @@ namespace Player
         // 상호 작용이 가능한 오브젝트와 충돌했을 때 호출한다.
         public override void OnCollisionEnter(Collision collision)
         {
-            // 추락사를 확인한다.
-            if (_jumpPosition - _controller.transform.position.y > _configuration.FallDeadPosition)
+            // 추락사
+            if (_isFallDead)
             {
                 _controller.ChangeState(new DeadState(_controller, null));
             }
@@ -367,9 +367,6 @@ namespace Player
             rigidbody.velocity = Vector3.zero; // 이전의 물리 영향을 무시하고 대시한다.
             rigidbody.AddForce(dashVector, ForceMode.VelocityChange);
 
-            // 추락사 높이를 초기화한다.
-            _jumpPosition = _controller.transform.position.y;
-
             // 일정 시간 동안만 대시 효과를 받는다.
             yield return new WaitForSeconds(0.2f);
 
@@ -383,6 +380,13 @@ namespace Player
         {
             Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, _controller.StartZPos());
             return fixedPosition;
+        }
+
+        // 추락사를 확인한다.
+        private bool IsFallVelocity(Rigidbody rigidbody, float fallVelocity)
+        {
+            Debug.Log(-(rigidbody.velocity.y) >= fallVelocity);
+            return (-(rigidbody.velocity.y) >= fallVelocity);
         }
 
         #endregion 커스텀 함수

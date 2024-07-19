@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3162235904880507975}
   - component: {fileID: 8362868077023208287}
   - component: {fileID: 1519699013892561298}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: ScaleMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5904162856264041430}
   - component: {fileID: 7878813237606154559}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_scale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5116775312083755311}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_scale(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

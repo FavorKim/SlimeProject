@@ -69,3 +69,18 @@ public class Charge : BossNodeBase
         return NodeState.Success;
     }
 }
+
+public class SetFollowDest : BossNodeBase
+{
+    public SetFollowDest(NukeFistBoss ow, Action onSetFollowDest) : base(ow)
+    {
+        OnSetFollowDest = onSetFollowDest;
+    }
+    private Action OnSetFollowDest;
+
+    public override NodeState Evaluate()
+    {
+        OnSetFollowDest.Invoke();
+        return NodeState.Success;
+    }
+}

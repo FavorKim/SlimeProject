@@ -29,7 +29,6 @@ public class MainTitleManager : MonoBehaviour
        float alphaValue = Mathf.Lerp(1f,0.3f,Mathf.PingPong(Time.time,1));
         Color color = Text_ClickToStart.color;
         color.a = alphaValue;
-
         Text_ClickToStart.color  = color;
     }
 }

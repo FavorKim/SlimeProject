@@ -95,7 +95,7 @@ MonoBehaviour:
   type: 0
   atk: 999999
   destroyimmediatly: 1
-  Pinable: 0
+  Pinable: 1
 --- !u!65 &7444094462210692516
 BoxCollider:
   m_ObjectHideFlags: 0

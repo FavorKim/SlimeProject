@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class FlameThrower : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] AttackObjectBase atkObj;
+
+    private void Update()
     {
-        
+        RayCastSlime();
     }
 
-    // Update is called once per frame
-    void Update()
+    void RayCastSlime()
     {
-        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.5f))
+        {
+            if(hit.collider.TryGetComponent(out ObjectBase obj))
+            {
+                obj.GetDamage(atkObj.atk);
+            }
+        }
+        Debug.DrawRay(transform.position, transform.forward * 1.5f, Color.red);
     }
 }

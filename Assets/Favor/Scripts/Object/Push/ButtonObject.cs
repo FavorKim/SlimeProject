@@ -10,7 +10,7 @@ public class ButtonObject : MonoBehaviour,IPushable
     GameObject clickPart;
     Rigidbody clickPartRb;
 
-    float clickPartOriginHeight;
+    [SerializeField]float clickPartOriginHeight;
     [SerializeField] float resist;
     
     private void Awake()
@@ -31,6 +31,10 @@ public class ButtonObject : MonoBehaviour,IPushable
 
     private void Update()
     {
+        if (clickPart.transform.localPosition.y>clickPartOriginHeight)
+        {
+            clickPart.transform.localPosition = new Vector3(clickPart.transform.localPosition.x, clickPartOriginHeight, clickPart.transform.localPosition.z);
+        }
         if (clickPart.transform.localPosition.y < clickPartOriginHeight)
         {
             clickPartRb.AddForce(Vector3.up * objectBase.masslimit * Time.deltaTime * resist);

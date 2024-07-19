@@ -43,6 +43,14 @@ public class UIManager : MonoBehaviour
         SetupStages(chapterIndex + 1);
     }
 
+    private void Update()
+    {
+        // Lerp를 사용하여 부드럽게 이동
+        RectTransform rectTransform = contentTransform.GetComponent<RectTransform>();
+        float newX = Mathf.Lerp(rectTransform.anchoredPosition.x, targetX, Time.deltaTime * moveSpeed);
+        rectTransform.anchoredPosition = new Vector2(newX, rectTransform.anchoredPosition.y);
+    }
+
     private void LoadChapterClearData()
     {
         if (File.Exists(chapterClearFilePath))

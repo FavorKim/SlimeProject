@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/DS_Scenes.unity.meta
 guid: e7774f65038082041991cd116ae644ff
+========
+guid: b9d81ffb06a47514a9ff5ded454d8064
+>>>>>>>> kanggeon:Assets/CKG/Scenes/IngameUI.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

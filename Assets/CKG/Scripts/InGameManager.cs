@@ -49,12 +49,14 @@ public class InGameManager : MonoBehaviour
 
     public void OnRestarPopupEnter()
     {
+        Time.timeScale = 1f;
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
 
     public void OnSelectStagePopupEnter()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(2);
     }
 

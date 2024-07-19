@@ -16,7 +16,7 @@ namespace Player
         protected bool _attackedObjectType;
 
         // 생성자
-        public DeadState(SlimeController controller, ObjectBase obj)
+        public DeadState(SlimeController controller, AttackObjectBase obj)
         {
             #region 변수 초기화
 
@@ -25,7 +25,14 @@ namespace Player
 
             _controller.TryGetComponent(out _animator);
 
-            // _AttackedObjectType = obj.Pinable;
+            if (obj != null)
+            {
+                _attackedObjectType = obj.Pinable;
+            }
+            else
+            {
+                _attackedObjectType = false;
+            }
 
             #endregion 변수 초기화
         }

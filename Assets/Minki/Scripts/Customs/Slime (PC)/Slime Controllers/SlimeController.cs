@@ -37,6 +37,8 @@ namespace Player
         private int _healthPoint;
         public int HealthPoint { get; set; }
 
+        private float startZPos;
+        public float StartZPos() {  return startZPos; }
         #endregion 변수
 
         #region 생명 주기 함수
@@ -45,7 +47,7 @@ namespace Player
         private void Awake()
         {
             _healthPoint = _configuration.MaxHealthPoint;
-
+            startZPos = transform.position.z;
             // 첫 시작 시, Ground 상태에 들어간다.
             ChangeState(new GroundState(this, Vector2.zero));
         }
@@ -78,6 +80,8 @@ namespace Player
         {
             _state.OnCollisionEnter(collision);
         }
+
+        
 
         #endregion 유니티 이벤트 함수
 

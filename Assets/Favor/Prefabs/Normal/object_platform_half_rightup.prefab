@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3073969294491268595}
   - component: {fileID: 4606586034568869636}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_platform_half_rightup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4580129630501376071}
   - component: {fileID: 755936385654721679}
   - component: {fileID: 2945980699380449963}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_platform(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

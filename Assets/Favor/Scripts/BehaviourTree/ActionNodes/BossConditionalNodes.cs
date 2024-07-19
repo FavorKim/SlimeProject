@@ -35,10 +35,23 @@ public class CheckIsInRange : BossNodeBase
 
 public class CheckCanMove : BossNodeBase
 {
-    public CheckCanMove(NukeFistBoss owner, Func<bool> canMove) : base(owner) {this.canMove = canMove; } 
+    public CheckCanMove(NukeFistBoss owner, Func<bool> canMove) : base(owner) { this.canMove = canMove; }
     private Func<bool> canMove;
     public override NodeState Evaluate()
     {
         return canMove.Invoke() == true ? NodeState.Success : NodeState.Failure;
+    }
+}
+
+public class CheckFollowDestIsNull : BossNodeBase
+{
+    public CheckFollowDestIsNull(NukeFistBoss owner, Func<bool> isNull) : base(owner)
+    {
+        this.isNull = isNull;
+    }
+    private Func<bool> isNull;
+    public override NodeState Evaluate()
+    {
+        return isNull.Invoke() == true? NodeState.Success : NodeState.Failure;
     }
 }

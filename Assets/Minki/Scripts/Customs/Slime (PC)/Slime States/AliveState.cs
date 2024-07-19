@@ -21,6 +21,7 @@ namespace Player
         protected bool _isDashing = false; // 대시 관련
         protected readonly Transform _objectChecker; // 들어올리기 / 내려놓기 관련
         protected readonly Transform _liftPosition;
+        protected bool _isFallDead = false;
 
         // 생성자
         public AliveState(SlimeController controller, Vector2 inputVector)
@@ -63,6 +64,9 @@ namespace Player
         {
             // 횡스크롤로서의 위치를 고정한다.
             _controller.transform.position = FixPositionToSideView(_controller.transform);
+
+            // 추락사 여부를 확인한다.
+            _isFallDead = IsFallVelocity(_rigidbody, _configuration.FallDeadSpeed);
         }
 
         // 상태를 유지할 때, (FixedUpdate)
@@ -125,16 +129,19 @@ namespace Player
             if (other.TryGetComponent(out AttackObjectBase obj))
             {
                 // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
-                Put(_liftPosition, Vector3.zero);
 
                 // 체력이 감소한다.
-                if (obj.UseCount > 0) _controller.HealthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_controller.HealthPoint <= 0)
+                if (obj.UseCount > 0)
                 {
-                    // 죽음 상태가 된다.
-                    _controller.ChangeState(new DeadState(_controller, obj));
+                    Put(_liftPosition, Vector3.zero);
+                    _controller.HealthPoint--;
+
+                    // 체력이 0 이하일 경우,
+                    if (_controller.HealthPoint <= 0)
+                    {
+                        // 죽음 상태가 된다.
+                        _controller.ChangeState(new DeadState(_controller, obj));
+                    }
                 }
             }
         }
@@ -142,28 +149,37 @@ namespace Player
         // 상호 작용이 가능한 오브젝트와 충돌했을 때 호출한다.
         public override void OnCollisionEnter(Collision collision)
         {
+            // 추락사
+            if (_isFallDead)
+            {
+                _controller.ChangeState(new DeadState(_controller, null));
+            }
+
             if (collision.gameObject.TryGetComponent(out AttackObjectBase obj))
             {
                 // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
-                Put(_liftPosition, Vector3.zero);
 
                 // 체력이 감소한다.
-                if (obj.UseCount > 0) _controller.HealthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_controller.HealthPoint <= 0)
+                if (obj.UseCount > 0)
                 {
-                    // 죽음 상태가 된다.
-                    _controller.ChangeState(new DeadState(_controller, obj));
+                    Put(_liftPosition, Vector3.zero);
+                    _controller.HealthPoint--;
+
+                    // 체력이 0 이하일 경우,
+                    if (_controller.HealthPoint <= 0)
+                    {
+                        // 죽음 상태가 된다.
+                        _controller.ChangeState(new DeadState(_controller, obj));
+                    }
                 }
             }
         }
 
         #endregion 상태 패턴 인터페이스 함수
 
-        #region 커스텀 함수
+            #region 커스텀 함수
 
-        // 플레이어를 입력에 따라 움직이게 한다.
+            // 플레이어를 입력에 따라 움직이게 한다.
         private void Move(Rigidbody rigidbody, Vector2 inputVector, float moveSpeed)
         {
             // 플레이어를 입력 방향으로 회전시킨다.
@@ -231,10 +247,19 @@ namespace Player
                     // 물체가 상호작용이 가능한 것인지 확인한다.
                     if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
                     {
+                        if (!obj.holdable) return;
+
+                        Debug.LogWarning(hitInfo.rigidbody+" - rb");
+                        Debug.LogWarning(hitInfo.transform+" - transform");
+
                         hitInfo.transform.position = _liftPosition.position; // 물체를 들어올리는 위치로 옮긴다.
                         hitInfo.transform.rotation = Quaternion.identity; // 회전 값은 정위치로 고정한다.
                         hitInfo.transform.SetParent(_liftPosition.transform); // 물체의 위치 값을 동기화한다.
                         hitInfo.rigidbody.isKinematic = true; // 물체가 외부에 의한 영향을 받지 않도록 한다.
+
+
+                        if (_rigidbody.isKinematic)
+                            _rigidbody.isKinematic = false;
                     }
                 }
             }
@@ -245,8 +270,10 @@ namespace Player
         {
             Transform lift = liftPosition.GetChild(0);
 
-            lift.TryGetComponent(out Rigidbody rigidbody);
-            rigidbody.isKinematic = false;
+            if (lift.TryGetComponent(out Rigidbody rigidbody))
+            {
+                rigidbody.isKinematic = false;
+            }
             lift.parent = null;
 
             // 정방향의 45도 각도로 던진다.
@@ -271,7 +298,7 @@ namespace Player
                 lift.position = lift.position + putPosition;
 
                 // Rigidbodwy
-                lift.TryGetComponent(out Rigidbody rigidbody);
+                if(lift.TryGetComponent(out Rigidbody rigidbody))
                 rigidbody.isKinematic = false;
 
                 // Hierarchy
@@ -310,7 +337,6 @@ namespace Player
             LayerMask groundLayer = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Interactable") | 1 << LayerMask.NameToLayer("Slime");
 
             Collider[] isGround = Physics.OverlapBox(center: groundChecker.position, halfExtents: new Vector3(0.3f, 0.1f, 0.3f), orientation: Quaternion.identity, layerMask: groundLayer);
-            Debug.Log($"isGround = {isGround.Length}");
 
             if (isGround.Length > 0) return true;
             else return false;
@@ -354,8 +380,15 @@ namespace Player
         // 횡스크롤 게임으로서, 종열의 위치를 벗어나지 않도록 고정한다.
         private Vector3 FixPositionToSideView(Transform transform)
         {
-            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, 0);
+            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, _controller.StartZPos());
             return fixedPosition;
+        }
+
+        // 추락사를 확인한다.
+        private bool IsFallVelocity(Rigidbody rigidbody, float fallVelocity)
+        {
+            Debug.Log(-(rigidbody.velocity.y) >= fallVelocity);
+            return (-(rigidbody.velocity.y) >= fallVelocity);
         }
 
         #endregion 커스텀 함수

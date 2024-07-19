@@ -179,6 +179,18 @@ public class NukeFistBoss : MonoBehaviour
         
     }
 
+    public bool CheckIsFollowDestNull()
+    {
+        return followDest == null;
+    }
+
+    public void SetFollowDest()
+    {
+        Collider[] hits;
+
+        hits = Physics.OverlapSphere(transform.position, 9999f, atkLayer);
+    }
+
     IEnumerator CorInvincible()
     {
         isInvincible = true;

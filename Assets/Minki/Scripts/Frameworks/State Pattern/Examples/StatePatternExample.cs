@@ -22,6 +22,9 @@ namespace StatePattern
 
         public virtual void FixedExecute() { }
         public virtual void OnInputCallback(InputAction.CallbackContext callbackContext) { }
+
+        public virtual void OnTriggerEnter(Collider other) { }
+        public virtual void OnCollisionEnter(Collision collision) { }
     }
 
     // 상태를 구현하는 클래스

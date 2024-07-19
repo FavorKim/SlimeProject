@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace StatePattern
@@ -17,6 +18,9 @@ namespace StatePattern
 
         void FixedExecute(); // Execute()와 비슷하나, FixedUpdate()에서 호출하기 위한 함수
         void OnInputCallback(InputAction.CallbackContext callbackContext); // 인풋 시스템의 입력을 받아오기 위한 함수
+
+        void OnTriggerEnter(Collider other);
+        void OnCollisionEnter(Collision collision);
     }
 
     // 문자열을 제목 형식(APPLE → Apple; 첫 글자는 대문자, 이후는 소문자)으로 변환해 주는 확장 메서드

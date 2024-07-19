@@ -7,7 +7,7 @@ public class CheckPoint : MonoBehaviour
     public bool isChecked = false;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Slime"))
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             isChecked = true;
         }

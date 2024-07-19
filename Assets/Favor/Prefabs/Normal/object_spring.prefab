@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 240829250958269376}
   - component: {fileID: 8354428740372493557}
   - component: {fileID: 5516383414530209425}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_spring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.87957764, y: 0.60000014, z: 0.92188215}
+  m_Size: {x: 0.87957764, y: 0.60000014, z: 1}
   m_Center: {x: -0.17799377, y: 0.9, z: 1.3463292}
 --- !u!1 &3820047146771540050
 GameObject:
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3141539785741924801}
   - component: {fileID: 5298665207667761141}
   - component: {fileID: 2511000106345075105}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Obstacle-26.000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5830762741521618806}
   - component: {fileID: 22880397146821486}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: object_spring(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7113387, y: 0.18051381, z: 0.46880546}
+  m_Size: {x: 0.7113387, y: 0.18051381, z: 0.59}
   m_Center: {x: -0.005803009, y: 0.13749643, z: 0.015719734}
 --- !u!1 &8444753604229881421
 GameObject:
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 1806411095750519819}
   - component: {fileID: 5207128253474824749}
   - component: {fileID: 3175753097674219419}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Obstacle-26.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,5 +331,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4056053, y: 0.7500002, z: 0.40560523}
+  m_Size: {x: 0.4056053, y: 0.7500002, z: 0.37}
   m_Center: {x: 0.000000029802326, y: 0.375, z: -0.000000007450581}

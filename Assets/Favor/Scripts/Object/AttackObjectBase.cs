@@ -26,7 +26,37 @@ public class AttackObjectBase : ObjectBase
         if (UseCount <= 0) return;
         if (other.TryGetComponent(out ObjectBase obj))
         {
+            if (destroyimmediatly && obj.deletable)
+            {
+                obj.gameObject.SetActive(false);
+            }
+            else
+            {
+                obj.GetDamage(atk);
+            }
 
+            if (obj.ID == 31001 && Pinable)
+            {
+                if (obj.TryGetComponent(out Rigidbody rb))
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
+                }
+                obj.transform.SetParent(transform, false);
+                obj.transform.localPosition = Vector3.zero;
+                obj.transform.localScale = Vector3.one;
+            }
+
+            OnAttack.Invoke();
+        }
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (UseCount <= 0) return;
+        if (collision.gameObject.TryGetComponent(out ObjectBase obj))
+        {
             if (destroyimmediatly && obj.deletable)
             {
                 obj.gameObject.SetActive(false);
@@ -42,19 +72,20 @@ public class AttackObjectBase : ObjectBase
                 {
                     rb.velocity = Vector3.zero;
                     rb.useGravity = false;
+                    rb.isKinematic = true;
                 }
                 obj.transform.SetParent(transform, false);
                 obj.transform.localPosition = Vector3.zero;
                 obj.transform.localScale = Vector3.one;
             }
 
+            OnAttack.Invoke();
         }
-        OnAttack.Invoke();
     }
+
 
     private void OnAttack_DecreaseUseCount()
     {
-        Debug.Log("OnAttack");
         UseCount = usecount - 1;
     }
 }

@@ -125,16 +125,19 @@ namespace Player
             if (other.TryGetComponent(out AttackObjectBase obj))
             {
                 // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
-                Put(_liftPosition, Vector3.zero);
 
                 // 체력이 감소한다.
-                if (obj.UseCount > 0) _controller.HealthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_controller.HealthPoint <= 0)
+                if (obj.UseCount > 0)
                 {
-                    // 죽음 상태가 된다.
-                    _controller.ChangeState(new DeadState(_controller, obj));
+                    Put(_liftPosition, Vector3.zero);
+                    _controller.HealthPoint--;
+
+                    // 체력이 0 이하일 경우,
+                    if (_controller.HealthPoint <= 0)
+                    {
+                        // 죽음 상태가 된다.
+                        _controller.ChangeState(new DeadState(_controller, obj));
+                    }
                 }
             }
         }
@@ -145,16 +148,19 @@ namespace Player
             if (collision.gameObject.TryGetComponent(out AttackObjectBase obj))
             {
                 // 들고 있던 물체가 있을 경우 제자리에 내려놓는다.
-                Put(_liftPosition, Vector3.zero);
 
                 // 체력이 감소한다.
-                if (obj.UseCount > 0) _controller.HealthPoint--;
-
-                // 체력이 0 이하일 경우,
-                if (_controller.HealthPoint <= 0)
+                if (obj.UseCount > 0)
                 {
-                    // 죽음 상태가 된다.
-                    _controller.ChangeState(new DeadState(_controller, obj));
+                    Put(_liftPosition, Vector3.zero);
+                    _controller.HealthPoint--;
+
+                    // 체력이 0 이하일 경우,
+                    if (_controller.HealthPoint <= 0)
+                    {
+                        // 죽음 상태가 된다.
+                        _controller.ChangeState(new DeadState(_controller, obj));
+                    }
                 }
             }
         }
@@ -232,10 +238,18 @@ namespace Player
                     if (hitInfo.transform.TryGetComponent(out ObjectBase obj))
                     {
                         if (!obj.holdable) return;
+
+                        Debug.LogWarning(hitInfo.rigidbody+" - rb");
+                        Debug.LogWarning(hitInfo.transform+" - transform");
+
                         hitInfo.transform.position = _liftPosition.position; // 물체를 들어올리는 위치로 옮긴다.
                         hitInfo.transform.rotation = Quaternion.identity; // 회전 값은 정위치로 고정한다.
                         hitInfo.transform.SetParent(_liftPosition.transform); // 물체의 위치 값을 동기화한다.
                         hitInfo.rigidbody.isKinematic = true; // 물체가 외부에 의한 영향을 받지 않도록 한다.
+
+
+                        if (_rigidbody.isKinematic)
+                            _rigidbody.isKinematic = false;
                     }
                 }
             }
@@ -246,8 +260,10 @@ namespace Player
         {
             Transform lift = liftPosition.GetChild(0);
 
-            lift.TryGetComponent(out Rigidbody rigidbody);
-            rigidbody.isKinematic = false;
+            if (lift.TryGetComponent(out Rigidbody rigidbody))
+            {
+                rigidbody.isKinematic = false;
+            }
             lift.parent = null;
 
             // 정방향의 45도 각도로 던진다.
@@ -272,7 +288,7 @@ namespace Player
                 lift.position = lift.position + putPosition;
 
                 // Rigidbodwy
-                lift.TryGetComponent(out Rigidbody rigidbody);
+                if(lift.TryGetComponent(out Rigidbody rigidbody))
                 rigidbody.isKinematic = false;
 
                 // Hierarchy
@@ -355,7 +371,7 @@ namespace Player
         // 횡스크롤 게임으로서, 종열의 위치를 벗어나지 않도록 고정한다.
         private Vector3 FixPositionToSideView(Transform transform)
         {
-            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, 0);
+            Vector3 fixedPosition = new Vector3(transform.position.x, transform.position.y, _controller.StartZPos());
             return fixedPosition;
         }
 
